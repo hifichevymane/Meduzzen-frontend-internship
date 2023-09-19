@@ -6,13 +6,23 @@
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Install all dependencies
+## How to run the project using Docker
+
+Run this command:
+
+```sh
+docker-compose up
+```
+
+## How to run the project not using Docker
+
+1. Install all dependencies
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+2. Compile and Hot-Reload for Development
 
 ```sh
 npm run dev

@@ -1,0 +1,11 @@
+version: '1'
+services:
+  web:
+    build: .
+    stdin_open: true
+    tty: true
+    ports:
+      - '5173:5173'
+    volumes: # Enable Hot reload
+      - '/app/node_modules'
+      - '.:/app'
