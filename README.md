@@ -15,7 +15,7 @@ npm install
 ## Create `.env` file and write down all env variables like in `.env.sample`
 
 ```sh
-API_URL=your-api
+VITE_API_URL=your-api
 ```
 
 ### Compile and Hot-Reload for Development
