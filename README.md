@@ -6,19 +6,27 @@
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Install all dependencies
+## How to run the project using Docker
+
+1. Create `.env` and write down all neccesary env variables like in `.env.sample`
+
+2. Run this command:
+
+```sh
+docker-compose up
+```
+
+## How to run the project not using Docker
+
+1. Create `.env` and write down all neccesary env variables like in `.env.sample`
+
+2. Install all dependencies
 
 ```sh
 npm install
 ```
 
-## Create `.env` file and write down all env variables like in `.env.sample`
-
-```sh
-VITE_API_URL=your-api
-```
-
-### Compile and Hot-Reload for Development
+3. Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
