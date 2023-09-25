@@ -10,10 +10,16 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 1. Create `.env` and write down all neccesary env variables like in `.env.sample`
 
-2. Run this command:
+2. Build the image of Dockerfile:
 
 ```sh
-docker-compose up
+docker build --tag meduzzen_frontend .
+```
+
+3. Run docker compose:
+
+```sh
+docker-compose up --build
 ```
 
 ## How to run the project not using Docker
