@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   web:
-    image: meduzzen_frontend
+    image: meduzzen-frontend
     ports:
       - '5173:5173'
     volumes: # Enable Hot reload

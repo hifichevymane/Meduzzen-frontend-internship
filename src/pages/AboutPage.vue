@@ -40,14 +40,7 @@
   </main-container>
 </template>
 
-<script>
+<script setup>
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
-
-export default {
-  components: {
-    NavbarItem,
-    MainContainer
-  }
-}
 </script>

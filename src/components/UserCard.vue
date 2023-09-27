@@ -21,13 +21,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    username: String,
-    firstName: String,
-    lastName: String,
-    email: String
-  }
-}
+<script setup>
+// All the card component props
+defineProps({
+  username: String,
+  firstName: String,
+  lastName: String,
+  email: String
+})
 </script>

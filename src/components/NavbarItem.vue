@@ -40,46 +40,37 @@
   </header>
 </template>
 
-<script>
+<script setup>
 import ModalWindow from './ModalWindow.vue'
 import { Modal } from 'bootstrap'
+import { ref, onMounted } from 'vue'
 
-export default {
-  components: {
-    ModalWindow
-  },
+// Modal window object
+const modalWindow = ref(null)
 
-  data() {
-    return {
-      // Modal window variable
-      modalWindow: null,
-      //  All the links of the left part of the navbar
-      leftLinks: [
-        { id: 0, name: 'Home', url: '/' },
-        { id: 1, name: 'About', url: '/about' },
-        { id: 2, name: 'Companies', url: '/companies' },
-        { id: 3, name: 'Users', url: '/users' }
-      ],
-      //  All the links of the right part of the navbar
-      rightLinks: [
-        { id: 0, name: 'Sign up', url: '/sign-in' },
-        { id: 1, name: 'Log in', url: '/login' },
-        { id: 2, name: 'Company Profile', url: '/company' },
-        { id: 3, name: 'User Profile', url: '/user' }
-      ]
-    }
-  },
+// All the left links of the navbar
+const leftLinks = [
+  { id: 0, name: 'Home', url: '/' },
+  { id: 1, name: 'About', url: '/about' },
+  { id: 2, name: 'Companies', url: '/companies' },
+  { id: 3, name: 'Users', url: '/users' }
+]
 
-  methods: {
-    // Showing modal window function
-    showModal() {
-      this.modalWindow.show()
-    }
-  },
+// All the right links of the navbar
+const rightLinks = [
+  { id: 0, name: 'Sign up', url: '/sign-in' },
+  { id: 1, name: 'Log in', url: '/login' },
+  { id: 2, name: 'Company Profile', url: '/company' },
+  { id: 3, name: 'User Profile', url: '/user' }
+]
 
-  mounted() {
-    // Creating the modalWindow instance when the component is mounted
-    this.modalWindow = new Modal(document.getElementById('modal'))
-  }
+onMounted(() => {
+  // When component is mounted => set modalWindow variable to modal from bootstrap
+  modalWindow.value = new Modal(document.getElementById('modal'))
+})
+
+// Function to show modal window
+const showModal = () => {
+  modalWindow.value.show()
 }
 </script>

@@ -12,15 +12,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  // Props for card
-  props: {
-    name: String,
-    description: String,
-    url: String
-  }
-}
+<script setup>
+// All the company card component props
+defineProps({
+  name: String,
+  description: String,
+  url: String
+})
 </script>
 
 <style>

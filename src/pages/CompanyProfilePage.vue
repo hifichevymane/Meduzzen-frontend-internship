@@ -7,26 +7,15 @@
   </main-container>
 </template>
 
-<script>
+<script setup>
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
 import ProfileItem from '../components/ProfileItem.vue'
 
-export default {
-  components: {
-    MainContainer,
-    NavbarItem,
-    ProfileItem
-  },
-
-  data() {
-    return {
-      info: [
-        { id: 0, label: 'Company name', value: 'Apple' },
-        { id: 1, label: 'SEO', value: 'Tim Cook' },
-        { id: 2, label: 'Net worth', value: '1000000 $' }
-      ]
-    }
-  }
-}
+// All company's info
+const info = [
+  { id: 0, label: 'Company name', value: 'Apple' },
+  { id: 1, label: 'SEO', value: 'Tim Cook' },
+  { id: 2, label: 'Net worth', value: '1000000 $' }
+]
 </script>

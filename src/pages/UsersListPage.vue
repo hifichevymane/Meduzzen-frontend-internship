@@ -19,46 +19,35 @@
   </main-container>
 </template>
 
-<script>
+<script setup>
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
 import UserCard from '../components/UserCard.vue'
 
-export default {
-  components: {
-    NavbarItem,
-    MainContainer,
-    UserCard
+// Users list
+const users = [
+  {
+    id: 0,
+    username: 'biba_228',
+    firstName: 'Artur',
+    lastName: 'Egorov',
+    email: 'nomail@mail.com'
   },
-  data() {
-    return {
-      // List of users
-      users: [
-        {
-          id: 0,
-          username: 'biba_228',
-          firstName: 'Artur',
-          lastName: 'Egorov',
-          email: 'nomail@mail.com'
-        },
-        {
-          id: 1,
-          username: 'vasya_1337',
-          firstName: 'Vasiliy',
-          lastName: 'Richter',
-          email: 'nomail@mail.com'
-        },
-        {
-          id: 2,
-          username: 'boba_228',
-          firstName: 'Semen',
-          lastName: 'Gagauz',
-          email: 'nomail@mail.com'
-        }
-      ]
-    }
+  {
+    id: 1,
+    username: 'vasya_1337',
+    firstName: 'Vasiliy',
+    lastName: 'Richter',
+    email: 'nomail@mail.com'
+  },
+  {
+    id: 2,
+    username: 'boba_228',
+    firstName: 'Semen',
+    lastName: 'Gagauz',
+    email: 'nomail@mail.com'
   }
-}
+]
 </script>
 
 <style>

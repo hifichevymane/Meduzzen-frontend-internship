@@ -17,41 +17,30 @@
   </main-container>
 </template>
 
-<script>
+<script setup>
 import CompanyCard from '../components/CompanyCard.vue'
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
 
-export default {
-  components: {
-    CompanyCard,
-    MainContainer,
-    NavbarItem
+// Companies list
+const companies = [
+  {
+    id: 0,
+    name: 'Apple',
+    desc: 'With supporting text below as a natural lead-in to additional content.',
+    url: '/'
   },
-
-  data() {
-    return {
-      companies: [
-        {
-          id: 0,
-          name: 'Apple',
-          desc: 'With supporting text below as a natural lead-in to additional content.',
-          url: '/'
-        },
-        {
-          id: 1,
-          name: 'Google',
-          desc: 'With supporting text below as a natural lead-in to additional content.',
-          url: '/'
-        },
-        {
-          id: 2,
-          name: 'Meduzzen',
-          desc: 'With supporting text below as a natural lead-in to additional content.',
-          url: '/'
-        }
-      ]
-    }
+  {
+    id: 1,
+    name: 'Google',
+    desc: 'With supporting text below as a natural lead-in to additional content.',
+    url: '/'
+  },
+  {
+    id: 2,
+    name: 'Meduzzen',
+    desc: 'With supporting text below as a natural lead-in to additional content.',
+    url: '/'
   }
-}
+]
 </script>

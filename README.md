@@ -13,7 +13,7 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 2. Build the image of Dockerfile:
 
 ```sh
-docker build --tag meduzzen_frontend .
+docker build --tag meduzzen-frontend .
 ```
 
 3. Run docker compose:

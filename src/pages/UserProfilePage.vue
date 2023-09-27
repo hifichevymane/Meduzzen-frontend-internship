@@ -8,28 +8,17 @@
   </main-container>
 </template>
 
-<script>
+<script setup>
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
 import ProfileItem from '../components/ProfileItem.vue'
 
-export default {
-  components: {
-    NavbarItem,
-    MainContainer,
-    ProfileItem
-  },
-  data() {
-    return {
-      // User data
-      info: [
-        { id: 0, label: 'First name', value: 'name' },
-        { id: 1, label: 'Last name', value: 'last name' },
-        { id: 2, label: 'Email', value: 'email@email.com' }
-      ]
-    }
-  }
-}
+// All user's info
+const info = [
+  { id: 0, label: 'First name', value: 'name' },
+  { id: 1, label: 'Last name', value: 'last name' },
+  { id: 2, label: 'Email', value: 'email@email.com' }
+]
 </script>
 
 <style>

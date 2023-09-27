@@ -14,13 +14,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    // All information
-    info: Array
-  }
-}
+<script setup>
+// Profile item component props
+defineProps({
+  info: Array
+})
 </script>
 
 <style>
