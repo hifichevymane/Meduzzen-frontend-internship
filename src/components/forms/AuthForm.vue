@@ -11,17 +11,12 @@
   </form>
 </template>
 
-<script>
+<script setup>
 import FormField from './FormField.vue'
 
-export default {
-  components: {
-    FormField
-  },
-
-  props: {
-    fields: Array,
-    button: String
-  }
-}
+// Auth form props
+defineProps({
+  fields: Array,
+  button: String
+})
 </script>
