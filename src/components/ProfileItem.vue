@@ -3,7 +3,7 @@
     <div class="row border border-2 rounded border-primary w-50 p-5">
       <div class="col-lg-6">
         <div v-for="field in info" :key="field.id" class="col-lg-12 d-flex">
-          <p class="fw-bold">{{ field.label }}</p>
+          <p class="fw-bold">{{ $t(`components.profile_item.${field.label}`) }}:</p>
           <p>{{ field.value }}</p>
         </div>
       </div>

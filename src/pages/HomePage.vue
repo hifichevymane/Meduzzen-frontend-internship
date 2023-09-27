@@ -4,8 +4,9 @@
   <main-container>
     <div class="container-fluid text-center">
       <h1>Meduzzen Frontend Intership</h1>
-      <p>Hello, this is a Meduzzen Frontent Intership project!</p>
-      <h2>{{ healthCheck }}</h2>
+      <p>{{ $t('pages.home_page.description') }}</p>
+      <h2 v-if="healthCheck">{{ healthCheck }}</h2>
+      <h2 v-else>{{ $t('pages.home_page.api_connection_error') }}</h2>
     </div>
   </main-container>
 </template>
@@ -24,10 +25,9 @@ onMounted(() => {
   axios
     .get(import.meta.env.VITE_API_URL)
     .then((res) => (this.healthCheck = res.data))
-    .catch((err) => {
+    .catch(() => {
       // If there is any connection problem
-      console.log(err)
-      healthCheck.value = 'API connection has not been estabilished'
+      console.log('API connection has not been estabilished')
     })
 })
 </script>

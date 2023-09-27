@@ -3,7 +3,7 @@
 
   <main-container>
     <div class="container-fluid">
-      <h1 class="text-center">About us</h1>
+      <h1 class="text-center">{{ $t('pages.about_page.heading') }}</h1>
       <div class="px-5 py-3">
         <p>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem ipsa a corrupti sint aperiam

@@ -34,8 +34,29 @@ const router = createRouter({
   routes,
 });
 
+// i18n configuration
+import { createI18n } from 'vue-i18n'
+import { languages, defaultLocale } from './i18n/config.js';
+
+// Copy from languages
+const messages = Object.assign(languages)
+
+// Get saved lang in local storage if it is
+const localStorageLang = localStorage.getItem('lang');
+
+const i18n = createI18n({
+  legacy: false, // Work with Composition API
+
+  // Default language if there is no saved language in local storage
+  locale: localStorageLang || defaultLocale,
+
+  fallbackLocale: 'en', // Default language if selected language doesn't exist
+  messages, // All translations
+})
+
 const app = createApp(App);
 
 app.use(router);
+app.use(i18n);
 
 app.mount('#app');
