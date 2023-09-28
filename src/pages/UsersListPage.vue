@@ -2,7 +2,7 @@
   <navbar-item />
 
   <main-container>
-    <h1 class="text-center mb-3">Users list</h1>
+    <h1 class="text-center mb-3">{{ $t('pages.users_list_page.heading') }}</h1>
     <div class="container-fluid">
       <div class="row d-flex justify-content-center px-5">
         <!-- All the users -->

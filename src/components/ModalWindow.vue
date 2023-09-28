@@ -10,7 +10,9 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal Window</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            {{ $t('components.modal_window.heading') }}
+          </h1>
           <button
             type="button"
             class="btn-close"
@@ -18,9 +20,11 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">This is a modal window text</div>
+        <div class="modal-body">{{ $t('components.modal_window.body') }}</div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            {{ $t('components.modal_window.close_button') }}
+          </button>
         </div>
       </div>
     </div>

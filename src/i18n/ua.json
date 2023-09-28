@@ -1,0 +1,100 @@
+{
+  "components": {
+    "navbar": {
+      "links": {
+        "Home": "Головна",
+        "About": "Про нас",
+        "Companies": "Компанії",
+        "Users": "Користувачі",
+        "User Profile": "Профіль користувача",
+        "Company Profile": "Профіль компанії",
+        "Sign up": "Зареєструватися",
+        "Log in": "Увійти"
+      },
+
+      "modal_button": "Модальне вікно"
+    },
+
+    "modal_window": {
+      "heading": "Модальне вікно",
+      "body": "Це текс модального вікна",
+      "close_button": "Закрити"
+    },
+
+    "profile_item": {
+      "First name": "Ім'я",
+      "Last name": "Прізвище",
+      "Email": "Електрона пошта",
+      "Company name": "Ім'я компанії",
+      "SEO": "SEO",
+      "Net worth": "Капітал"
+    },
+
+    "company_card": {
+      "button": "Більше про компанію"
+    },
+
+    "user_card": {
+      "button": "Більше про користувача",
+      "first_name": "Ім'я",
+      "last_name": "Прізвище",
+      "email": "Електронна пошта"
+    },
+
+    "auth_form": {
+      "button": {
+        "Sign up": "Зареєструватися",
+        "Login": "Увійти"
+      },
+      "fields": {
+        "First name": "Ім'я",
+        "Last name": "Прізвище",
+        "Email": "Електрона пошта",
+        "Password": "Пароль",
+        "Repeat the password": "Повторити пароль",
+        "Remember me": "Запам'ятати мене"
+      }
+    },
+
+    "select_item": {
+      "select_language": "Мова",
+      "en": "Англійська",
+      "ua": "Українська"
+    }
+  },
+
+  "pages": {
+    "home_page": {
+      "description": "Привіт, це проект Meduzzen Frontent Intership!",
+      "api_connection_error": "З'єднання із зовнішнім API не було встановлено!"
+    },
+
+    "about_page": {
+      "heading": "Про нас"
+    },
+
+    "companies_list_page": {
+      "heading": "Перелік компаній"
+    },
+
+    "users_list_page": {
+      "heading": "Перелік користувачів"
+    },
+
+    "sign_up_page": {
+      "heading": "Зареєструватися"
+    },
+
+    "login_page": {
+      "heading": "Увійти"
+    },
+
+    "company_profile_page": {
+      "heading": "Профіль компанії"
+    },
+
+    "user_profile_page": {
+      "heading": "Профіль користувача"
+    }
+  }
+}

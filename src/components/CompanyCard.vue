@@ -6,7 +6,7 @@
         <p class="card-text">
           {{ description }}
         </p>
-        <a :href="url" class="btn btn-primary">Check the company</a>
+        <a :href="url" class="btn btn-primary">{{ $t('components.company_card.button') }}</a>
       </div>
     </div>
   </div>

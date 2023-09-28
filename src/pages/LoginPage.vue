@@ -2,7 +2,7 @@
   <navbar-item />
 
   <main-container>
-    <h1 class="text-center">Log in</h1>
+    <h1 class="text-center">{{ $t('pages.login_page.heading') }}</h1>
     <div class="container-fluid">
       <div class="row d-flex justify-content-center">
         <!-- Login form -->

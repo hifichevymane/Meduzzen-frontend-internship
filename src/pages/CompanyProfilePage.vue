@@ -2,7 +2,7 @@
   <navbar-item />
 
   <main-container>
-    <h1 class="text-center mb-4">Company profile</h1>
+    <h1 class="text-center mb-4">{{ $t('pages.company_profile_page.heading') }}</h1>
     <profile-item :info="info" />
   </main-container>
 </template>

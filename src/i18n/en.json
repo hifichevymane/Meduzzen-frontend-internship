@@ -1,0 +1,100 @@
+{
+  "components": {
+    "navbar": {
+      "links": {
+        "Home": "Home",
+        "About": "About",
+        "Companies": "Companies",
+        "Users": "Users",
+        "User Profile": "User Profile",
+        "Company Profile": "Company Profile",
+        "Sign up": "Sign up",
+        "Log in": "Log in"
+      },
+
+      "modal_button": "Show modal"
+    },
+
+    "modal_window": {
+      "heading": "Modal window",
+      "body": "This is the body text of modal window",
+      "close_button": "Close"
+    },
+
+    "profile_item": {
+      "First name": "First name",
+      "Last name": "Last name",
+      "Email": "Email",
+      "Company name": "Company name",
+      "SEO": "SEO",
+      "Net worth": "Net worth"
+    },
+
+    "company_card": {
+      "button": "Check the company"
+    },
+
+    "user_card": {
+      "button": "Check the user",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email"
+    },
+
+    "auth_form": {
+      "button": {
+        "Sign up": "Sign up",
+        "Login": "Login"
+      },
+
+      "fields": {
+        "First name": "First name",
+        "Last name": "Last name",
+        "Email": "Email",
+        "Password": "Password",
+        "Repeat the password": "Repeat the password",
+        "Remember me": "Remember me"
+      }
+    },
+
+    "select_item": {
+      "select_language": "Language",
+      "en": "English",
+      "ua": "Ukrainian"
+    }
+  },
+
+  "pages": {
+    "home_page": {
+      "description": "Hello, this is a Meduzzen Frontent Intership project!",
+      "api_connection_error": "API connection has not been estabilished!"
+    },
+
+    "about_page": {
+      "heading": "About us"
+    },
+
+    "companies_list_page": {
+      "heading": "Companies List"
+    },
+
+    "users_list_page": {
+      "heading": "Users List"
+    },
+    "sign_up_page": {
+      "heading": "Sign up"
+    },
+
+    "login_page": {
+      "heading": "Login"
+    },
+
+    "company_profile_page": {
+      "heading": "Company profile"
+    },
+
+    "user_profile_page": {
+      "heading": "User profile"
+    }
+  }
+}

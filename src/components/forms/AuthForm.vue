@@ -1,13 +1,17 @@
 <template>
   <form class="col-lg-4">
+    <!-- Fields -->
     <form-field
       v-for="field in fields"
       :key="field.id"
-      :label="field.label"
+      :label="$t(`components.auth_form.fields.${field.label}`)"
       :type="field.type"
       :id="field.inputId"
     />
-    <button type="submit" class="btn btn-primary">{{ button }}</button>
+    <!-- Button -->
+    <button type="submit" class="btn btn-primary">
+      {{ $t(`components.auth_form.button.${button}`) }}
+    </button>
   </form>
 </template>
 

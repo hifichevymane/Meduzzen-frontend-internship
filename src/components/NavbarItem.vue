@@ -21,19 +21,27 @@
                   <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li> -->
             <li v-for="link in leftLinks" :key="link.id" class="nav-item">
-              <a class="nav-link" :href="link.url">{{ link.name }}</a>
+              <a class="nav-link" :href="link.url">{{
+                $t(`components.navbar.links.${link.name}`)
+              }}</a>
             </li>
           </ul>
           <!-- Right part of the navbar -->
           <ul class="navbar-nav ms-auto">
             <li v-for="link in rightLinks" :key="link.id" class="nav-item">
-              <a class="nav-link" :href="link.url">{{ link.name }}</a>
+              <a class="nav-link" :href="link.url">{{
+                $t(`components.navbar.links.${link.name}`)
+              }}</a>
             </li>
           </ul>
           <!-- Modal window button -->
-          <button class="btn btn-primary" @click="showModal">Show modal</button>
+          <button class="btn btn-primary" @click="showModal">
+            {{ $t('components.navbar.modal_button') }}
+          </button>
           <!-- Modal window -->
           <modal-window />
+          <!-- Select language -->
+          <select-item />
         </div>
       </div>
     </nav>
@@ -42,6 +50,7 @@
 
 <script setup>
 import ModalWindow from './ModalWindow.vue'
+import SelectItem from './SelectItem.vue'
 import { Modal } from 'bootstrap'
 import { ref, onMounted } from 'vue'
 
