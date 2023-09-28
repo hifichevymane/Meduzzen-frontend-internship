@@ -21,7 +21,13 @@ let selectedLocale = locale.value
 // Change language function
 const changeLanguage = (event) => {
   selectedLocale = event.target.value // Get current locale
-  selectedLocale === 'en' ? (locale.value = 'en') : (locale.value = 'ua') // Change the locale
+
+  // Change the locale
+  if (selectedLocale === 'en') {
+    locale.value = 'en'
+  } else {
+    locale.value = 'ua'
+  }
 
   // Save language in local storage
   localStorage.setItem('lang', locale.value)
