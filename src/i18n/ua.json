@@ -66,7 +66,13 @@
   "pages": {
     "home_page": {
       "description": "Привіт, це проект Meduzzen Frontent Intership!",
-      "api_connection_error": "З'єднання із зовнішнім API не було встановлено!"
+      "api_connection_error": "З'єднання із зовнішнім API не було встановлено!",
+      "vuex_testing": {
+        "heading": "Vuex рядок для тесту",
+        "add_char_button": "Додати літеру 'А' до рядка",
+        "delete_char_button": "Видалити останю літеру рядка",
+        "reset_button": "Сброс рядка"
+      }
     },
 
     "about_page": {

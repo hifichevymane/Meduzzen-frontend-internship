@@ -67,7 +67,13 @@
   "pages": {
     "home_page": {
       "description": "Hello, this is a Meduzzen Frontent Intership project!",
-      "api_connection_error": "API connection has not been estabilished!"
+      "api_connection_error": "API connection has not been estabilished!",
+      "vuex_testing": {
+        "heading": "Vuex testing string",
+        "add_char_button": "Add letter 'A' to the string",
+        "delete_char_button": "Delete last char from the string",
+        "reset_button": "Reset the string"
+      }
     },
 
     "about_page": {
