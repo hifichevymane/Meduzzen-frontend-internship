@@ -15,6 +15,13 @@ const store = createStore({
     },
   },
 
+  actions: {
+    // Reset testing string action
+    resetTestingString(context) {
+      context.commit('resetTestingString');
+    },
+  },
+
   mutations: {
     // Add 'A' char to testing string mutation
     addCharAtoString(state) {
@@ -31,13 +38,6 @@ const store = createStore({
       state.testString = 'Vuex test';
     }
   },
-
-  actions: {
-    // Reset testing string action
-    resetTestingString(context) {
-      context.commit('resetTestingString');
-    },
-  }
 });
 
 export default store;
