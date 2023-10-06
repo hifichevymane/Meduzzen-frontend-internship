@@ -1,0 +1,26 @@
+// Auth mutations
+export default {
+  // Set user data
+  setUserData(state, data) {
+    const userData = {
+      email: data.email,
+      username: data.username,
+      firstName: data.first_name,
+      lastName: data.last_name
+    }
+
+    state.user = { ...userData };
+  },
+
+  // Set access token in local storage
+  setAccessLocalStorage(state, access) {
+    localStorage.setItem('access', access);
+    // Redirect to home page
+    window.location.href = '/';
+  },
+
+  // Set isAuthenticated state
+  setIsAuthenticated(state, value) {
+    state.isAuthenticated = value;
+  }
+}

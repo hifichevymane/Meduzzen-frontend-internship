@@ -2,14 +2,15 @@
   "components": {
     "navbar": {
       "links": {
-        "Home": "Головна",
-        "About": "Про нас",
-        "Companies": "Компанії",
-        "Users": "Користувачі",
-        "User Profile": "Профіль користувача",
-        "Company Profile": "Профіль компанії",
-        "Sign up": "Зареєструватися",
-        "Log in": "Увійти"
+        "home": "Головна",
+        "about": "Про нас",
+        "companies": "Компанії",
+        "users": "Користувачі",
+        "user_profile": "Профіль користувача",
+        "company_profile": "Профіль компанії",
+        "sign_up": "Зареєструватися",
+        "login": "Увійти",
+        "logout": "Вийти"
       },
 
       "modal_button": "Модальне вікно"
@@ -43,13 +44,15 @@
 
     "auth_form": {
       "button": {
-        "Sign up": "Зареєструватися",
-        "Login": "Увійти"
+        "sign_up": "Зареєструватися",
+        "login": "Увійти",
+        "sign_up_google": "Увійти за допомогою Google"
       },
       "fields": {
         "First name": "Ім'я",
         "Last name": "Прізвище",
         "Email": "Електрона пошта",
+        "Username": "Юзернейм",
         "Password": "Пароль",
         "Repeat the password": "Повторити пароль",
         "Remember me": "Запам'ятати мене"

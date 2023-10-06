@@ -1,4 +1,11 @@
 import { createStore } from 'vuex';
+import auth from './modules/auth/auth';
+import VuexPersistence from 'vuex-persist'
+
+// Enable save the state of the app after reloading a page
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage // save in Local storage
+})
 
 // Vuex store
 const store = createStore({
@@ -38,6 +45,14 @@ const store = createStore({
       state.testString = 'Vuex test';
     }
   },
+
+  // All modules
+  modules: {
+    auth,
+  },
+
+  // All plugins
+  plugins: [vuexLocal.plugin]
 });
 
 export default store;

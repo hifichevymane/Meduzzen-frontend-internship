@@ -29,13 +29,15 @@
 <script setup>
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watchEffect } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 // Importing axios instance to do API requests
 import api from '../api'
 
 // Get the Vuex store
 const store = useStore()
+const location = useRoute() // Get loaction url
 
 // Get testString variable from the store
 const testString = computed(() => store.state.testString)
@@ -67,5 +69,44 @@ onMounted(() => {
       // If there is any connection problem
       console.log('API connection has not been estabilished')
     })
+})
+
+// OAuth2 Google authentication func
+const googleAuthenticate = async (state, code) => {
+  if (state && code && !localStorage.getItem('access')) {
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+    const details = {
+      state: state,
+      code: code
+    }
+    const formBody = Object.keys(details)
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(details[key]))
+      .join('&')
+    try {
+      const res = await api.post(
+        `${import.meta.env.VITE_API_URL}auth/o/google-oauth2/?${formBody}`,
+        config
+      )
+      console.log(res.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
+// Check if there are any query params in url
+watchEffect(async () => {
+  // check query parameters in url
+  const state = location.query.state
+  const code = location.query.code
+
+  if (state && code) {
+    // await store.dispatch('googleAuthenticate', state, code)
+    await googleAuthenticate(state, code)
+  }
 })
 </script>
