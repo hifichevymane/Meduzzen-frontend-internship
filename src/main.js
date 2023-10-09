@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import store from './store';
 
 // Importing Bootsrtap
 import 'bootstrap/dist/css/bootstrap.css';
@@ -36,7 +37,7 @@ const router = createRouter({
 
 // i18n configuration
 import { createI18n } from 'vue-i18n'
-import { languages, defaultLocale } from './i18n/config.js';
+import { languages, defaultLocale } from './i18n';
 
 // Copy from languages
 const messages = Object.assign(languages)
@@ -58,5 +59,6 @@ const app = createApp(App);
 
 app.use(router);
 app.use(i18n);
+app.use(store);
 
 app.mount('#app');
