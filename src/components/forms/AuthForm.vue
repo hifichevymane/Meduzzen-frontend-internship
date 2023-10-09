@@ -130,7 +130,7 @@ const login = () => {
     password: passwordField.value
   }
   // Login action from store
-  store.dispatch('login', body)
+  store.dispatch('auth/login', body)
 }
 
 // Sign up func
@@ -144,7 +144,7 @@ const signUp = async () => {
   }
 
   // Sign up action from store
-  store.dispatch('signUp', body)
+  store.dispatch('auth/signUp', body)
 }
 
 // Sign up with Google (DOESN'T WORK CORRECTLY)

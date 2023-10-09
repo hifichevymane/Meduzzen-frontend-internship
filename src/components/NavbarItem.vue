@@ -43,17 +43,19 @@
             </li>
             <div v-if="isAuthenticated" class="nav-item d-flex flex-column text-light">
               <!-- If user authenticated -->
-              <p class="mb-1">{{ userInfo.firstName }},</p>
+              <p class="mb-1">{{ userInfo.first_name }},</p>
               <p class="m-0">{{ userInfo.email }}</p>
             </div>
             <li v-if="isAuthenticated" class="nav-item">
               <!-- If user authenticated -->
-              <a class="nav-link" href="/company">{{
+              <a class="nav-link" href="/companies/1">{{
                 $t('components.navbar.links.company_profile')
               }}</a>
             </li>
             <li v-if="isAuthenticated" class="nav-item">
-              <a class="nav-link" href="/user">{{ $t('components.navbar.links.user_profile') }}</a>
+              <a class="nav-link" href="/users/1">{{
+                $t('components.navbar.links.user_profile')
+              }}</a>
             </li>
           </ul>
           <button v-if="isAuthenticated" @click="logout" type="button" class="btn btn-danger">
@@ -87,11 +89,11 @@ const modalWindow = ref(null)
 
 // Get from Vuex store information if user is authenticated
 const isAuthenticated = computed(() => {
-  return store.getters.getIsAuthenticated
+  return store.getters['auth/getIsAuthenticated']
 })
 
 const userInfo = computed(() => {
-  return store.getters.getUser
+  return store.getters['auth/getUser']
 })
 
 onMounted(() => {
@@ -107,9 +109,9 @@ const showModal = () => {
 // Logout function
 const logout = () => {
   // Clear user data
-  store.commit('setUserData', {})
+  store.commit('auth/setUserData', {})
   // Set isAuthenticated state
-  store.commit('setIsAuthenticated', false)
+  store.commit('auth/setIsAuthenticated', false)
   localStorage.removeItem('access')
   location.reload() // Reload page
 }

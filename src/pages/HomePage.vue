@@ -80,8 +80,8 @@ const googleAuthenticate = async (state, code) => {
       }
     }
     const details = {
-      state: state,
-      code: code
+      state,
+      code
     }
     const formBody = Object.keys(details)
       .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(details[key]))
@@ -105,7 +105,6 @@ watchEffect(async () => {
   const code = location.query.code
 
   if (state && code) {
-    // await store.dispatch('googleAuthenticate', state, code)
     await googleAuthenticate(state, code)
   }
 })

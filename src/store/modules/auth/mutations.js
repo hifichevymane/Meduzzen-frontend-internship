@@ -2,14 +2,7 @@
 export default {
   // Set user data
   setUserData(state, data) {
-    const userData = {
-      email: data.email,
-      username: data.username,
-      firstName: data.first_name,
-      lastName: data.last_name
-    }
-
-    state.user = { ...userData };
+    state.user = { ...data };
   },
 
   // Set access token in local storage

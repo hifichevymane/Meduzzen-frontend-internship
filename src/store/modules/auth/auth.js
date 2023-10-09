@@ -6,6 +6,7 @@ import mutations from './mutations';
 
 // Auth module
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

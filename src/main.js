@@ -19,7 +19,7 @@ import UsersListPage from './pages/UsersListPage.vue';
 
 // Get isAuthenticated value from store
 const isAuthenticated = computed(() => {
-  return store.getters.getIsAuthenticated
+  return store.getters['auth/getIsAuthenticated']
 })
 
 // Url paths for pages
@@ -33,25 +33,25 @@ const routes = [
     meta: { requiresAuth: true } // Requires authentication
   },
   {
-    path: '/company',
+    path: '/companies/:id',
     component: CompanyProfilePage,
     name: 'CompanyProfile',
     meta: { requiresAuth: true } // Requires authentication
   },
   { path: '/login', component: LoginPage, name: 'Login' },
   {
-    path: '/user',
-    component: UserProfilePage,
-    name: 'UserProfile',
-    meta: { requiresAuth: true } // Requires authentication
-  },
-  { path: '/sign-up', component: SignUpPage, name: 'SignUp' },
-  {
     path: '/users',
     component: UsersListPage,
     name: 'UsersList',
     meta: { requiresAuth: true } // Requires authentication
   },
+  {
+    path: '/users/:id',
+    component: UserProfilePage,
+    name: 'UserProfile',
+    meta: { requiresAuth: true } // Requires authentication
+  },
+  { path: '/sign-up', component: SignUpPage, name: 'SignUp' },
 ];
 
 // Creating a router

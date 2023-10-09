@@ -5,10 +5,11 @@ export default function state() {
     isAuthenticated: localStorage.getItem('access') !== null,
     // User info
     user: {
+      id: '',
       email: '',
       username: '',
-      firstName: '',
-      lastName: ''
+      first_name: '',
+      last_name: ''
     },
   }
 }
