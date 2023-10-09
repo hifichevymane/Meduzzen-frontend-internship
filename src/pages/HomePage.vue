@@ -29,9 +29,10 @@
 <script setup>
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
-import axios from 'axios'
 import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
+// Importing axios instance to do API requests
+import api from '../api'
 
 // Get the Vuex store
 const store = useStore()
@@ -59,9 +60,9 @@ const healthCheck = ref(null)
 
 onMounted(() => {
   // Testing API connection
-  axios
-    .get(import.meta.env.VITE_API_URL)
-    .then((res) => (this.healthCheck = res.data))
+  api
+    .get()
+    .then((res) => (healthCheck.value = res.data))
     .catch(() => {
       // If there is any connection problem
       console.log('API connection has not been estabilished')
