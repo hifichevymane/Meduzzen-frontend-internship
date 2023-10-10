@@ -6,21 +6,14 @@
     <div class="container-fluid">
       <div class="row d-flex justify-content-center">
         <!-- Login form -->
-        <auth-form :fields="fields" button="Login" />
+        <auth-form />
       </div>
     </div>
   </main-container>
 </template>
 
 <script setup>
+import AuthForm from '../components/forms/AuthForm.vue'
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
-import AuthForm from '../components/forms/AuthForm.vue'
-
-// All login form fields
-const fields = [
-  { id: 0, label: 'Email', type: 'email', inputId: 'email' },
-  { id: 1, label: 'Password', type: 'password', inputId: 'password' },
-  { id: 2, label: 'Remember me', type: 'checkbox', inputId: 'rememberMe' }
-]
 </script>

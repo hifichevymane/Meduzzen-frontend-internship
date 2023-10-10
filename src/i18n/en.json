@@ -2,14 +2,15 @@
   "components": {
     "navbar": {
       "links": {
-        "Home": "Home",
-        "About": "About",
-        "Companies": "Companies",
-        "Users": "Users",
-        "User Profile": "User Profile",
-        "Company Profile": "Company Profile",
-        "Sign up": "Sign up",
-        "Log in": "Log in"
+        "home": "Home",
+        "about": "About",
+        "companies": "Companies",
+        "users": "Users",
+        "user_profile": "User Profile",
+        "company_profile": "Company Profile",
+        "sign_up": "Sign up",
+        "login": "Log in",
+        "logout": "Log out"
       },
 
       "modal_button": "Show modal"
@@ -43,13 +44,15 @@
 
     "auth_form": {
       "button": {
-        "Sign up": "Sign up",
-        "Login": "Login"
+        "sign_up": "Sign up",
+        "login": "Login",
+        "sign_up_google": "Sign up with Google"
       },
 
       "fields": {
         "First name": "First name",
         "Last name": "Last name",
+        "Username": "Username",
         "Email": "Email",
         "Password": "Password",
         "Repeat the password": "Repeat the password",

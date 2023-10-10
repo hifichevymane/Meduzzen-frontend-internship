@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, computed } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import store from './store';
@@ -17,16 +17,41 @@ import UserProfilePage from './pages/UserProfilePage.vue';
 import SignUpPage from './pages/SignUpPage.vue';
 import UsersListPage from './pages/UsersListPage.vue';
 
+// Get isAuthenticated value from store
+const isAuthenticated = computed(() => {
+  return store.getters['auth/getIsAuthenticated']
+})
+
 // Url paths for pages
 const routes = [
-  { path: '/', component: HomePage, name: 'Home' },
-  { path: '/about', component: AboutPage, name: 'About' },
-  { path: '/companies', component: CompaniesListPage, name: 'CompaniesList' },
-  { path: '/company', component: CompanyProfilePage, name: 'CompanyProfile' },
-  { path: '/login', component: LoginPage, name: 'Login' },
-  { path: '/user', component: UserProfilePage, name: 'UserProfile' },
-  { path: '/sign-in', component: SignUpPage, name: 'SignUp' },
-  { path: '/users', component: UsersListPage, name: 'UsersList' },
+  { path: '/', component: () => (HomePage), name: 'Home' },
+  { path: '/about', component: () => (AboutPage), name: 'About' },
+  {
+    path: '/companies',
+    component: () => (CompaniesListPage),
+    name: 'CompaniesList',
+    meta: { requiresAuth: true } // Requires authentication
+  },
+  {
+    path: '/companies/:id',
+    component: () => (CompanyProfilePage),
+    name: 'CompanyProfile',
+    meta: { requiresAuth: true } // Requires authentication
+  },
+  { path: '/login', component: () => (LoginPage), name: 'Login' },
+  {
+    path: '/users',
+    component: () => (UsersListPage),
+    name: 'UsersList',
+    meta: { requiresAuth: true } // Requires authentication
+  },
+  {
+    path: '/users/:id',
+    component: () => (UserProfilePage),
+    name: 'UserProfile',
+    meta: { requiresAuth: true } // Requires authentication
+  },
+  { path: '/sign-up', component: () => (SignUpPage), name: 'SignUp' },
 ];
 
 // Creating a router
@@ -34,6 +59,21 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+// router guard
+router.beforeEach((to, from, next) => {
+  // If route requires auth
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // If not authenticated -> redirect to home page
+    if (!isAuthenticated.value) {
+      next('/')
+    } else { // If authenticated -> OK
+      next()
+    }
+  } else {
+    next() // If route does not require auth -> OK
+  }
+})
 
 // i18n configuration
 import { createI18n } from 'vue-i18n'
@@ -53,7 +93,7 @@ const i18n = createI18n({
 
   fallbackLocale: 'en', // Default language if selected language doesn't exist
   messages, // All translations
-})
+});
 
 const app = createApp(App);
 
