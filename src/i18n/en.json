@@ -17,18 +17,27 @@
     },
 
     "modal_window": {
-      "heading": "Modal window",
-      "body": "This is the body text of modal window",
-      "close_button": "Close"
+      "change_avatar_heading": "Change user's avatar",
+      "delete_user_heading": "Confirm deleting the account",
+      "delete_user_body": "Are you sure to delete the user? This action is permanent and cannot be undone later.",
+      "close_button": "Close",
+      "save_button": "Save",
+      "delete_button": "Yes, I confirm deleting my account"
     },
 
     "profile_item": {
-      "First name": "First name",
-      "Last name": "Last name",
-      "Email": "Email",
+      "username": "Username",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
       "Company name": "Company name",
       "SEO": "SEO",
-      "Net worth": "Net worth"
+      "Net worth": "Net worth",
+      "save": "Save changes",
+      "delete": "Delete the account",
+      "change_avatar": "Change the avatar",
+      "old_password": "Old password",
+      "new_password": "New password"
     },
 
     "company_card": {

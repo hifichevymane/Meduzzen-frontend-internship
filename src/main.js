@@ -24,34 +24,34 @@ const isAuthenticated = computed(() => {
 
 // Url paths for pages
 const routes = [
-  { path: '/', component: () => (HomePage), name: 'Home' },
-  { path: '/about', component: () => (AboutPage), name: 'About' },
+  { path: '/', component: () => HomePage, name: 'Home' },
+  { path: '/about', component: () => AboutPage, name: 'About' },
   {
     path: '/companies',
-    component: () => (CompaniesListPage),
+    component: () => CompaniesListPage,
     name: 'CompaniesList',
     meta: { requiresAuth: true } // Requires authentication
   },
   {
     path: '/companies/:id',
-    component: () => (CompanyProfilePage),
+    component: () => CompanyProfilePage,
     name: 'CompanyProfile',
     meta: { requiresAuth: true } // Requires authentication
   },
-  { path: '/login', component: () => (LoginPage), name: 'Login' },
+  { path: '/login', component: () => LoginPage, name: 'Login' },
   {
     path: '/users',
-    component: () => (UsersListPage),
+    component: () => UsersListPage,
     name: 'UsersList',
     meta: { requiresAuth: true } // Requires authentication
   },
   {
     path: '/users/:id',
-    component: () => (UserProfilePage),
+    component: () => UserProfilePage,
     name: 'UserProfile',
     meta: { requiresAuth: true } // Requires authentication
   },
-  { path: '/sign-up', component: () => (SignUpPage), name: 'SignUp' },
+  { path: '/sign-up', component: () => SignUpPage, name: 'SignUp' },
 ];
 
 // Creating a router

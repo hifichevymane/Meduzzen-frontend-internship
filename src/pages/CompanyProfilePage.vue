@@ -3,19 +3,60 @@
 
   <main-container>
     <h1 class="text-center mb-4">{{ $t('pages.company_profile_page.heading') }}</h1>
-    <profile-item :info="info" />
+    <div class="container-fluid d-flex justify-content-center">
+      <div class="row border border-2 rounded border-primary w-75 p-5">
+        <div class="col-lg-6">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="username">Company name:</span>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="username"
+              :value="mockInfo.name"
+              disabled
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="first-name">SEO:</span>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="first-name"
+              :value="mockInfo.SEO"
+              disabled
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="last-name">Net worth:</span>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="last-name"
+              :value="mockInfo.netWorth"
+              disabled
+            />
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 m-auto text-center">
+          <img src="../assets/img/profile-pic.webp" class="w-50" alt="profile-pic" />
+        </div>
+      </div>
+    </div>
+    <!-- Modal window -->
   </main-container>
 </template>
 
 <script setup>
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
-import ProfileItem from '../components/ProfileItem.vue'
 
 // All company's info
-const info = [
-  { id: 0, label: 'Company name', value: 'Apple' },
-  { id: 1, label: 'SEO', value: 'Tim Cook' },
-  { id: 2, label: 'Net worth', value: '1000000 $' }
-]
+const mockInfo = {
+  name: 'Apple',
+  SEO: 'Tim Cook',
+  netWorth: '$1000000'
+}
 </script>

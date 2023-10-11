@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import auth from './modules/auth/auth';
+import users from './modules/users/users';
 import VuexPersistence from 'vuex-persist'
 
 // Enable save the state of the app after reloading a page
@@ -49,6 +50,7 @@ const store = createStore({
   // All modules
   modules: {
     auth,
+    users
   },
 
   // All plugins

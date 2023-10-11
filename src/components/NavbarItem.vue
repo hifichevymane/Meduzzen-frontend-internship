@@ -53,7 +53,7 @@
               }}</a>
             </li>
             <li v-if="isAuthenticated" class="nav-item">
-              <a class="nav-link" href="/users/1">{{
+              <a class="nav-link" :href="`/users/${userInfo.id}`">{{
                 $t('components.navbar.links.user_profile')
               }}</a>
             </li>
@@ -61,12 +61,6 @@
           <button v-if="isAuthenticated" @click="logout" type="button" class="btn btn-danger">
             {{ $t('components.navbar.links.logout') }}
           </button>
-          <!-- Modal window button -->
-          <button class="btn btn-primary" @click="showModal">
-            {{ $t('components.navbar.modal_button') }}
-          </button>
-          <!-- Modal window -->
-          <modal-window />
           <!-- Select language -->
           <select-item />
         </div>
@@ -76,16 +70,11 @@
 </template>
 
 <script setup>
-import ModalWindow from './ModalWindow.vue'
 import SelectItem from './SelectItem.vue'
-import { Modal } from 'bootstrap'
-import { ref, onMounted, computed } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
-
-// Modal window object
-const modalWindow = ref(null)
 
 // Get from Vuex store information if user is authenticated
 const isAuthenticated = computed(() => {
@@ -95,16 +84,6 @@ const isAuthenticated = computed(() => {
 const userInfo = computed(() => {
   return store.getters['auth/getUser']
 })
-
-onMounted(() => {
-  // When component is mounted => set modalWindow variable to modal from bootstrap
-  modalWindow.value = new Modal(document.getElementById('modal'))
-})
-
-// Function to show modal window
-const showModal = () => {
-  modalWindow.value.show()
-}
 
 // Logout function
 const logout = () => {
