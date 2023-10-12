@@ -6,36 +6,14 @@
     <div class="container-fluid d-flex justify-content-center">
       <div class="row border border-2 rounded border-primary w-75 p-5">
         <div class="col-lg-6">
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="username">Company name:</span>
+          <div v-for="field in mockInfo" :key="field.id" class="input-group mb-3">
+            <span class="input-group-text" :id="field.inputId">{{ field.label }}:</span>
             <input
               type="text"
               class="form-control"
               aria-label="Sizing example input"
-              aria-describedby="username"
-              :value="mockInfo.name"
-              disabled
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="first-name">SEO:</span>
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="first-name"
-              :value="mockInfo.SEO"
-              disabled
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="last-name">Net worth:</span>
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="last-name"
-              :value="mockInfo.netWorth"
+              :aria-describedby="field.inputId"
+              :value="field.value"
               disabled
             />
           </div>
@@ -54,9 +32,9 @@ import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
 
 // All company's info
-const mockInfo = {
-  name: 'Apple',
-  SEO: 'Tim Cook',
-  netWorth: '$1000000'
-}
+const mockInfo = [
+  { id: 0, label: 'Company name', value: 'Apple', inputId: 'company-name' },
+  { id: 1, label: 'SEO', value: 'Tim Cook', inputId: 'company-SEO' },
+  { id: 2, label: 'Net worth(in $)', value: '1000000', inputId: 'company-net-worth' }
+]
 </script>

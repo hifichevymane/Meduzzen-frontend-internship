@@ -5,15 +5,11 @@ export default {
   // Update user function
   async updateUser(ctx, data) {
     // Authorization
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access')}`
-      }
-    };
+    const config = ctx.rootState.auth.authConfig
 
     // PATCH request to the server
     const response = await api
-      .patch(`${import.meta.env.VITE_API_URL}auth/users/me/`, data, config)
+      .patch(`${import.meta.env.VITE_API_URL}/auth/users/me/`, data, config)
       .catch((err) => console.log(err))
 
     ctx.commit('auth/setUserData', response.data, { root: true })
@@ -34,38 +30,30 @@ export default {
 
     // PATCH request to change image
     await api
-      .patch(`${import.meta.env.VITE_API_URL}users/${userId}/`, formData, config)
+      .patch(`${import.meta.env.VITE_API_URL}/users/${userId}/`, formData, config)
       .catch((err) => console.log(err))
   },
 
   async setNewPassword(ctx, data) {
     // Authorization
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access')}`
-      }
-    };
+    const config = ctx.rootState.auth.authConfig
 
     // POST request
     await api
-      .post(`${import.meta.env.VITE_API_URL}auth/users/set_password/`, data, config)
+      .post(`${import.meta.env.VITE_API_URL}/auth/users/set_password/`, data, config)
       .catch((err) => console.log(err));
   },
 
   async deleteTheUser(ctx) {
     // Authorization
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access')}`
-      }
-    }
+    const config = ctx.rootState.auth.authConfig
 
     // Get current id
     const userId = ctx.getters.getCurrentUser.id
 
     // DELETE request
     await api
-      .delete(`${import.meta.env.VITE_API_URL}users/${userId}/`, config)
+      .delete(`${import.meta.env.VITE_API_URL}/users/${userId}/`, config)
       .catch((err) => console.log(err))
 
     ctx.commit('auth/setIsAuthenticated', false, { root: true })

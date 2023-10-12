@@ -8,5 +8,9 @@ export default {
   // Get user auth state
   getIsAuthenticated(state) {
     return state.isAuthenticated;
-  }
+  },
+
+  getAuthConfig(state) {
+    return state.authConfig;
+  },
 }

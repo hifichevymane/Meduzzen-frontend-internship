@@ -10,7 +10,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 v-if="type === 'changeAvatar'" class="modal-title fs-5" id="exampleModalLabel">
+          <h1 v-if="isChangeAvatarAction" class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.modal_window.change_avatar_heading') }}
           </h1>
           <h1 v-else class="modal-title fs-5" id="exampleModalLabel">
@@ -23,7 +23,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <div v-if="type === 'changeAvatar'" class="modal-body">
+        <div v-if="isChangeAvatarAction" class="modal-body">
           <input
             class="form-control w-50 m-auto mt-4"
             type="file"
@@ -34,19 +34,24 @@
         <div v-else class="modal-body">
           {{ $t('components.modal_window.delete_user_body') }}
         </div>
-        <div v-if="type === 'changeAvatar'" class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn"
+            :class="isChangeAvatarAction ? 'btn-danger' : 'btn-success'"
+            data-bs-dismiss="modal"
+          >
             {{ $t('components.modal_window.close_button') }}
           </button>
-          <button @click="changeProfilePic" type="button" class="btn btn-success">
+          <button
+            v-if="isChangeAvatarAction"
+            @click="changeProfilePic"
+            type="button"
+            class="btn btn-success"
+          >
             {{ $t('components.modal_window.save_button') }}
           </button>
-        </div>
-        <div v-else class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-            {{ $t('components.modal_window.close_button') }}
-          </button>
-          <button @click="deleteTheUser" type="button" class="btn btn-danger">
+          <button v-else @click="deleteTheUser" type="button" class="btn btn-danger">
             {{ $t('components.modal_window.delete_button') }}
           </button>
         </div>
@@ -56,10 +61,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
-defineProps({
+const props = defineProps({
   type: String, // Type of modal
   modalId: String
 })
@@ -68,6 +73,8 @@ defineProps({
 const store = useStore()
 
 const fileField = ref()
+
+const isChangeAvatarAction = computed(() => props.type === 'changeAvatar')
 
 // Change profile pic func
 const changeProfilePic = async () => {

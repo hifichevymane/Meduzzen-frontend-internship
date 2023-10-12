@@ -150,18 +150,14 @@ onMounted(async () => {
   changeAvatarModalWindow.value = new Modal(document.getElementById(changeAvatarModalWindowId))
   deleteUserModalWindow.value = new Modal(document.getElementById(deleteUserModalWindowId))
   // Authorization
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('access')}`
-    }
-  }
+  const config = store.state.auth.authConfig
 
   // Get user id from url
   const userId = route.params.id
 
   // GET request to get user info
   const response = await api
-    .get(`${import.meta.env.VITE_API_URL}users/${userId}`, config)
+    .get(`${import.meta.env.VITE_API_URL}/users/${userId}`, config)
     .catch((err) => console.log(err))
 
   // Asing user info from response
@@ -176,11 +172,15 @@ onBeforeUnmount(() => {
 
 // Update user func
 const updateUserData = async () => {
+  // Destructurize the userInfo object
+  const { username, first_name, last_name, email } = userInfo.value
+
+  // Request body
   const body = {
-    username: userInfo.value.username,
-    first_name: userInfo.value.first_name,
-    last_name: userInfo.value.last_name,
-    email: userInfo.value.email
+    username,
+    first_name,
+    last_name,
+    email
   }
 
   await store.dispatch('users/updateUser', body)

@@ -13,7 +13,7 @@ export default {
 
     // GET request
     const userData = await api
-      .get(`${import.meta.env.VITE_API_URL}auth/users/me/`, config)
+      .get(`${import.meta.env.VITE_API_URL}/auth/users/me/`, config)
       .catch((err) => { console.log(err); });
 
     // Set data
@@ -24,7 +24,7 @@ export default {
   async login(ctx, body) {
     // POST request to get access token
     const loginRes = await api
-      .post(`${import.meta.env.VITE_API_URL}auth/jwt/create/`, body)
+      .post(`${import.meta.env.VITE_API_URL}/auth/jwt/create/`, body)
       .catch((err) => {
         console.log(err)
       });
@@ -40,7 +40,7 @@ export default {
   // Sign up action
   async signUp(ctx, body) {
     const userData = await api
-      .post(`${import.meta.env.VITE_API_URL}auth/users/`, body)
+      .post(`${import.meta.env.VITE_API_URL}/auth/users/`, body)
       .catch((err) => {
         console.log(err)
       });
@@ -76,7 +76,7 @@ export default {
         .join('&')
       try {
         const res = await api.post(
-          `${import.meta.env.VITE_API_URL}auth/o/google-oauth2/?${formBody}`,
+          `${import.meta.env.VITE_API_URL}/auth/o/google-oauth2/?${formBody}`,
           config
         )
         console.log(res.data)

@@ -36,15 +36,11 @@ const users = ref([])
 
 onMounted(async () => {
   // Authorization
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('access')}`
-    }
-  }
+  const config = store.state.auth.authConfig
 
   // GET request to get users
   const response = await api
-    .get(`${import.meta.env.VITE_API_URL}users/`, config)
+    .get(`${import.meta.env.VITE_API_URL}/users/`, config)
     .catch((err) => console.log(err))
 
   // Asing users.value all users
