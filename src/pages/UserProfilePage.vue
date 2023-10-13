@@ -155,14 +155,19 @@ onMounted(async () => {
   // Get user id from url
   const userId = route.params.id
 
-  // GET request to get user info
-  const response = await api
-    .get(`${import.meta.env.VITE_API_URL}/users/${userId}`, config)
-    .catch((err) => console.log(err))
+  const errorText = 'There was an error trying to load user. Try again'
 
-  // Asing user info from response
-  userInfo.value = response.data
-  store.commit('users/setCurrentUser', response.data)
+  // GET request to get user info
+  try {
+    const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, config)
+
+    // Asing user info from response
+    userInfo.value = data
+
+    store.commit('users/setCurrentUser', data)
+  } catch (err) {
+    store.commit('users/setErrorMessage', errorText)
+  }
 })
 
 // Reset all data

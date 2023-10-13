@@ -15,5 +15,13 @@ export default {
   // Set isAuthenticated state
   setIsAuthenticated(state, value) {
     state.isAuthenticated = value;
+  },
+
+  setAuthConfig(state, value) {
+    state.authConfig = {
+      headers: {
+        Authorization: `Bearer ${value}`
+      }
+    }
   }
 }

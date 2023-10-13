@@ -6,5 +6,9 @@ export default {
 
   getCurrentUser(state) {
     return state.currentUser
+  },
+
+  getErrorMessage(state) {
+    return state.errorMessage
   }
 }

@@ -2,6 +2,7 @@
 export default function state() {
   return {
     usersList: [],
-    currentUser: {}
+    currentUser: {},
+    errorMessage: null,
   }
 }

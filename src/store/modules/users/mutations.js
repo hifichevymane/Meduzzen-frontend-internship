@@ -6,5 +6,9 @@ export default {
 
   setCurrentUser(state, data) {
     state.currentUser = { ...data }
+  },
+
+  setErrorMessage(state, message) {
+    state.errorMessage = message
   }
 }

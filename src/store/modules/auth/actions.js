@@ -5,58 +5,65 @@ export default {
   // Get auth user
   async getAuthUser(ctx, access) {
     // JWT Auth headers
-    const config = {
-      headers: {
-        'Authorization': `Bearer ${access}`,
-      }
-    };
+    ctx.commit('setAuthConfig', access);
+
+    const errorMessage = 'There was an error getting user. Try again'
 
     // GET request
-    const userData = await api
-      .get(`${import.meta.env.VITE_API_URL}/auth/users/me/`, config)
-      .catch((err) => { console.log(err); });
-
-    // Set data
-    ctx.commit('setUserData', userData.data)
+    try {
+      const { data } = await api
+        .get(`${import.meta.env.VITE_API_URL}/auth/users/me/`, ctx.state.authConfig);
+      // Set data
+      ctx.commit('setUserData', data);
+    } catch (err) {
+      ctx.commit('users/setErrorMessage', errorMessage, { root: true })
+    }
   },
 
   // Login action
   async login(ctx, body) {
+
+    const errorMessage = 'There was an error logging user. Try again'
+
     // POST request to get access token
-    const loginRes = await api
-      .post(`${import.meta.env.VITE_API_URL}/auth/jwt/create/`, body)
-      .catch((err) => {
-        console.log(err)
-      });
+    try {
+      const { data } = await api
+        .post(`${import.meta.env.VITE_API_URL}/auth/jwt/create/`, body);
 
-    // Wait to dispatch getAuthUser action
-    await ctx.dispatch('getAuthUser', loginRes.data.access);
-
-    // Set isAuthenticated = true
-    ctx.commit('setIsAuthenticated', true)
-    ctx.commit('setAccessLocalStorage', loginRes.data.access);
+      // Wait to dispatch getAuthUser action
+      await ctx.dispatch('getAuthUser', data.access);
+      // Set isAuthenticated = true
+      ctx.commit('setIsAuthenticated', true)
+      ctx.commit('setAccessLocalStorage', data.access);
+    } catch (err) {
+      ctx.commit('users/setErrorMessage', errorMessage, { root: true })
+    }
   },
 
   // Sign up action
   async signUp(ctx, body) {
-    const userData = await api
-      .post(`${import.meta.env.VITE_API_URL}/auth/users/`, body)
-      .catch((err) => {
-        console.log(err)
-      });
 
-    // Set user data in store
-    ctx.commit('setUserData', userData.data);
+    const errorMessage = 'There was an error. Try again'
 
-    // Body for login
-    const loginBody = {
-      // email: emailField.value,
-      username: body.username,
-      password: body.password
-    };
+    // POST request
+    try {
+      const { data } = await api
+        .post(`${import.meta.env.VITE_API_URL}/auth/users/`, body);
+      // Set user data in store
+      ctx.commit('setUserData', data);
 
-    // When sign up automaticaly login
-    await ctx.dispatch('login', loginBody);
+      // Body for login
+      const loginBody = {
+        // email: emailField.value,
+        username: body.username,
+        password: body.password
+      };
+
+      // When sign up automaticaly login
+      await ctx.dispatch('login', loginBody);
+    } catch (err) {
+      ctx.commit('users/setErrorMessage', errorMessage, { root: true })
+    }
   },
 
   // googleAuthenticate action (DOESN'T WORK PROPERLY)

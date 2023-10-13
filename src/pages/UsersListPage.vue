@@ -38,16 +38,20 @@ onMounted(async () => {
   // Authorization
   const config = store.state.auth.authConfig
 
+  const errorText = 'There was an error trying to load users. Try again'
+
   // GET request to get users
-  const response = await api
-    .get(`${import.meta.env.VITE_API_URL}/users/`, config)
-    .catch((err) => console.log(err))
+  try {
+    const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/`, config)
 
-  // Asing users.value all users
-  users.value = response.data.results
+    // Asing users.value all users
+    users.value = data.results
 
-  // Save users list in Vuex
-  store.commit('users/setUsersList', users.value)
+    // Save users list in Vuex
+    store.commit('users/setUsersList', users.value)
+  } catch (err) {
+    store.commit('users/setErrorMessage', errorText)
+  }
 })
 </script>
 
