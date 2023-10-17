@@ -7,55 +7,16 @@
     <div class="container-fluid d-flex justify-content-center">
       <div class="row border border-2 rounded border-primary w-75 p-5">
         <div class="col-lg-6">
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="username"
-              >{{ $t('components.profile_item.username') }}:</span
+          <div v-for="key in userInfoKeys" :key="key" class="input-group mb-3">
+            <span class="input-group-text" :id="key"
+              >{{ $t(`components.profile_item.${key}`) }}:</span
             >
             <input
-              type="text"
+              :type="key === 'email' ? 'email' : key === 'password' ? 'password' : 'text'"
               class="form-control"
               aria-label="Sizing example input"
-              aria-describedby="username"
-              v-model="userInfo.username"
-              :disabled="!isAbleToEdit"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="first-name"
-              >{{ $t('components.profile_item.first_name') }}:</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="first-name"
-              v-model="userInfo.first_name"
-              :disabled="!isAbleToEdit"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="last-name"
-              >{{ $t('components.profile_item.last_name') }}:</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="last-name"
-              v-model="userInfo.last_name"
-              :disabled="!isAbleToEdit"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="email"
-              >{{ $t('components.profile_item.email') }}:</span
-            >
-            <input
-              type="email"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="email"
-              v-model="userInfo.email"
+              :aria-describedby="key"
+              v-model="userInfo[key]"
               :disabled="!isAbleToEdit"
             />
           </div>
@@ -90,7 +51,7 @@
           </button>
         </div>
         <div class="col-lg-6 col-md-12 m-auto text-center">
-          <img :src="userInfo.image_path" class="w-50" alt="profile-pic" />
+          <img :src="profilePic" class="w-50" alt="profile-pic" />
           <div v-if="isAbleToEdit">
             <!-- Change profile pic section -->
             <button @click="showChangeAvatarModal" class="btn btn-success d-block m-auto mt-3">
@@ -129,6 +90,7 @@ const route = useRoute()
 
 // All user's info
 const userInfo = ref({})
+const profilePic = ref(null)
 const oldPasswordField = ref(null)
 const newPasswordField = ref(null)
 
@@ -144,6 +106,11 @@ const loggedUser = computed(() => store.getters['auth/getUser'])
 // Check if user is able to change data
 const isAbleToEdit = computed(() => {
   return currentUserInfo.value.id === loggedUser.value.id
+})
+
+// User info keys to iterate in v-for
+const userInfoKeys = computed(() => {
+  return Object.keys(userInfo.value)
 })
 
 onMounted(async () => {
@@ -162,7 +129,10 @@ onMounted(async () => {
     const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, config)
 
     // Asing user info from response
-    userInfo.value = data
+    const { username, email, first_name, last_name } = data
+    const { image_path } = data
+    userInfo.value = { username, email, first_name, last_name }
+    profilePic.value = image_path
 
     store.commit('users/setCurrentUser', data)
   } catch (err) {

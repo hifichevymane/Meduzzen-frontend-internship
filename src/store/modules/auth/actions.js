@@ -7,8 +7,6 @@ export default {
     // JWT Auth headers
     ctx.commit('setAuthConfig', access);
 
-    const errorMessage = 'There was an error getting user. Try again'
-
     // GET request
     try {
       const { data } = await api
@@ -16,15 +14,12 @@ export default {
       // Set data
       ctx.commit('setUserData', data);
     } catch (err) {
-      ctx.commit('users/setErrorMessage', errorMessage, { root: true })
+      ctx.commit('users/setErrorMessage', err.message, { root: true })
     }
   },
 
   // Login action
   async login(ctx, body) {
-
-    const errorMessage = 'There was an error logging user. Try again'
-
     // POST request to get access token
     try {
       const { data } = await api
@@ -36,15 +31,12 @@ export default {
       ctx.commit('setIsAuthenticated', true)
       ctx.commit('setAccessLocalStorage', data.access);
     } catch (err) {
-      ctx.commit('users/setErrorMessage', errorMessage, { root: true })
+      ctx.commit('users/setErrorMessage', err.message, { root: true })
     }
   },
 
   // Sign up action
   async signUp(ctx, body) {
-
-    const errorMessage = 'There was an error. Try again'
-
     // POST request
     try {
       const { data } = await api
@@ -52,17 +44,17 @@ export default {
       // Set user data in store
       ctx.commit('setUserData', data);
 
+      const { username, password } = body
       // Body for login
       const loginBody = {
-        // email: emailField.value,
-        username: body.username,
-        password: body.password
+        username,
+        password,
       };
 
       // When sign up automaticaly login
       await ctx.dispatch('login', loginBody);
     } catch (err) {
-      ctx.commit('users/setErrorMessage', errorMessage, { root: true })
+      ctx.commit('users/setErrorMessage', err.message, { root: true })
     }
   },
 
