@@ -10,9 +10,10 @@
           v-for="user in users"
           :key="user.id"
           :username="user.username"
-          :firstName="user.firstName"
-          :lastName="user.lastName"
+          :firstName="user.first_name"
+          :lastName="user.last_name"
           :email="user.email"
+          :url="user.id"
         />
       </div>
     </div>
@@ -23,31 +24,35 @@
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
 import UserCard from '../components/UserCard.vue'
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+import api from '../api'
+
+// Vuex store
+const store = useStore()
 
 // Users list
-const users = [
-  {
-    id: 0,
-    username: 'biba_228',
-    firstName: 'Artur',
-    lastName: 'Egorov',
-    email: 'nomail@mail.com'
-  },
-  {
-    id: 1,
-    username: 'vasya_1337',
-    firstName: 'Vasiliy',
-    lastName: 'Richter',
-    email: 'nomail@mail.com'
-  },
-  {
-    id: 2,
-    username: 'boba_228',
-    firstName: 'Semen',
-    lastName: 'Gagauz',
-    email: 'nomail@mail.com'
+const users = ref([])
+
+onMounted(async () => {
+  // Authorization
+  const config = store.state.auth.authConfig
+
+  const errorText = 'There was an error trying to load users. Try again'
+
+  // GET request to get users
+  try {
+    const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/`, config)
+
+    // Asing users.value all users
+    users.value = data.results
+
+    // Save users list in Vuex
+    store.commit('users/setUsersList', users.value)
+  } catch (err) {
+    store.commit('users/setErrorMessage', errorText)
   }
-]
+})
 </script>
 
 <style>

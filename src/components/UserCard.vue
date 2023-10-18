@@ -1,5 +1,5 @@
 <template>
-  <div class="col-lg-3">
+  <div class="col-lg-4 col-md-5 mb-5">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{ username }}</h5>
@@ -15,7 +15,9 @@
           <h6 class="fw-bold">{{ $t('components.user_card.email') }}:</h6>
           <h6>{{ email }}</h6>
         </div>
-        <a href="#" class="btn btn-primary">{{ $t('components.user_card.button') }}</a>
+        <a :href="`users/${url}`" class="btn btn-primary">{{
+          $t('components.user_card.button')
+        }}</a>
       </div>
     </div>
   </div>
@@ -27,6 +29,7 @@ defineProps({
   username: String,
   firstName: String,
   lastName: String,
-  email: String
+  email: String,
+  url: Number
 })
 </script>

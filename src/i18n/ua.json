@@ -17,18 +17,27 @@
     },
 
     "modal_window": {
-      "heading": "Модальне вікно",
-      "body": "Це текс модального вікна",
-      "close_button": "Закрити"
+      "change_avatar_heading": "Змінити аватар профілю",
+      "delete_user_heading": "Підтвердіть видалення аккаунту",
+      "delete_user_body": "Ви дійсно бажаєте видалити аккаунт? Ця дія перманента. Повернути все назад не вдасться.",
+      "close_button": "Закрити",
+      "save_button": "Зберегти",
+      "delete_button": "Так, я підтверджую видалленя аккаунту"
     },
 
     "profile_item": {
-      "First name": "Ім'я",
-      "Last name": "Прізвище",
-      "Email": "Електрона пошта",
+      "username": "Юзернейм",
+      "first_name": "Ім'я",
+      "last_name": "Прізвище",
+      "email": "Електрона пошта",
       "Company name": "Ім'я компанії",
       "SEO": "SEO",
-      "Net worth": "Капітал"
+      "Net worth": "Капітал",
+      "save": "Зберегти зміни",
+      "delete": "Видалити аккаунт",
+      "change_avatar": "Змінити аватар",
+      "old_password": "Старий пароль",
+      "new_password": "Новий пароль"
     },
 
     "company_card": {
