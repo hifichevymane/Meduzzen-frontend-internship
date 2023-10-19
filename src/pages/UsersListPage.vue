@@ -6,15 +6,10 @@
     <div class="container-fluid">
       <div class="row d-flex justify-content-center px-5">
         <!-- All the users -->
-        <user-card
-          v-for="user in users"
-          :key="user.id"
-          :username="user.username"
-          :firstName="user.first_name"
-          :lastName="user.last_name"
-          :email="user.email"
-          :id="user.id"
-        />
+        <h3 v-if="!users" class="text-center">
+          {{ $t('pages.users_list_page.error_message') }}
+        </h3>
+        <user-card v-else v-for="user in users" :key="user.id" :user="user" />
       </div>
     </div>
   </main-container>
@@ -48,6 +43,7 @@ onMounted(async () => {
     // Save users list in Vuex
     store.commit('users/setUsersList', users.value)
   } catch (err) {
+    users.value = null
     store.commit('users/setErrorMessage', err.message)
   }
 })

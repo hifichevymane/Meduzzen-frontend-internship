@@ -104,11 +104,13 @@
     },
 
     "companies_list_page": {
-      "heading": "Companies List"
+      "heading": "Companies List",
+      "error_message": "There was an error while loading companies...Try again..."
     },
 
     "users_list_page": {
-      "heading": "Users List"
+      "heading": "Users List",
+      "error_message": "There was an error while loading users...Try again..."
     },
     "sign_up_page": {
       "heading": "Sign up"

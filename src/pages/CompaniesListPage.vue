@@ -11,7 +11,11 @@
           </button>
         </div>
         <create-company-modal />
+        <h3 v-if="!companies" class="text-center">
+          {{ $t('pages.companies_list_page.error_message') }}
+        </h3>
         <company-card
+          v-else
           v-for="company in companies"
           :key="company.id"
           :name="company.name"
@@ -53,6 +57,7 @@ onMounted(async () => {
     companies.value = data.results
     store.commit('companies/setCompaniesList', data.results)
   } catch (err) {
+    companies.value = null
     store.commit('users/setErrorMessage', err.message)
   }
 })
