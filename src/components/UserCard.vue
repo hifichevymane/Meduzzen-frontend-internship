@@ -15,9 +15,7 @@
           <h6 class="fw-bold">{{ $t('components.user_card.email') }}:</h6>
           <h6>{{ email }}</h6>
         </div>
-        <a :href="`users/${url}`" class="btn btn-primary">{{
-          $t('components.user_card.button')
-        }}</a>
+        <a :href="`users/${id}`" class="btn btn-primary">{{ $t('components.user_card.button') }}</a>
       </div>
     </div>
   </div>
@@ -30,6 +28,6 @@ defineProps({
   firstName: String,
   lastName: String,
   email: String,
-  url: Number
+  id: Number
 })
 </script>

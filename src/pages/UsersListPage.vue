@@ -13,7 +13,7 @@
           :firstName="user.first_name"
           :lastName="user.last_name"
           :email="user.email"
-          :url="user.id"
+          :id="user.id"
         />
       </div>
     </div>
@@ -38,8 +38,6 @@ onMounted(async () => {
   // Authorization
   const config = store.state.auth.authConfig
 
-  const errorText = 'There was an error trying to load users. Try again'
-
   // GET request to get users
   try {
     const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/`, config)
@@ -50,7 +48,7 @@ onMounted(async () => {
     // Save users list in Vuex
     store.commit('users/setUsersList', users.value)
   } catch (err) {
-    store.commit('users/setErrorMessage', errorText)
+    store.commit('users/setErrorMessage', err.message)
   }
 })
 </script>

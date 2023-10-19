@@ -19,10 +19,18 @@
     "modal_window": {
       "change_avatar_heading": "Change user's avatar",
       "delete_user_heading": "Confirm deleting the account",
-      "delete_user_body": "Are you sure to delete the user? This action is permanent and cannot be undone later.",
+      "delete_company_heading": "Confirm deleting the company",
+      "delete_body": "Do you confirm deleting? This action is permanent and cannot be undone later.",
       "close_button": "Close",
       "save_button": "Save",
-      "delete_button": "Yes, I confirm deleting my account"
+      "delete_user_button": "Yes, I confirm deleting my account",
+      "delete_company_button": "Yes, I confirm deleting my company"
+    },
+
+    "create_company_modal": {
+      "create_company_button": "Create a company",
+      "company_name_placeholder": "Enter company name...",
+      "company_description_placeholder": "Write about your company..."
     },
 
     "profile_item": {
@@ -30,9 +38,10 @@
       "first_name": "First name",
       "last_name": "Last name",
       "email": "Email",
-      "Company name": "Company name",
+      "name": "Company name",
       "SEO": "SEO",
-      "Net worth": "Net worth",
+      "description": "Company description",
+      "visibility": "Visibility",
       "save": "Save changes",
       "delete": "Delete the account",
       "change_avatar": "Change the avatar",
@@ -72,7 +81,9 @@
     "select_item": {
       "select_language": "Language",
       "en": "English",
-      "ua": "Ukrainian"
+      "ua": "Ukrainian",
+      "visible": "Visible",
+      "hidden": "Hidden"
     }
   },
 

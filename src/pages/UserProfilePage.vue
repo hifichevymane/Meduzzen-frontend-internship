@@ -122,8 +122,6 @@ onMounted(async () => {
   // Get user id from url
   const userId = route.params.id
 
-  const errorText = 'There was an error trying to load user. Try again'
-
   // GET request to get user info
   try {
     const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, config)
@@ -136,7 +134,7 @@ onMounted(async () => {
 
     store.commit('users/setCurrentUser', data)
   } catch (err) {
-    store.commit('users/setErrorMessage', errorText)
+    store.commit('users/setErrorMessage', err.message)
   }
 })
 
