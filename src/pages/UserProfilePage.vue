@@ -66,9 +66,17 @@
       </div>
     </div>
     <!-- Modal window to change profile avatar -->
-    <modal-window type="changeAvatar" :modalId="changeAvatarModalWindowId" />
+    <modal-window
+      type="changeAvatar"
+      :modalId="changeAvatarModalWindowId"
+      @hide-change-avatar-modal="hideChangeAvatarModal"
+    />
     <!-- Modal window to delete the user -->
-    <modal-window type="deleteUser" :modalId="deleteUserModalWindowId" />
+    <modal-window
+      type="deleteUser"
+      :modalId="deleteUserModalWindowId"
+      @hide-delete-user-modal="hideDeleteUserModal"
+    />
   </main-container>
 </template>
 
@@ -174,9 +182,17 @@ const showChangeAvatarModal = () => {
   changeAvatarModalWindow.value.show()
 }
 
+const hideChangeAvatarModal = () => {
+  changeAvatarModalWindow.value.hide()
+}
+
 // Show modal to delete the user
 const showDeleteUserModal = () => {
   deleteUserModalWindow.value.show()
+}
+
+const hideDeleteUserModal = () => {
+  deleteUserModalWindow.value.hide()
 }
 </script>
 

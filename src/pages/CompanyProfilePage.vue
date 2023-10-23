@@ -25,7 +25,7 @@
               aria-label="Sizing example input"
               :aria-describedby="key"
               v-model="companyInfo[key]"
-              :disabled="!isAbleToEditCompany || key === 'SEO'"
+              :disabled="!isAbleToEditCompany || key === 'seo'"
             />
           </div>
           <div v-if="isAbleToEditCompany" class="input-group mb-3">
@@ -59,7 +59,11 @@
       </div>
     </div>
     <!-- Modal window -->
-    <modal-window type="deleteCompany" :modalId="deleteCompanyModalId" />
+    <modal-window
+      type="deleteCompany"
+      :modalId="deleteCompanyModalId"
+      @hide-delete-company-modal="hideDeleteCompanyModal"
+    />
   </main-container>
 </template>
 
@@ -93,7 +97,7 @@ const companyInfoKeys = computed(() => {
 const loggedUser = computed(() => store.getters['auth/getUser'])
 
 const isAbleToEditCompany = computed(() => {
-  return companyInfo.value.SEO === loggedUser.value.username
+  return companyInfo.value.seo === loggedUser.value.username
 })
 
 onMounted(async () => {
@@ -110,12 +114,12 @@ onMounted(async () => {
     const { name, description, owner, visibility } = company.data
 
     // Get company SEO by owner_id
-    const SEO = await api.get(`${import.meta.env.VITE_API_URL}/users/${owner}/`, config)
+    const seo = await api.get(`${import.meta.env.VITE_API_URL}/users/${owner}/`, config)
 
     companyInfo.value = {
       name,
       description,
-      SEO: SEO.data.username
+      seo: seo.data.username
     }
 
     visibilityField.value = visibility
@@ -138,5 +142,9 @@ const updateCompany = async () => {
 
 const showDeleteCompanyModal = () => {
   deleteCompanyModal.value.show()
+}
+
+const hideDeleteCompanyModal = () => {
+  deleteCompanyModal.value.hide()
 }
 </script>

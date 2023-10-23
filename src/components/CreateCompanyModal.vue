@@ -12,12 +12,7 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.create_company_modal.create_company_button') }}
           </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
         </div>
         <div class="modal-body">
           <div class="mb-3">
@@ -62,7 +57,12 @@
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
             {{ $t('components.modal_window.close_button') }}
           </button>
-          <button @click.prevent="createCompany" type="button" class="btn btn-success">
+          <button
+            @click.prevent="createCompany"
+            type="button"
+            class="btn btn-success"
+            data-bs-dismiss="modal"
+          >
             {{ $t('components.create_company_modal.create_company_button') }}
           </button>
         </div>
@@ -74,10 +74,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import api from '../api'
+
+const emit = defineEmits(['addNewCompany'])
 
 const store = useStore()
-const router = useRouter()
 
 // Company creation info
 const companyInfo = ref({
@@ -88,8 +89,17 @@ const companyInfo = ref({
 
 const createCompany = async () => {
   const body = { ...companyInfo.value }
+  const config = store.state.auth.authConfig
 
-  await store.dispatch('companies/createCompany', body)
-  router.go() // Reload page
+  try {
+    const { data } = await api.post(`${import.meta.env.VITE_API_URL}/companies/`, body, config)
+
+    // Push a new company in companies array
+    emit('addNewCompany', data)
+    // Clear the form fields
+    companyInfo.value = { name: '', description: '', visibility: 'visible' }
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
 }
 </script>

@@ -10,7 +10,7 @@
             {{ $t('components.create_company_modal.create_company_button') }}
           </button>
         </div>
-        <create-company-modal />
+        <create-company-modal @addNewCompany="addNewCompany" />
         <h3 v-if="!companies" class="text-center">
           {{ $t('pages.companies_list_page.error_message') }}
         </h3>
@@ -64,5 +64,9 @@ onMounted(async () => {
 
 const showCreateCompanyModal = () => {
   createCompanyModal.value.show()
+}
+
+const addNewCompany = (newCompany) => {
+  companies.value.push(newCompany)
 }
 </script>

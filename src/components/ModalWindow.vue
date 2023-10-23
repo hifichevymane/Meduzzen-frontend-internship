@@ -74,14 +74,18 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   type: String, // Type of modal
   modalId: String
 })
 
+const emit = defineEmits(['hideDeleteCompanyModal', 'hideDeleteUserModal', 'hideChangeAvatarModal'])
+
 // Vuex store
 const store = useStore()
+const router = useRouter()
 
 const fileField = ref()
 
@@ -96,21 +100,23 @@ const changeProfilePic = async () => {
 
   // Set profile pic
   await store.dispatch('users/setProfilePic', formData)
-
-  location.reload()
+  emit('hideChangeAvatarModal')
+  router.go() // Reload the page
 }
 
 // Delete user func
 const deleteTheUser = async () => {
   await store.dispatch('users/deleteTheUser')
-
   localStorage.removeItem('access')
-  window.location.href = '/'
+
+  emit('hideDeleteUserModal')
+  router.push('/') // Redirect to home page
 }
 
 const deleteCompany = async () => {
   await store.dispatch('companies/deleteCompany')
-  window.location.href = '/companies' // Redirect to'companies' page
+  emit('hideDeleteCompanyModal')
+  router.push('/companies') // Redirect to'companies' page
 }
 </script>
 

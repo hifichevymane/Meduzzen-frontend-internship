@@ -20,17 +20,21 @@ export default {
 
     const companyId = ctx.getters.getCurrentCompany.id;
 
-    await api
-      .delete(`${import.meta.env.VITE_API_URL}/companies/${companyId}/`, config)
-      .then(() => ctx.commit('companies/setCurrentCompany', {}))
-      .catch(err => ctx.commit('users/setErrorMessage', err.message, { root: true }));
+    try {
+      await api.delete(`${import.meta.env.VITE_API_URL}/companies/${companyId}/`, config);
+      ctx.commit('companies/setCurrentCompany', {});
+    } catch (err) {
+      ctx.commit('users/setErrorMessage', err.message, { root: true });
+    }
   },
 
   async createCompany(ctx, body) {
     const config = ctx.rootState.auth.authConfig
 
-    api
-      .post(`${import.meta.env.VITE_API_URL}/companies/`, body, config)
-      .catch(err => ctx.commit('users/setErrorMessage', err.message, { root: true }));
+    try {
+      api.post(`${import.meta.env.VITE_API_URL}/companies/`, body, config);
+    } catch (err) {
+      ctx.commit('users/setErrorMessage', err.message, { root: true });
+    }
   }
 };

@@ -39,7 +39,7 @@
       "last_name": "Last name",
       "email": "Email",
       "name": "Company name",
-      "SEO": "SEO",
+      "seo": "SEO",
       "description": "Company description",
       "visibility": "Visibility",
       "save": "Save changes",
