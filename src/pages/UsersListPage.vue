@@ -6,8 +6,8 @@
     <div class="container-fluid">
       <div class="row d-flex justify-content-center px-5">
         <!-- All the users -->
-        <h3 v-if="!users" class="text-center">
-          {{ $t('pages.users_list_page.error_message') }}
+        <h3 v-if="!isUsersListLoaded" class="text-center">
+          {{ errorMessage }}
         </h3>
         <user-card v-else v-for="user in users" :key="user.id" :user="user" />
       </div>
@@ -19,7 +19,7 @@
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
 import UserCard from '../components/UserCard.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import api from '../api'
 
@@ -28,6 +28,11 @@ const store = useStore()
 
 // Users list
 const users = ref([])
+const isUsersListLoaded = ref(true)
+
+const errorMessage = computed(() => {
+  return store.getters['users/getErrorMessage']
+})
 
 onMounted(async () => {
   // Authorization
@@ -43,7 +48,7 @@ onMounted(async () => {
     // Save users list in Vuex
     store.commit('users/setUsersList', users.value)
   } catch (err) {
-    users.value = null
+    isUsersListLoaded.value = false
     store.commit('users/setErrorMessage', err.message)
   }
 })

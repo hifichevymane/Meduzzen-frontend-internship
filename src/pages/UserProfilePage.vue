@@ -7,48 +7,50 @@
     <div class="container-fluid d-flex justify-content-center">
       <div class="row border border-2 rounded border-primary w-75 p-5">
         <div class="col-lg-6">
-          <div v-for="key in userInfoKeys" :key="key" class="input-group mb-3">
-            <span class="input-group-text" :id="key"
-              >{{ $t(`components.profile_item.${key}`) }}:</span
-            >
-            <input
-              :type="key === 'email' ? 'email' : key === 'password' ? 'password' : 'text'"
-              class="form-control"
-              aria-label="Sizing example input"
-              :aria-describedby="key"
-              v-model="userInfo[key]"
-              :disabled="!isAbleToEdit"
-            />
-          </div>
-          <div v-if="isAbleToEdit" class="input-group mb-3">
-            <span class="input-group-text" id="old-password"
-              >{{ $t('components.profile_item.old_password') }}:</span
-            >
-            <input
-              type="password"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="old-password"
-              v-model="oldPasswordField"
-              :disabled="!isAbleToEdit"
-            />
-          </div>
-          <div v-if="isAbleToEdit" class="input-group mb-3">
-            <span class="input-group-text" id="new-password"
-              >{{ $t('components.profile_item.new_password') }}:</span
-            >
-            <input
-              type="password"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="new-password"
-              v-model="newPasswordField"
-              :disabled="!isAbleToEdit"
-            />
-          </div>
-          <button v-if="isAbleToEdit" @click="updateUserData" class="btn btn-success">
-            {{ $t('components.profile_item.save') }}
-          </button>
+          <form method="post" @submit.prevent="onSubmitUpdateUserData">
+            <div v-for="key in userInfoKeys" :key="key" class="input-group mb-3">
+              <span class="input-group-text" :id="key"
+                >{{ $t(`components.profile_item.${key}`) }}:</span
+              >
+              <input
+                :type="key === 'email' ? 'email' : key === 'password' ? 'password' : 'text'"
+                class="form-control"
+                aria-label="Sizing example input"
+                :aria-describedby="key"
+                v-model="userInfo[key]"
+                :disabled="!isAbleToEdit"
+              />
+            </div>
+            <div v-if="isAbleToEdit" class="input-group mb-3">
+              <span class="input-group-text" id="old-password"
+                >{{ $t('components.profile_item.old_password') }}:</span
+              >
+              <input
+                type="password"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="old-password"
+                v-model="oldPasswordField"
+                :disabled="!isAbleToEdit"
+              />
+            </div>
+            <div v-if="isAbleToEdit" class="input-group mb-3">
+              <span class="input-group-text" id="new-password"
+                >{{ $t('components.profile_item.new_password') }}:</span
+              >
+              <input
+                type="password"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="new-password"
+                v-model="newPasswordField"
+                :disabled="!isAbleToEdit"
+              />
+            </div>
+            <button v-if="isAbleToEdit" type="submit" class="btn btn-success">
+              {{ $t('components.profile_item.save') }}
+            </button>
+          </form>
         </div>
         <div class="col-lg-6 col-md-12 m-auto text-center">
           <img :src="profilePic" class="w-50" alt="profile-pic" />
@@ -152,7 +154,7 @@ onBeforeUnmount(() => {
 })
 
 // Update user func
-const updateUserData = async () => {
+const onSubmitUpdateUserData = async () => {
   // Destructurize the userInfo object
   const { username, first_name, last_name, email } = userInfo.value
 

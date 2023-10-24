@@ -11,9 +11,7 @@
           </button>
         </div>
         <create-company-modal @addNewCompany="addNewCompany" />
-        <h3 v-if="!companies" class="text-center">
-          {{ $t('pages.companies_list_page.error_message') }}
-        </h3>
+        <h3 class="text-center" v-if="!isCompanyListLoaded">{{ errorMessage }}</h3>
         <company-card
           v-else
           v-for="company in companies"
@@ -34,7 +32,7 @@ import NavbarItem from '../components/NavbarItem.vue'
 import CreateCompanyModal from '../components/CreateCompanyModal.vue'
 import { Modal } from 'bootstrap'
 
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
 import api from '../api'
@@ -42,8 +40,13 @@ import api from '../api'
 const store = useStore()
 
 // Companies list
-const companies = ref([])
+const companies = ref(null)
 const createCompanyModal = ref(null)
+const isCompanyListLoaded = ref(true)
+
+const errorMessage = computed(() => {
+  return store.getters['users/getErrorMessage']
+})
 
 onMounted(async () => {
   createCompanyModal.value = new Modal(document.getElementById('createCompanyModal'))
@@ -57,7 +60,7 @@ onMounted(async () => {
     companies.value = data.results
     store.commit('companies/setCompaniesList', data.results)
   } catch (err) {
-    companies.value = null
+    isCompanyListLoaded.value = false
     store.commit('users/setErrorMessage', err.message)
   }
 })

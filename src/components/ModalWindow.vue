@@ -90,7 +90,7 @@ const router = useRouter()
 const fileField = ref()
 
 const isChangeAvatarAction = computed(() => props.type === 'changeAvatar')
-const isDeleteCompanyAction = computed(() => props.type == 'deleteCompany')
+const isDeleteCompanyAction = computed(() => props.type === 'deleteCompany')
 
 // Change profile pic func
 const changeProfilePic = async () => {
