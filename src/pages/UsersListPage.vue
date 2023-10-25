@@ -6,15 +6,10 @@
     <div class="container-fluid">
       <div class="row d-flex justify-content-center px-5">
         <!-- All the users -->
-        <user-card
-          v-for="user in users"
-          :key="user.id"
-          :username="user.username"
-          :firstName="user.first_name"
-          :lastName="user.last_name"
-          :email="user.email"
-          :url="user.id"
-        />
+        <h3 v-if="!isUsersListLoaded" class="text-center">
+          {{ errorMessage }}
+        </h3>
+        <user-card v-else v-for="user in users" :key="user.id" :user="user" />
       </div>
     </div>
   </main-container>
@@ -24,7 +19,7 @@
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
 import UserCard from '../components/UserCard.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import api from '../api'
 
@@ -33,12 +28,15 @@ const store = useStore()
 
 // Users list
 const users = ref([])
+const isUsersListLoaded = ref(true)
+
+const errorMessage = computed(() => {
+  return store.getters['users/getErrorMessage']
+})
 
 onMounted(async () => {
   // Authorization
   const config = store.state.auth.authConfig
-
-  const errorText = 'There was an error trying to load users. Try again'
 
   // GET request to get users
   try {
@@ -50,7 +48,8 @@ onMounted(async () => {
     // Save users list in Vuex
     store.commit('users/setUsersList', users.value)
   } catch (err) {
-    store.commit('users/setErrorMessage', errorText)
+    isUsersListLoaded.value = false
+    store.commit('users/setErrorMessage', err.message)
   }
 })
 </script>

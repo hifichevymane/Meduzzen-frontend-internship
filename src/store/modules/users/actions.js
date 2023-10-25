@@ -31,9 +31,11 @@ export default {
     const userId = ctx.getters.getCurrentUser.id;
 
     // PATCH request to change image
-    await api
-      .patch(`${import.meta.env.VITE_API_URL}/users/${userId}/`, formData, config)
-      .catch((err) => ctx.commit('setErrorMessage', err.message));
+    try {
+      await api.patch(`${import.meta.env.VITE_API_URL}/users/${userId}/`, formData, config);
+    } catch (err) {
+      ctx.commit('setErrorMessage', err.message);
+    }
   },
 
   async setNewPassword(ctx, data) {
@@ -41,9 +43,11 @@ export default {
     const config = ctx.rootState.auth.authConfig;
 
     // POST request
-    await api
-      .post(`${import.meta.env.VITE_API_URL}/auth/users/set_password/`, data, config)
-      .catch((err) => ctx.commit('setErrorMessage', err.message));
+    try {
+      await api.post(`${import.meta.env.VITE_API_URL}/auth/users/set_password/`, data, config);
+    } catch (err) {
+      ctx.commit('setErrorMessage', err.message);
+    }
   },
 
   async deleteTheUser(ctx) {
@@ -54,9 +58,11 @@ export default {
     const userId = ctx.getters.getCurrentUser.id;
 
     // DELETE request
-    await api
-      .delete(`${import.meta.env.VITE_API_URL}/users/${userId}/`, config)
-      .catch((err) => ctx.commit('setErrorMessage', err.message));
+    try {
+      await api.delete(`${import.meta.env.VITE_API_URL}/users/${userId}/`, config)
+    } catch (err) {
+      ctx.commit('setErrorMessage', err.message)
+    }
 
     ctx.commit('auth/setIsAuthenticated', false, { root: true });
   }

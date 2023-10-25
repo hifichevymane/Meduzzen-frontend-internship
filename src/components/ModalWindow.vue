@@ -13,6 +13,9 @@
           <h1 v-if="isChangeAvatarAction" class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.modal_window.change_avatar_heading') }}
           </h1>
+          <h1 v-else-if="isDeleteCompanyAction" class="modal-title fs-5" id="exampleModalLabel">
+            {{ $t('components.modal_window.delete_company_heading') }}
+          </h1>
           <h1 v-else class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.modal_window.delete_user_heading') }}
           </h1>
@@ -32,7 +35,7 @@
           />
         </div>
         <div v-else class="modal-body">
-          {{ $t('components.modal_window.delete_user_body') }}
+          {{ $t('components.modal_window.delete_body') }}
         </div>
         <div class="modal-footer">
           <button
@@ -51,8 +54,16 @@
           >
             {{ $t('components.modal_window.save_button') }}
           </button>
+          <button
+            v-else-if="isDeleteCompanyAction"
+            @click="deleteCompany"
+            type="button"
+            class="btn btn-danger"
+          >
+            {{ $t('components.modal_window.delete_company_button') }}
+          </button>
           <button v-else @click="deleteTheUser" type="button" class="btn btn-danger">
-            {{ $t('components.modal_window.delete_button') }}
+            {{ $t('components.modal_window.delete_user_button') }}
           </button>
         </div>
       </div>
@@ -63,18 +74,23 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   type: String, // Type of modal
   modalId: String
 })
 
+const emit = defineEmits(['hideDeleteCompanyModal', 'hideDeleteUserModal', 'hideChangeAvatarModal'])
+
 // Vuex store
 const store = useStore()
+const router = useRouter()
 
 const fileField = ref()
 
 const isChangeAvatarAction = computed(() => props.type === 'changeAvatar')
+const isDeleteCompanyAction = computed(() => props.type === 'deleteCompany')
 
 // Change profile pic func
 const changeProfilePic = async () => {
@@ -84,16 +100,23 @@ const changeProfilePic = async () => {
 
   // Set profile pic
   await store.dispatch('users/setProfilePic', formData)
-
-  location.reload()
+  emit('hideChangeAvatarModal')
+  router.go() // Reload the page
 }
 
 // Delete user func
 const deleteTheUser = async () => {
   await store.dispatch('users/deleteTheUser')
-
   localStorage.removeItem('access')
-  window.location.href = '/'
+
+  emit('hideDeleteUserModal')
+  router.push('/') // Redirect to home page
+}
+
+const deleteCompany = async () => {
+  await store.dispatch('companies/deleteCompany')
+  emit('hideDeleteCompanyModal')
+  router.push('/companies') // Redirect to'companies' page
 }
 </script>
 
