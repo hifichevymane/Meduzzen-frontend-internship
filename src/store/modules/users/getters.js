@@ -10,5 +10,13 @@ export default {
 
   getErrorMessage(state) {
     return state.errorMessage
+  },
+
+  getCompanyUserWorksIn(state) {
+    return state.companyUserWorksIn
+  },
+
+  getMyRequestsToCompanies(state) {
+    return state.myRequestsToCompanies
   }
 }

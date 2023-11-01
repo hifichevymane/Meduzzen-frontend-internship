@@ -9,7 +9,7 @@ export default {
     try {
       const { data } = await api
         .patch(`${import.meta.env.VITE_API_URL}/companies/${companyId}/`, requestData, config);
-      ctx.commit('companies/setCurrentCompany', data);
+      ctx.commit('setCurrentCompany', data);
     } catch (err) {
       ctx.commit('users/setErrorMessage', err.message, { root: true });
     }
@@ -22,7 +22,7 @@ export default {
 
     try {
       await api.delete(`${import.meta.env.VITE_API_URL}/companies/${companyId}/`, config);
-      ctx.commit('companies/setCurrentCompany', {});
+      ctx.commit('setCurrentCompany', {});
     } catch (err) {
       ctx.commit('users/setErrorMessage', err.message, { root: true });
     }
@@ -36,5 +36,15 @@ export default {
     } catch (err) {
       ctx.commit('users/setErrorMessage', err.message, { root: true });
     }
-  }
+  },
+
+  async sendInviteToUser(ctx, body) {
+    const config = ctx.rootState.auth.authConfig;
+
+    try {
+      await api.post(`${import.meta.env.VITE_API_URL}/company_invites/`, body, config);
+    } catch (err) {
+      ctx.commit('users/setErrorMessage', err.message, { root: true });
+    }
+  },
 };

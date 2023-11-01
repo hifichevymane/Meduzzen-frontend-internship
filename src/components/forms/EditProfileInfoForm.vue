@@ -1,0 +1,157 @@
+<template>
+  <form method="post" @submit.prevent="onSubmitUpdateUserData">
+    <div v-for="key in userInfoKeys" :key="key" class="input-group mb-3">
+      <span class="input-group-text" :id="key">{{ $t(`components.profile_item.${key}`) }}:</span>
+      <input
+        :type="key === 'email' ? 'email' : key === 'password' ? 'password' : 'text'"
+        class="form-control"
+        aria-label="Sizing example input"
+        :aria-describedby="key"
+        v-model="userInfo[key]"
+        :disabled="!isAbleToEdit"
+      />
+    </div>
+    <div v-if="isAbleToEdit" class="input-group mb-3">
+      <span class="input-group-text" id="old-password"
+        >{{ $t('components.profile_item.old_password') }}:</span
+      >
+      <input
+        type="password"
+        class="form-control"
+        aria-label="Sizing example input"
+        aria-describedby="old-password"
+        v-model="oldPasswordField"
+        :disabled="!isAbleToEdit"
+      />
+    </div>
+    <div v-if="isAbleToEdit" class="input-group mb-3">
+      <span class="input-group-text" id="new-password"
+        >{{ $t('components.profile_item.new_password') }}:</span
+      >
+      <input
+        type="password"
+        class="form-control"
+        aria-label="Sizing example input"
+        aria-describedby="new-password"
+        v-model="newPasswordField"
+        :disabled="!isAbleToEdit"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">{{ $t('components.auth_form.fields.works_in') }}:</span>
+      <input class="form-control" type="text" :value="companyUserWorksIn" disabled />
+    </div>
+    <div v-if="isAbleToEdit" class="d-flex gap-3">
+      <button type="submit" class="btn btn-success">
+        {{ $t('components.profile_item.save') }}
+      </button>
+      <button v-if="isEmployed" @click="showConfirmLeaveCompanyModal" class="btn btn-danger">
+        {{ $t('components.auth_form.button.leave_company') }}
+      </button>
+    </div>
+  </form>
+  <confirm-action-modal
+    :modal-id="confirmLeaveCompanyModalId"
+    @on-confirm-action="onConfirmLeaveCompanyAction"
+  />
+</template>
+
+<script setup>
+import ConfirmActionModal from '../modals/ConfirmActionModal.vue'
+
+import api from '../../api'
+import { computed, ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { Modal } from 'bootstrap'
+
+const props = defineProps({
+  profileInfo: Object
+})
+
+const emit = defineEmits(['onChangeCompanyUserWorksIn', 'onChangeIsEmployed'])
+
+const store = useStore()
+
+const oldPasswordField = ref(null)
+const newPasswordField = ref(null)
+
+// Modal windows
+const confirmLeaveCompanyModal = ref(null)
+const confirmLeaveCompanyModalId = 'leaveCompanyModal'
+
+const currentUserInfo = computed(() => store.getters['users/getCurrentUser'])
+
+const config = computed(() => store.getters['auth/getAuthConfig'])
+
+// Get props
+const isEmployed = computed(() => props.profileInfo.isEmployed)
+const companyUserWorksIn = computed(() => props.profileInfo.companyUserWorksIn)
+const userInfo = computed(() => props.profileInfo.userInfo)
+const userInfoKeys = computed(() => props.profileInfo.userInfoKeys)
+const isAbleToEdit = computed(() => props.profileInfo.isAbleToEdit)
+
+// Update user func
+const onSubmitUpdateUserData = async () => {
+  // Destructurize the userInfo object
+  const { username, first_name, last_name, email } = userInfo.value
+
+  // Request body
+  const body = {
+    username,
+    first_name,
+    last_name,
+    email
+  }
+
+  await store.dispatch('users/updateUser', body)
+
+  if (newPasswordField.value) {
+    // All request data
+    const body = {
+      current_password: oldPasswordField.value,
+      new_password: newPasswordField.value
+    }
+
+    await store.dispatch('users/setNewPassword', body)
+  }
+}
+
+const showConfirmLeaveCompanyModal = () => {
+  confirmLeaveCompanyModal.value.show()
+}
+
+const onConfirmLeaveCompanyAction = async () => {
+  try {
+    const { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/users/${currentUserInfo.value.id}/current_company/`,
+      config.value
+    )
+
+    // Delete user from company members table
+    await api.delete(`${import.meta.env.VITE_API_URL}/company_members/${data.id}/`, config.value)
+
+    emit('onChangeIsEmployed', false)
+    emit('onChangeCompanyUserWorksIn', 'Unemloyed')
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
+}
+
+onMounted(async () => {
+  confirmLeaveCompanyModal.value = new Modal(document.getElementById(confirmLeaveCompanyModalId))
+
+  try {
+    // Get users current company
+    const { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/users/${currentUserInfo.value.id}/current_company/`,
+      config.value
+    )
+
+    emit('onChangeCompanyUserWorksIn', data.company.name)
+    emit('onChangeIsEmployed', true)
+  } catch (err) {
+    emit('onChangeIsEmployed', false) // If there is not found error
+    store.commit('users/setErrorMessage', err.message)
+  }
+})
+</script>

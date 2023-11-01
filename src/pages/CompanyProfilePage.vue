@@ -3,7 +3,7 @@
 
   <main-container>
     <h1 class="text-center mb-4">{{ $t('pages.company_profile_page.heading') }}</h1>
-    <div class="container-fluid d-flex justify-content-center">
+    <div class="container-fluid d-flex flex-column align-items-center">
       <div class="row border border-2 rounded border-primary w-50 p-5">
         <div class="col-lg-12">
           <!-- Company info -->
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center">
                   <button @click="showDeleteCompanyModal" class="btn btn-danger">
-                    Delete the company
+                    {{ $t('pages.company_profile_page.buttons.delete_company') }}
                   </button>
                 </div>
               </div>
@@ -59,6 +59,9 @@
           </form>
         </div>
       </div>
+      <company-members-table :is-able-to-edit-company="isAbleToEditCompany" />
+      <company-invites-table v-if="isAbleToEditCompany" />
+      <users-requests-table v-if="isAbleToEditCompany" />
     </div>
     <!-- Modal window -->
     <modal-window
@@ -72,7 +75,10 @@
 <script setup>
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
-import ModalWindow from '../components/ModalWindow.vue'
+import ModalWindow from '../components/modals/ModalWindow.vue'
+import CompanyInvitesTable from '../components/tables/CompanyInvitesTable.vue'
+import UsersRequestsTable from '../components/tables/UsersRequestsTable.vue'
+import CompanyMembersTable from '../components/tables/CompanyMembersTable.vue'
 import { Modal } from 'bootstrap'
 
 import { onMounted, ref, computed } from 'vue'
@@ -110,23 +116,23 @@ onMounted(async () => {
 
   // Get current company
   try {
-    const company = await api.get(`${import.meta.env.VITE_API_URL}/companies/${companyId}/`, config)
+    const { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/companies/${companyId}/`,
+      config
+    )
 
     // Set current company data
-    const { name, description, owner, visibility } = company.data
-
-    // Get company SEO by owner_id
-    const seo = await api.get(`${import.meta.env.VITE_API_URL}/users/${owner}/`, config)
+    const { name, description, owner, visibility } = data
 
     companyInfo.value = {
       name,
       description,
-      seo: seo.data.username
+      seo: owner.username
     }
 
     visibilityField.value = visibility
 
-    store.commit('companies/setCurrentCompany', company.data)
+    store.commit('companies/setCurrentCompany', data)
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }
