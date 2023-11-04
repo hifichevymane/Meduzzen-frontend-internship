@@ -12,24 +12,14 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.confirm_modal.heading') }}
           </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">{{ $t('components.confirm_modal.body') }}</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
             {{ $t('components.confirm_modal.buttons.close') }}
           </button>
-          <button
-            type="button"
-            @click="onConfirmAction"
-            class="btn btn-success"
-            data-bs-dismiss="modal"
-          >
+          <button @click="onConfirmAction" class="btn btn-success" data-bs-dismiss="modal">
             {{ $t('components.confirm_modal.buttons.save') }}
           </button>
         </div>

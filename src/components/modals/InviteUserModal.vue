@@ -12,12 +12,7 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.invite_user_modal.heading') }}
           </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form @submit.prevent="sendInviteToUser" method="post">
@@ -39,7 +34,7 @@
               </select>
             </div>
             <div class="mb-3 d-flex justify-content-end gap-2">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+              <button class="btn btn-danger" data-bs-dismiss="modal">
                 {{ $t('components.modal_window.close_button') }}
               </button>
               <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
