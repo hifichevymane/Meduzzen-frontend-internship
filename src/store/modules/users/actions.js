@@ -65,5 +65,38 @@ export default {
     }
 
     ctx.commit('auth/setIsAuthenticated', false, { root: true });
-  }
+  },
+
+  // Accept or decline join request to company
+  async acceptDeclineJoinRequest(ctx, { body, requestId }) {
+    const config = ctx.rootState.auth.authConfig;
+
+    try {
+      await api.patch(
+        `${import.meta.env.VITE_API_URL}/company_invites/${requestId}/`,
+        body,
+        config
+      );
+    } catch (err) {
+      ctx.commit('setErrorMessage', err.message)
+    }
+  },
+
+  async cancelUserRequest(ctx, requestId) {
+    const config = ctx.rootState.auth.authConfig;
+
+    const body = {
+      status: 'canceled'
+    };
+
+    try {
+      await api.patch(
+        `${import.meta.env.VITE_API_URL}/users_requests/${requestId}/`,
+        body,
+        config
+      );
+    } catch (err) {
+      ctx.commit('setErrorMessage', err.message)
+    }
+  },
 }

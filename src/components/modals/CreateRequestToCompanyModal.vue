@@ -12,12 +12,7 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.create_request_modal.heading') }}
           </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form @submit.prevent="onSubmitSendNewRequestToCompany" method="post">
@@ -30,7 +25,7 @@
               </option>
             </select>
             <div class="d-flex justify-content-end gap-2">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+              <button class="btn btn-danger" data-bs-dismiss="modal">
                 {{ $t('components.modal_window.close_button') }}
               </button>
               <button type="submit" class="btn btn-success" data-bs-dismiss="modal">

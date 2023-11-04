@@ -15,8 +15,4 @@ export default {
   setCompanyUserWorksIn(state, data) {
     state.companyUserWorksIn = { ...data };
   },
-
-  setMyRequestsToCompanies(state, data) {
-    state.myRequestsToCompanies = [...data];
-  }
 }

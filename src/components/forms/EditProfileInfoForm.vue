@@ -3,7 +3,7 @@
     <div v-for="key in userInfoKeys" :key="key" class="input-group mb-3">
       <span class="input-group-text" :id="key">{{ $t(`components.profile_item.${key}`) }}:</span>
       <input
-        :type="key === 'email' ? 'email' : key === 'password' ? 'password' : 'text'"
+        :type="getInputType(key)"
         class="form-control"
         aria-label="Sizing example input"
         :aria-describedby="key"
@@ -11,31 +11,31 @@
         :disabled="!isAbleToEdit"
       />
     </div>
-    <div v-if="isAbleToEdit" class="input-group mb-3">
-      <span class="input-group-text" id="old-password"
-        >{{ $t('components.profile_item.old_password') }}:</span
-      >
-      <input
-        type="password"
-        class="form-control"
-        aria-label="Sizing example input"
-        aria-describedby="old-password"
-        v-model="oldPasswordField"
-        :disabled="!isAbleToEdit"
-      />
-    </div>
-    <div v-if="isAbleToEdit" class="input-group mb-3">
-      <span class="input-group-text" id="new-password"
-        >{{ $t('components.profile_item.new_password') }}:</span
-      >
-      <input
-        type="password"
-        class="form-control"
-        aria-label="Sizing example input"
-        aria-describedby="new-password"
-        v-model="newPasswordField"
-        :disabled="!isAbleToEdit"
-      />
+    <div v-if="isAbleToEdit">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="old-password"
+          >{{ $t('components.profile_item.old_password') }}:</span
+        >
+        <input
+          type="password"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="old-password"
+          v-model="oldPasswordField"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="new-password"
+          >{{ $t('components.profile_item.new_password') }}:</span
+        >
+        <input
+          type="password"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="new-password"
+          v-model="newPasswordField"
+        />
+      </div>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text">{{ $t('components.auth_form.fields.works_in') }}:</span>
@@ -89,6 +89,16 @@ const companyUserWorksIn = computed(() => props.profileInfo.companyUserWorksIn)
 const userInfo = computed(() => props.profileInfo.userInfo)
 const userInfoKeys = computed(() => props.profileInfo.userInfoKeys)
 const isAbleToEdit = computed(() => props.profileInfo.isAbleToEdit)
+
+const getInputType = (key) => {
+  if (key === 'email') {
+    return 'email'
+  } else if (key === 'password') {
+    return 'password'
+  } else {
+    return 'text'
+  }
+}
 
 // Update user func
 const onSubmitUpdateUserData = async () => {

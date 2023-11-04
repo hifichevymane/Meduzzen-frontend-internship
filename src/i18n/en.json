@@ -1,7 +1,7 @@
 {
   "components": {
     "tables": {
-      "my_join_requests_table": {
+      "my_join_requests": {
         "heading": "My join requests from companies"
       },
 
@@ -37,7 +37,8 @@
         "reject": "Reject",
         "revoke": "Revoke",
         "exclude": "Exclude",
-        "assign_role": "Assign a role"
+        "assign_role": "Assign a role",
+        "cancel": "Cancel"
       },
 
       "cols": {

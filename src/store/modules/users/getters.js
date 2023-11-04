@@ -1,22 +1,18 @@
 // Users getters
 export default {
   getUsersList(state) {
-    return state.usersList
+    return state.usersList;
   },
 
   getCurrentUser(state) {
-    return state.currentUser
+    return state.currentUser;
   },
 
   getErrorMessage(state) {
-    return state.errorMessage
+    return state.errorMessage;
   },
 
   getCompanyUserWorksIn(state) {
-    return state.companyUserWorksIn
-  },
-
-  getMyRequestsToCompanies(state) {
-    return state.myRequestsToCompanies
+    return state.companyUserWorksIn;
   }
 }

@@ -5,6 +5,5 @@ export default function state() {
     currentUser: {},
     errorMessage: null,
     companyUserWorksIn: {},
-    myRequestsToCompanies: [],
   }
 }

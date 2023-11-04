@@ -27,12 +27,17 @@
           </div>
         </div>
       </div>
-      <my-join-requests-table
+      <table-item
         v-if="isAbleToEdit"
-        @on-change-company-user-works-in="onChangeCompanyUserWorksIn"
-        @on-change-is-employed="onChangeIsEmployed"
+        :cols="myRequestsToCompaniesTableCols"
+        table-type="my_join_requests"
+        @on-accept-join-request="onAcceptJoinRequest"
       />
-      <my-requests-to-companies-table v-if="isAbleToEdit" />
+      <table-item
+        v-if="isAbleToEdit"
+        :cols="myRequestsToCompaniesTableCols"
+        table-type="my_requests_to_companies"
+      />
     </div>
     <!-- Modal window to change profile avatar -->
     <modal-window
@@ -53,9 +58,8 @@
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
 import ModalWindow from '../components/modals/ModalWindow.vue'
-import MyJoinRequestsTable from '../components/tables/MyJoinRequestsTable.vue'
-import MyRequestsToCompaniesTable from '../components/tables/MyRequestsToCompaniesTable.vue'
 import EditProfileInfoForm from '../components/forms/EditProfileInfoForm.vue'
+import TableItem from '../components/tables/TableItem.vue'
 import { Modal } from 'bootstrap'
 
 import api from '../api'
@@ -68,8 +72,11 @@ import { useRoute } from 'vue-router'
 const store = useStore()
 const route = useRoute()
 
+const myRequestsToCompaniesTableCols = ['company', 'status']
+
 // All user's info
 const userInfo = ref({})
+const myRequestsToCompaniesList = ref(null)
 const profilePic = ref(null)
 const companyUserWorksIn = ref('Unemloyed')
 const isEmployed = ref(false)
@@ -103,6 +110,12 @@ const isAbleToEdit = computed(() => {
 const userInfoKeys = computed(() => {
   return Object.keys(userInfo.value)
 })
+
+// Change company user works in
+const onAcceptJoinRequest = (value) => {
+  companyUserWorksIn.value = value
+  isEmployed.value = true
+}
 
 // Show modal to change profile avatar
 const showChangeAvatarModal = () => {
@@ -147,6 +160,13 @@ onMounted(async () => {
     profilePic.value = image_path
 
     store.commit('users/setCurrentUser', data)
+
+    const myRequestsToCompaniesData = await api.get(
+      `${import.meta.env.VITE_API_URL}/users_requests/me`,
+      config.value
+    )
+
+    myRequestsToCompaniesList.value = myRequestsToCompaniesData.data
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }

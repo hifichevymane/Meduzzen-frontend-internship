@@ -25,8 +25,8 @@
             {{ $t('components.confirm_modal.buttons.close') }}
           </button>
           <button
-            @click="onConfirmAction"
             type="button"
+            @click="onConfirmAction"
             class="btn btn-success"
             data-bs-dismiss="modal"
           >
@@ -39,9 +39,12 @@
 </template>
 
 <script setup>
-defineProps(['modalId'])
+import { computed } from 'vue'
 
+const props = defineProps(['modalId'])
 const emit = defineEmits(['onConfirmAction'])
+
+const modalId = computed(() => props.modalId)
 
 const onConfirmAction = () => {
   emit('onConfirmAction')
