@@ -52,7 +52,6 @@ import { useStore } from 'vuex'
 import { Modal } from 'bootstrap'
 
 const props = defineProps(['tableType', 'dataList'])
-const emit = defineEmits(['onAcceptJoinRequest'])
 
 const store = useStore()
 
@@ -96,7 +95,10 @@ const onConfirmAcceptDeclineRequest = async () => {
   })
 
   currentRequest.value.status = body.status
-  if (body.status === 'accepted') emit('onAcceptJoinRequest', currentRequest.value.company.name)
+  if (body.status === 'accepted') {
+    store.commit('users/setCompanyUserWorksIn', currentRequest.value.company.name)
+    store.commit('users/setIsEmployed', true)
+  }
 }
 
 onMounted(async () => {

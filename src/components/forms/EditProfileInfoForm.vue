@@ -68,8 +68,6 @@ const props = defineProps({
   profileInfo: Object
 })
 
-const emit = defineEmits(['onChangeCompanyUserWorksIn', 'onChangeIsEmployed'])
-
 const store = useStore()
 
 const oldPasswordField = ref(null)
@@ -82,10 +80,10 @@ const confirmLeaveCompanyModalId = 'leaveCompanyModal'
 const currentUserInfo = computed(() => store.getters['users/getCurrentUser'])
 
 const config = computed(() => store.getters['auth/getAuthConfig'])
+const isEmployed = computed(() => store.getters['users/getIsEmployed'])
+const companyUserWorksIn = computed(() => store.getters['users/getCompanyUserWorksIn'])
 
 // Get props
-const isEmployed = computed(() => props.profileInfo.isEmployed)
-const companyUserWorksIn = computed(() => props.profileInfo.companyUserWorksIn)
 const userInfo = computed(() => props.profileInfo.userInfo)
 const userInfoKeys = computed(() => props.profileInfo.userInfoKeys)
 const isAbleToEdit = computed(() => props.profileInfo.isAbleToEdit)
@@ -140,8 +138,8 @@ const onConfirmLeaveCompanyAction = async () => {
     // Delete user from company members table
     await api.delete(`${import.meta.env.VITE_API_URL}/company_members/${data.id}/`, config.value)
 
-    emit('onChangeIsEmployed', false)
-    emit('onChangeCompanyUserWorksIn', 'Unemloyed')
+    store.commit('users/setIsEmployed', false)
+    store.commit('users/setCompanyUserWorksIn', 'Unemployed')
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }
@@ -157,10 +155,13 @@ onMounted(async () => {
       config.value
     )
 
-    emit('onChangeCompanyUserWorksIn', data.company.name)
-    emit('onChangeIsEmployed', true)
+    // emit('onChangeCompanyUserWorksIn', data.company.name)
+    // emit('onChangeIsEmployed', true)
+    store.commit('users/setCompanyUserWorksIn', data.company.name)
+    store.commit('users/setIsEmployed', true)
   } catch (err) {
-    emit('onChangeIsEmployed', false) // If there is not found error
+    store.commit('users/setCompanyUserWorksIn', 'Unemployed')
+    store.commit('users/setIsEmployed', false) // If there is not found error
     store.commit('users/setErrorMessage', err.message)
   }
 })

@@ -7,11 +7,7 @@
     <div class="container-fluid d-flex flex-column align-items-center">
       <div class="row border border-2 rounded border-primary w-75 p-5">
         <div class="col-lg-6">
-          <edit-profile-info-form
-            :profile-info="editProfileInfoFormProps"
-            @on-change-company-user-works-in="onChangeCompanyUserWorksIn"
-            @on-change-is-employed="onChangeIsEmployed"
-          />
+          <edit-profile-info-form :profile-info="editProfileInfoFormProps" />
         </div>
         <div class="col-lg-6 col-md-12 m-auto text-center">
           <img :src="profilePic" class="w-50" alt="profile-pic" />
@@ -31,7 +27,6 @@
         v-if="isAbleToEdit"
         :cols="myRequestsToCompaniesTableCols"
         table-type="my_join_requests"
-        @on-accept-join-request="onAcceptJoinRequest"
       />
       <table-item
         v-if="isAbleToEdit"
@@ -76,10 +71,7 @@ const myRequestsToCompaniesTableCols = ['company', 'status']
 
 // All user's info
 const userInfo = ref({})
-const myRequestsToCompaniesList = ref(null)
 const profilePic = ref(null)
-const companyUserWorksIn = ref('Unemloyed')
-const isEmployed = ref(false)
 
 // Modal windows for deleting and changing profile avatar
 const changeAvatarModalWindow = ref(null)
@@ -95,9 +87,7 @@ const editProfileInfoFormProps = computed(() => {
   return {
     userInfo: userInfo.value,
     userInfoKeys: userInfoKeys.value,
-    companyUserWorksIn: companyUserWorksIn.value,
-    isAbleToEdit: isAbleToEdit.value,
-    isEmployed: isEmployed.value
+    isAbleToEdit: isAbleToEdit.value
   }
 })
 
@@ -110,12 +100,6 @@ const isAbleToEdit = computed(() => {
 const userInfoKeys = computed(() => {
   return Object.keys(userInfo.value)
 })
-
-// Change company user works in
-const onAcceptJoinRequest = (value) => {
-  companyUserWorksIn.value = value
-  isEmployed.value = true
-}
 
 // Show modal to change profile avatar
 const showChangeAvatarModal = () => {
@@ -135,14 +119,6 @@ const hideDeleteUserModal = () => {
   deleteUserModalWindow.value.hide()
 }
 
-const onChangeCompanyUserWorksIn = (value) => {
-  companyUserWorksIn.value = value
-}
-
-const onChangeIsEmployed = (value) => {
-  isEmployed.value = value
-}
-
 onMounted(async () => {
   changeAvatarModalWindow.value = new Modal(document.getElementById(changeAvatarModalWindowId))
   deleteUserModalWindow.value = new Modal(document.getElementById(deleteUserModalWindowId))
@@ -160,13 +136,6 @@ onMounted(async () => {
     profilePic.value = image_path
 
     store.commit('users/setCurrentUser', data)
-
-    const myRequestsToCompaniesData = await api.get(
-      `${import.meta.env.VITE_API_URL}/users_requests/me`,
-      config.value
-    )
-
-    myRequestsToCompaniesList.value = myRequestsToCompaniesData.data
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }

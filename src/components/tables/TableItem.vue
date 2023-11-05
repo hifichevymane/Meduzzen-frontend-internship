@@ -20,12 +20,7 @@
           <th></th>
         </tr>
       </thead>
-      <users-tbody
-        v-if="isUserProfileTable"
-        :data-list="dataList"
-        :table-type="tableType"
-        @on-accept-join-request="passAcceptJoinRequest"
-      />
+      <users-tbody v-if="isUserProfileTable" :data-list="dataList" :table-type="tableType" />
       <companies-tbody
         v-else
         :table-type="tableType"
@@ -60,7 +55,6 @@ import { useStore } from 'vuex'
 import { Modal } from 'bootstrap'
 
 const props = defineProps(['tableType', 'cols', 'isAbleToEditCompany'])
-const emit = defineEmits('onAcceptJoinRequest')
 
 const store = useStore()
 const route = useRoute()
@@ -89,11 +83,6 @@ const pushNewInvite = (value) => {
 
 const onExcludeUser = (memberId) => {
   dataList.value = dataList.value.find((member) => member.id != memberId)
-}
-
-// Emit to CompanyProfilePage to change company user works in
-const passAcceptJoinRequest = (value) => {
-  emit('onAcceptJoinRequest', value)
 }
 
 const showSendRequestToCompanyModal = () => {

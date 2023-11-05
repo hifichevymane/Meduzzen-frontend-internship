@@ -12,7 +12,11 @@ export default {
     state.errorMessage = message;
   },
 
-  setCompanyUserWorksIn(state, data) {
-    state.companyUserWorksIn = { ...data };
+  setCompanyUserWorksIn(state, value) {
+    state.companyUserWorksIn = value;
+  },
+
+  setIsEmployed(state, value) {
+    state.isEmployed = value;
   },
 }

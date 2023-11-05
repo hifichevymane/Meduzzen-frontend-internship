@@ -14,5 +14,9 @@ export default {
 
   getCompanyUserWorksIn(state) {
     return state.companyUserWorksIn;
-  }
+  },
+
+  getIsEmployed(state) {
+    return state.isEmployed;
+  },
 }
