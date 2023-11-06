@@ -19,7 +19,7 @@
 
       <td v-if="tableType === 'company_invites'">
         <button
-          v-if="item.status == 'pending'"
+          v-if="item.status === 'pending'"
           @click="showConfirmRevokeRequestModal(item)"
           class="btn btn-danger"
         >
