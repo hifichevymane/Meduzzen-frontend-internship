@@ -4,5 +4,7 @@ export default function state() {
     usersList: [],
     currentUser: {},
     errorMessage: null,
+    companyUserWorksIn: null,
+    isEmployed: null,
   }
 }

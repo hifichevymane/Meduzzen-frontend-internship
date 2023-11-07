@@ -1,5 +1,67 @@
 {
   "components": {
+    "tables": {
+      "my_join_requests": {
+        "heading": "Мої запити від компаній",
+
+        "buttons": {}
+      },
+
+      "my_requests_to_companies": {
+        "heading": "Мої запити до компаній",
+        "buttons": {
+          "send_request": "Відправити запит до компанії"
+        }
+      },
+
+      "company_invites": {
+        "heading": "Запрошення до компанії",
+        "buttons": {
+          "invite_user": "Запросити користувача"
+        }
+      },
+
+      "users_requests": {
+        "heading": "Запити користувачів"
+      },
+
+      "company_members": {
+        "heading": "Члени компанії",
+        "roles": {
+          "member": "Учасник",
+          "admin": "Адмін"
+        }
+      },
+
+      "buttons": {
+        "accept": "Прийняти",
+        "decline": "Відмовитися",
+        "reject": "Відхилити",
+        "revoke": "Відкликати",
+        "exclude": "Виключити з компанії",
+        "assign_role": "Назначити посаду",
+        "cancel": "Скасувати"
+      },
+
+      "cols": {
+        "company": "Компанія",
+        "status": "Статус запита",
+        "first_name": "Ім'я",
+        "last_name": "Прізвище",
+        "username": "Юзернейм",
+        "role": "Посада"
+      },
+
+      "status": {
+        "pending": "Розглядається",
+        "accepted": "Прийнято",
+        "declined": "Відмовлено",
+        "canceled": "Скасовано",
+        "revoked": "Відкликано",
+        "rejected": "Відхилено"
+      }
+    },
+
     "navbar": {
       "links": {
         "home": "Головна",
@@ -25,6 +87,30 @@
       "save_button": "Зберегти",
       "delete_user_button": "Так, я підтверджую видалленя аккаунту",
       "delete_company_button": "Так, я підтверджую видалення компанії"
+    },
+
+    "confirm_modal": {
+      "heading": "Підтвердіть дію",
+      "body": "Ви підтверджуєте здійснення цієї дії?",
+      "buttons": {
+        "save": "Зберегти зміни",
+        "close": "Закрити"
+      }
+    },
+
+    "create_request_modal": {
+      "heading": "Створіть новий запит",
+      "send_request": "Відправити",
+      "select": "Виберіть компанію у переліку"
+    },
+
+    "invite_user_modal": {
+      "heading": "Запросити користувача",
+      "user": "Користувач",
+      "select": "Оберіть користувача",
+      "buttons": {
+        "send_invite": "Відправити запрошення"
+      }
     },
 
     "create_company_modal": {
@@ -64,8 +150,10 @@
       "button": {
         "sign_up": "Зареєструватися",
         "login": "Увійти",
-        "sign_up_google": "Увійти за допомогою Google"
+        "sign_up_google": "Увійти за допомогою Google",
+        "leave_company": "Звільнитись з компанії"
       },
+
       "fields": {
         "First name": "Ім'я",
         "Last name": "Прізвище",
@@ -73,7 +161,8 @@
         "Username": "Юзернейм",
         "Password": "Пароль",
         "Repeat the password": "Повторити пароль",
-        "Remember me": "Запам'ятати мене"
+        "Remember me": "Запам'ятати мене",
+        "works_in": "Місто роботи"
       }
     },
 
@@ -121,7 +210,10 @@
     },
 
     "company_profile_page": {
-      "heading": "Профіль компанії"
+      "heading": "Профіль компанії",
+      "buttons": {
+        "delete_company": "Видалити компанію"
+      }
     },
 
     "user_profile_page": {

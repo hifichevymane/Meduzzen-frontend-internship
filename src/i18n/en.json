@@ -1,5 +1,65 @@
 {
   "components": {
+    "tables": {
+      "my_join_requests": {
+        "heading": "My join requests from companies"
+      },
+
+      "my_requests_to_companies": {
+        "heading": "My requests to companies",
+        "buttons": {
+          "send_request": "Send a request to a company"
+        }
+      },
+
+      "company_invites": {
+        "heading": "Invitations",
+        "buttons": {
+          "invite_user": "Invite a user"
+        }
+      },
+
+      "users_requests": {
+        "heading": "Users' requests"
+      },
+
+      "company_members": {
+        "heading": "Company members",
+        "roles": {
+          "member": "Member",
+          "admin": "Admin"
+        }
+      },
+
+      "buttons": {
+        "accept": "Accept",
+        "decline": "Decline",
+        "reject": "Reject",
+        "revoke": "Revoke",
+        "exclude": "Exclude",
+        "assign_role": "Assign a role",
+        "cancel": "Cancel"
+      },
+
+      "cols": {
+        "company": "Company",
+        "status": "Status",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "username": "Username",
+        "role": "Role"
+      },
+
+      "status": {
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "declined": "Declined",
+        "rejected": "Rejected",
+        "canceled": "Canceled",
+        "revoked": "Revoked"
+      }
+    },
+
     "navbar": {
       "links": {
         "home": "Home",
@@ -25,6 +85,30 @@
       "save_button": "Save",
       "delete_user_button": "Yes, I confirm deleting my account",
       "delete_company_button": "Yes, I confirm deleting my company"
+    },
+
+    "confirm_modal": {
+      "heading": "Confirm action",
+      "body": "Do you confirm this action?",
+      "buttons": {
+        "save": "Save changes",
+        "close": "Close"
+      }
+    },
+
+    "create_request_modal": {
+      "heading": "Create a new request",
+      "send_request": "Send request",
+      "select": "Select the company from the list"
+    },
+
+    "invite_user_modal": {
+      "heading": "Invite a user",
+      "user": "User",
+      "select": "Select the user",
+      "buttons": {
+        "send_invite": "Send an invitation"
+      }
     },
 
     "create_company_modal": {
@@ -64,7 +148,8 @@
       "button": {
         "sign_up": "Sign up",
         "login": "Login",
-        "sign_up_google": "Sign up with Google"
+        "sign_up_google": "Sign up with Google",
+        "leave_company": "Leave the company"
       },
 
       "fields": {
@@ -74,7 +159,8 @@
         "Email": "Email",
         "Password": "Password",
         "Repeat the password": "Repeat the password",
-        "Remember me": "Remember me"
+        "Remember me": "Remember me",
+        "works_in": "Works in"
       }
     },
 
@@ -121,7 +207,10 @@
     },
 
     "company_profile_page": {
-      "heading": "Company profile"
+      "heading": "Company profile",
+      "buttons": {
+        "delete_company": "Delete the company"
+      }
     },
 
     "user_profile_page": {
