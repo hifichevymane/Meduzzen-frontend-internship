@@ -4,53 +4,10 @@
   <main-container>
     <h1 class="text-center mb-4">{{ $t('pages.user_profile_page.heading') }}</h1>
     <!-- Our User's data -->
-    <div class="container-fluid d-flex justify-content-center">
+    <div class="container-fluid d-flex flex-column align-items-center">
       <div class="row border border-2 rounded border-primary w-75 p-5">
         <div class="col-lg-6">
-          <form method="post" @submit.prevent="onSubmitUpdateUserData">
-            <div v-for="key in userInfoKeys" :key="key" class="input-group mb-3">
-              <span class="input-group-text" :id="key"
-                >{{ $t(`components.profile_item.${key}`) }}:</span
-              >
-              <input
-                :type="key === 'email' ? 'email' : key === 'password' ? 'password' : 'text'"
-                class="form-control"
-                aria-label="Sizing example input"
-                :aria-describedby="key"
-                v-model="userInfo[key]"
-                :disabled="!isAbleToEdit"
-              />
-            </div>
-            <div v-if="isAbleToEdit" class="input-group mb-3">
-              <span class="input-group-text" id="old-password"
-                >{{ $t('components.profile_item.old_password') }}:</span
-              >
-              <input
-                type="password"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="old-password"
-                v-model="oldPasswordField"
-                :disabled="!isAbleToEdit"
-              />
-            </div>
-            <div v-if="isAbleToEdit" class="input-group mb-3">
-              <span class="input-group-text" id="new-password"
-                >{{ $t('components.profile_item.new_password') }}:</span
-              >
-              <input
-                type="password"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="new-password"
-                v-model="newPasswordField"
-                :disabled="!isAbleToEdit"
-              />
-            </div>
-            <button v-if="isAbleToEdit" type="submit" class="btn btn-success">
-              {{ $t('components.profile_item.save') }}
-            </button>
-          </form>
+          <edit-profile-info-form :profile-info="editProfileInfoFormProps" />
         </div>
         <div class="col-lg-6 col-md-12 m-auto text-center">
           <img :src="profilePic" class="w-50" alt="profile-pic" />
@@ -66,6 +23,16 @@
           </div>
         </div>
       </div>
+      <table-item
+        v-if="isAbleToEdit"
+        :cols="myRequestsToCompaniesTableCols"
+        table-type="my_join_requests"
+      />
+      <table-item
+        v-if="isAbleToEdit"
+        :cols="myRequestsToCompaniesTableCols"
+        table-type="my_requests_to_companies"
+      />
     </div>
     <!-- Modal window to change profile avatar -->
     <modal-window
@@ -85,7 +52,9 @@
 <script setup>
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
-import ModalWindow from '../components/ModalWindow.vue'
+import ModalWindow from '../components/modals/ModalWindow.vue'
+import EditProfileInfoForm from '../components/forms/EditProfileInfoForm.vue'
+import TableItem from '../components/tables/TableItem.vue'
 import { Modal } from 'bootstrap'
 
 import api from '../api'
@@ -98,11 +67,11 @@ import { useRoute } from 'vue-router'
 const store = useStore()
 const route = useRoute()
 
+const myRequestsToCompaniesTableCols = ['company', 'status']
+
 // All user's info
 const userInfo = ref({})
 const profilePic = ref(null)
-const oldPasswordField = ref(null)
-const newPasswordField = ref(null)
 
 // Modal windows for deleting and changing profile avatar
 const changeAvatarModalWindow = ref(null)
@@ -110,8 +79,17 @@ const changeAvatarModalWindowId = 'changeAvatar'
 const deleteUserModalWindow = ref(null)
 const deleteUserModalWindowId = 'deleteUser'
 
+const config = computed(() => store.getters['auth/getAuthConfig'])
 const currentUserInfo = computed(() => store.getters['users/getCurrentUser'])
 const loggedUser = computed(() => store.getters['auth/getUser'])
+
+const editProfileInfoFormProps = computed(() => {
+  return {
+    userInfo: userInfo.value,
+    userInfoKeys: userInfoKeys.value,
+    isAbleToEdit: isAbleToEdit.value
+  }
+})
 
 // Check if user is able to change data
 const isAbleToEdit = computed(() => {
@@ -122,62 +100,6 @@ const isAbleToEdit = computed(() => {
 const userInfoKeys = computed(() => {
   return Object.keys(userInfo.value)
 })
-
-onMounted(async () => {
-  changeAvatarModalWindow.value = new Modal(document.getElementById(changeAvatarModalWindowId))
-  deleteUserModalWindow.value = new Modal(document.getElementById(deleteUserModalWindowId))
-  // Authorization
-  const config = store.state.auth.authConfig
-
-  // Get user id from url
-  const userId = route.params.id
-
-  // GET request to get user info
-  try {
-    const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, config)
-
-    // Asing user info from response
-    const { username, email, first_name, last_name } = data
-    const { image_path } = data
-    userInfo.value = { username, email, first_name, last_name }
-    profilePic.value = image_path
-
-    store.commit('users/setCurrentUser', data)
-  } catch (err) {
-    store.commit('users/setErrorMessage', err.message)
-  }
-})
-
-// Reset all data
-onBeforeUnmount(() => {
-  store.commit('users/setCurrentUser', {})
-})
-
-// Update user func
-const onSubmitUpdateUserData = async () => {
-  // Destructurize the userInfo object
-  const { username, first_name, last_name, email } = userInfo.value
-
-  // Request body
-  const body = {
-    username,
-    first_name,
-    last_name,
-    email
-  }
-
-  await store.dispatch('users/updateUser', body)
-
-  if (newPasswordField.value) {
-    // All request data
-    const body = {
-      current_password: oldPasswordField.value,
-      new_password: newPasswordField.value
-    }
-
-    await store.dispatch('users/setNewPassword', body)
-  }
-}
 
 // Show modal to change profile avatar
 const showChangeAvatarModal = () => {
@@ -196,6 +118,33 @@ const showDeleteUserModal = () => {
 const hideDeleteUserModal = () => {
   deleteUserModalWindow.value.hide()
 }
+
+onMounted(async () => {
+  changeAvatarModalWindow.value = new Modal(document.getElementById(changeAvatarModalWindowId))
+  deleteUserModalWindow.value = new Modal(document.getElementById(deleteUserModalWindowId))
+  // Get user id from url
+  const userId = route.params.id
+
+  // GET request to get user info
+  try {
+    const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, config.value)
+
+    // Asing user info from response
+    const { username, email, first_name, last_name } = data
+    const { image_path } = data
+    userInfo.value = { username, email, first_name, last_name }
+    profilePic.value = image_path
+
+    store.commit('users/setCurrentUser', data)
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
+})
+
+// Reset all data
+onBeforeUnmount(() => {
+  store.commit('users/setCurrentUser', {})
+})
 </script>
 
 <style>

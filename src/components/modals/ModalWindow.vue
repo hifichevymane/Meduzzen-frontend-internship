@@ -19,12 +19,7 @@
           <h1 v-else class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.modal_window.delete_user_heading') }}
           </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div v-if="isChangeAvatarAction" class="modal-body">
           <input
@@ -39,30 +34,19 @@
         </div>
         <div class="modal-footer">
           <button
-            type="button"
             class="btn"
             :class="isChangeAvatarAction ? 'btn-danger' : 'btn-success'"
             data-bs-dismiss="modal"
           >
             {{ $t('components.modal_window.close_button') }}
           </button>
-          <button
-            v-if="isChangeAvatarAction"
-            @click="changeProfilePic"
-            type="button"
-            class="btn btn-success"
-          >
+          <button v-if="isChangeAvatarAction" @click="changeProfilePic" class="btn btn-success">
             {{ $t('components.modal_window.save_button') }}
           </button>
-          <button
-            v-else-if="isDeleteCompanyAction"
-            @click="deleteCompany"
-            type="button"
-            class="btn btn-danger"
-          >
+          <button v-else-if="isDeleteCompanyAction" @click="deleteCompany" class="btn btn-danger">
             {{ $t('components.modal_window.delete_company_button') }}
           </button>
-          <button v-else @click="deleteTheUser" type="button" class="btn btn-danger">
+          <button v-else @click="deleteTheUser" class="btn btn-danger">
             {{ $t('components.modal_window.delete_user_button') }}
           </button>
         </div>

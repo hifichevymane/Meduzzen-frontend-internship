@@ -12,7 +12,7 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">
             {{ $t('components.create_company_modal.create_company_button') }}
           </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
         </div>
         <div class="modal-body">
           <form method="post" @submit.prevent="onSubmitCreateCompany">
@@ -54,7 +54,7 @@
               </select>
             </div>
             <div class="mb-3 d-flex justify-content-end gap-2">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+              <button class="btn btn-danger" data-bs-dismiss="modal">
                 {{ $t('components.modal_window.close_button') }}
               </button>
               <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
@@ -71,7 +71,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-import api from '../api'
+import api from '../../api'
 
 const emit = defineEmits(['addNewCompany'])
 

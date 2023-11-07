@@ -23,4 +23,12 @@ export default {
   getIsCompanyAdmin(state) {
     return state.isCompanyAdmin;
   },
+
+  getCompanyUserWorksIn(state) {
+    return state.companyUserWorksIn;
+  },
+
+  getIsEmployed(state) {
+    return state.isEmployed;
+  },
 }

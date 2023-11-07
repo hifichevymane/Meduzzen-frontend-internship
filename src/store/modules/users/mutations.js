@@ -1,11 +1,11 @@
 // Users mutations
 export default {
   setUsersList(state, data) {
-    state.usersList = [...data]
+    state.usersList = [...data];
   },
 
   setCurrentUser(state, data) {
-    state.currentUser = { ...data }
+    state.currentUser = { ...data };
   },
 
   setErrorMessage(state, message) {
@@ -22,5 +22,13 @@ export default {
 
   setIsCompanyAdmin(state, value) {
     state.isCompanyAdmin = value;
+  },
+
+  setCompanyUserWorksIn(state, value) {
+    state.companyUserWorksIn = value;
+  },
+
+  setIsEmployed(state, value) {
+    state.isEmployed = value;
   },
 }

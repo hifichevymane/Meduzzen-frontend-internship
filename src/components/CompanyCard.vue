@@ -6,15 +6,17 @@
         <p class="card-text">
           {{ description }}
         </p>
-        <a :href="`companies/${id}`" class="btn btn-primary">{{
+        <router-link :to="{ name: 'CompanyProfile', params: { id: id } }" class="btn btn-primary">{{
           $t('components.company_card.button')
-        }}</a>
+        }}</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router'
+
 // All the company card component props
 defineProps({
   name: String,

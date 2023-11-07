@@ -3,168 +3,101 @@
 
   <main-container>
     <h1 class="text-center mb-4">{{ $t('pages.company_profile_page.heading') }}</h1>
-    <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
+    <div class="container-fluid d-flex flex-column align-items-center">
       <div class="row border border-2 rounded border-primary w-50 p-5">
         <div class="col-lg-12">
           <!-- Company info -->
-          <form method="post" @submit.prevent="onSubmitUpdateCompany">
-            <div v-for="key in companyInfoKeys" :key="key" class="input-group mb-3">
-              <span class="input-group-text" :id="key"
-                >{{ $t(`components.profile_item.${key}`) }}:</span
-              >
-              <textarea
-                v-if="key === 'description'"
-                class="form-control"
-                aria-label="With textarea"
-                v-model="companyInfo[key]"
-                :disabled="!isAbleToEditCompany"
-              ></textarea>
-              <input
-                v-else
-                type="text"
-                class="form-control"
-                aria-label="Sizing example input"
-                :aria-describedby="key"
-                v-model="companyInfo[key]"
-                :disabled="!isAbleToEditCompany || key === 'seo'"
-              />
-            </div>
-            <div v-if="isAbleToEditCompany" class="input-group mb-3">
-              <!-- Visibility options -->
-              <span class="input-group-text">{{ $t('components.profile_item.visibility') }}:</span>
-              <select v-model="visibilityField" class="form-select" aria-label="Select visibility">
-                <option :selected="visibilityField.value === 'visible'" value="visible">
-                  {{ $t('components.select_item.visible') }}
-                </option>
-                <option :selected="visibilityField.value === 'hidden'" value="hidden">
-                  {{ $t('components.select_item.hidden') }}
-                </option>
-              </select>
-            </div>
-            <div v-if="isAbleToEditCompany" class="col-lg-12">
-              <!-- Edit actions -->
-              <div class="row justify-content-center">
-                <div class="col-lg-6 d-flex justify-content-center">
-                  <button type="submit" class="btn btn-success">
-                    {{ $t('components.profile_item.save') }}
-                  </button>
-                </div>
-                <div class="col-lg-6 d-flex justify-content-center">
-                  <button @click="showDeleteCompanyModal" class="btn btn-danger">
-                    Delete the company
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
+          <edit-company-profile-form :is-able-to-edit-company="isAbleToEditCompany" />
         </div>
       </div>
       <quizzes-list v-if="isAbleToEditCompany || isCompanyMember" />
+      <table-item
+        :is-able-to-edit-company="isAbleToEditCompany"
+        :cols="companyMembersTableCols"
+        table-type="company_members"
+      />
+      <table-item
+        v-if="isAbleToEditCompany"
+        :cols="companyInvitesTableCols"
+        table-type="company_invites"
+      />
+      <table-item
+        v-if="isAbleToEditCompany"
+        :cols="companyInvitesTableCols"
+        table-type="users_requests"
+      />
     </div>
-    <!-- Modal window -->
-    <modal-window
-      type="deleteCompany"
-      :modalId="deleteCompanyModalId"
-      @hide-delete-company-modal="hideDeleteCompanyModal"
-    />
   </main-container>
 </template>
 
 <script setup>
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
-import ModalWindow from '../components/ModalWindow.vue'
 import QuizzesList from '../components/QuizzesList.vue'
-import { Modal } from 'bootstrap'
-
-import { onMounted, ref, computed } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import EditCompanyProfileForm from '../components/forms/EditCompanyProfileForm.vue'
+import TableItem from '../components/tables/TableItem.vue'
 
 import api from '../api'
+import { computed, ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
 const store = useStore()
-const route = useRoute()
 
-// Current company info
-const companyInfo = ref({})
-const visibilityField = ref(null)
-// Modal window for delete company
-const deleteCompanyModal = ref(null)
-const deleteCompanyModalId = 'deleteCompany'
+const companyMembersTableCols = ['username', 'first_name', 'last_name', 'role']
+const companyInvitesTableCols = ['username', 'first_name', 'last_name', 'status']
 
-// Company info keys to iterate in v-for
-const companyInfoKeys = computed(() => {
-  return Object.keys(companyInfo.value)
-})
+const companyMembersList = ref(null)
+const companyInvitesList = ref(null)
+const usersRequestsList = ref(null)
 
+const config = computed(() => store.getters['auth/getAuthConfig'])
 const loggedUser = computed(() => store.getters['auth/getUser'])
-const isCompanyMember = computed(() => store.getters['users/getIsCompanyMember'])
 const currentCompany = computed(() => store.getters['companies/getCurrentCompany'])
+const isCompanyMember = computed(() => store.getters['users/getIsCompanyMember'])
 
 const isAbleToEditCompany = computed(() => {
-  const isCompanyOwner = companyInfo.value.seo === loggedUser.value.username
-
-  store.commit('users/setIsCompanyOwner', isCompanyOwner)
-  return isCompanyOwner
+  return currentCompany.value.owner.id === loggedUser.value.id
 })
 
-const onSubmitUpdateCompany = async () => {
-  const body = {
-    ...companyInfo.value
-  }
-
-  body.visibility = visibilityField.value
-  // PATCH request to update the company
-  await store.dispatch('companies/updateCompany', body)
-}
-
-const showDeleteCompanyModal = () => {
-  deleteCompanyModal.value.show()
-}
-
-const hideDeleteCompanyModal = () => {
-  deleteCompanyModal.value.hide()
-}
-
 onMounted(async () => {
-  deleteCompanyModal.value = new Modal(document.getElementById(deleteCompanyModalId))
-  const config = store.state.auth.authConfig
-
-  const companyId = route.params.id
-
-  // Get current company
   try {
-    const company = await api.get(`${import.meta.env.VITE_API_URL}/companies/${companyId}/`, config)
-
-    // Set current company data
-    const { name, description, owner, visibility } = company.data
-
-    // Get company SEO by owner_id
-    const seo = await api.get(`${import.meta.env.VITE_API_URL}/users/${owner.id}/`, config)
-
-    companyInfo.value = {
-      name,
-      description,
-      seo: seo.data.username
-    }
-
-    visibilityField.value = visibility
-    store.commit('companies/setCurrentCompany', company.data)
-
+    // Get all company members
     const { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/company_members/${currentCompany.value.id}/members_list/`,
+      config.value
+    )
+
+    companyMembersList.value = data
+
+    // Get all company invites
+    const companyInvitesData = await api.get(
+      `${import.meta.env.VITE_API_URL}/company_invites/${currentCompany.value.id}/invited_users/`,
+      config.value
+    )
+
+    companyInvitesList.value = companyInvitesData.data
+
+    // Get all users' requests to companies
+    const usersRequestsData = await api.get(
+      `${import.meta.env.VITE_API_URL}/users_requests/${currentCompany.value.id}/join_requests/`,
+      config.value
+    )
+
+    usersRequestsList.value = usersRequestsData.data
+
+    const usersCompanyData = await api.get(
       `${import.meta.env.VITE_API_URL}/users/${loggedUser.value.id}/current_company/`,
       config
     )
 
     // If current user is company member and admin
-    if (data.company.id === currentCompany.value.id) {
+    if (usersCompanyData.data.company.id === currentCompany.value.id) {
       store.commit('users/setIsCompanyMember', true)
     } else {
       store.commit('users/setIsCompanyMember', false)
     }
 
-    if (data.role === 'admin') {
+    if (usersCompanyData.data.role === 'admin') {
       store.commit('users/setIsCompanyAdmin', true)
     } else {
       store.commit('users/setIsCompanyAdmin', false)

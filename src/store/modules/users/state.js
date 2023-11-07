@@ -7,5 +7,7 @@ export default function state() {
     isCompanyMember: false,
     isCompanyOwner: false,
     isCompanyAdmin: false,
+    companyUserWorksIn: null,
+    isEmployed: null,
   }
 }
