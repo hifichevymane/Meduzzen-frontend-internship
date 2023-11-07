@@ -1,14 +1,26 @@
 // Users getters
 export default {
   getUsersList(state) {
-    return state.usersList
+    return state.usersList;
   },
 
   getCurrentUser(state) {
-    return state.currentUser
+    return state.currentUser;
   },
 
   getErrorMessage(state) {
-    return state.errorMessage
-  }
+    return state.errorMessage;
+  },
+
+  getIsCompanyMember(state) {
+    return state.isCompanyMember;
+  },
+
+  getIsCompanyOwner(state) {
+    return state.isCompanyOwner;
+  },
+
+  getIsCompanyAdmin(state) {
+    return state.isCompanyAdmin;
+  },
 }

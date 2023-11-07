@@ -3,7 +3,7 @@
 
   <main-container>
     <h1 class="text-center mb-4">{{ $t('pages.company_profile_page.heading') }}</h1>
-    <div class="container-fluid d-flex justify-content-center">
+    <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
       <div class="row border border-2 rounded border-primary w-50 p-5">
         <div class="col-lg-12">
           <!-- Company info -->
@@ -59,6 +59,7 @@
           </form>
         </div>
       </div>
+      <quizzes-list v-if="isAbleToEditCompany || isCompanyMember" />
     </div>
     <!-- Modal window -->
     <modal-window
@@ -73,6 +74,7 @@
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
 import ModalWindow from '../components/ModalWindow.vue'
+import QuizzesList from '../components/QuizzesList.vue'
 import { Modal } from 'bootstrap'
 
 import { onMounted, ref, computed } from 'vue'
@@ -97,39 +99,14 @@ const companyInfoKeys = computed(() => {
 })
 
 const loggedUser = computed(() => store.getters['auth/getUser'])
+const isCompanyMember = computed(() => store.getters['users/getIsCompanyMember'])
+const currentCompany = computed(() => store.getters['companies/getCurrentCompany'])
 
 const isAbleToEditCompany = computed(() => {
-  return companyInfo.value.seo === loggedUser.value.username
-})
+  const isCompanyOwner = companyInfo.value.seo === loggedUser.value.username
 
-onMounted(async () => {
-  deleteCompanyModal.value = new Modal(document.getElementById(deleteCompanyModalId))
-  const config = store.state.auth.authConfig
-
-  const companyId = route.params.id
-
-  // Get current company
-  try {
-    const company = await api.get(`${import.meta.env.VITE_API_URL}/companies/${companyId}/`, config)
-
-    // Set current company data
-    const { name, description, owner, visibility } = company.data
-
-    // Get company SEO by owner_id
-    const seo = await api.get(`${import.meta.env.VITE_API_URL}/users/${owner}/`, config)
-
-    companyInfo.value = {
-      name,
-      description,
-      seo: seo.data.username
-    }
-
-    visibilityField.value = visibility
-
-    store.commit('companies/setCurrentCompany', company.data)
-  } catch (err) {
-    store.commit('users/setErrorMessage', err.message)
-  }
+  store.commit('users/setIsCompanyOwner', isCompanyOwner)
+  return isCompanyOwner
 })
 
 const onSubmitUpdateCompany = async () => {
@@ -149,4 +126,51 @@ const showDeleteCompanyModal = () => {
 const hideDeleteCompanyModal = () => {
   deleteCompanyModal.value.hide()
 }
+
+onMounted(async () => {
+  deleteCompanyModal.value = new Modal(document.getElementById(deleteCompanyModalId))
+  const config = store.state.auth.authConfig
+
+  const companyId = route.params.id
+
+  // Get current company
+  try {
+    const company = await api.get(`${import.meta.env.VITE_API_URL}/companies/${companyId}/`, config)
+
+    // Set current company data
+    const { name, description, owner, visibility } = company.data
+
+    // Get company SEO by owner_id
+    const seo = await api.get(`${import.meta.env.VITE_API_URL}/users/${owner.id}/`, config)
+
+    companyInfo.value = {
+      name,
+      description,
+      seo: seo.data.username
+    }
+
+    visibilityField.value = visibility
+    store.commit('companies/setCurrentCompany', company.data)
+
+    const { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/users/${loggedUser.value.id}/current_company/`,
+      config
+    )
+
+    // If current user is company member and admin
+    if (data.company.id === currentCompany.value.id) {
+      store.commit('users/setIsCompanyMember', true)
+    } else {
+      store.commit('users/setIsCompanyMember', false)
+    }
+
+    if (data.role === 'admin') {
+      store.commit('users/setIsCompanyAdmin', true)
+    } else {
+      store.commit('users/setIsCompanyAdmin', false)
+    }
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
+})
 </script>

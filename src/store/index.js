@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import auth from './modules/auth/auth';
 import users from './modules/users/users';
 import companies from './modules/companies/companies';
+import quizzes from './modules/quizzes/quizzes';
 import VuexPersistence from 'vuex-persist';
 
 // Enable save the state of the app after reloading a page
@@ -53,6 +54,7 @@ const store = createStore({
     auth,
     users,
     companies,
+    quizzes,
   },
 
   // All plugins
