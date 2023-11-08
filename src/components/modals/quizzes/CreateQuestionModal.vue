@@ -43,7 +43,9 @@
               />
               <label class="form-check-label" :for="option.text">{{ option.text }}</label>
             </div>
-            <span class="fw-bold">{{ errorMessage }}</span>
+            <span v-if="!isValidated" class="fw-bold">{{
+              $t('components.create_question_modal.validation_error')
+            }}</span>
             <div class="d-flex gap-2 justify-content-end mt-4">
               <button
                 @click="clearForm"
@@ -74,7 +76,7 @@ const emit = defineEmits(['onPushNewQuestion'])
 
 const store = useStore()
 
-const errorMessage = ref(null)
+const isValidated = ref(true)
 const optionsList = ref([])
 const questionText = ref('')
 
@@ -100,6 +102,7 @@ const addNewOption = () => {
 const clearForm = () => {
   questionText.value = ''
   optionsList.value = []
+  isValidated.value = true
 }
 
 const createNewAnswerOption = async (option) => {
@@ -126,7 +129,7 @@ const onCreateNewQuestion = async () => {
     answersList.value.length > 0 &&
     questionText.value.length > 1
   ) {
-    errorMessage.value = ''
+    isValidated.value = true
 
     for (const option of optionsList.value) {
       await createNewAnswerOption(option)
@@ -162,8 +165,7 @@ const onCreateNewQuestion = async () => {
       store.commit('users/setErrorMessage', err.message)
     }
   } else {
-    errorMessage.value =
-      'Question must have at least 2 options and 1 answer. Question text must not be empty'
+    isValidated.value = false
     return
   }
 }

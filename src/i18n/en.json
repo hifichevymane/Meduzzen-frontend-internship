@@ -215,7 +215,8 @@
       "fields": {
         "text": "Text",
         "creator": "Creator"
-      }
+      },
+      "validation_error": "Question must have at least two answer options and at least 1 answer."
     },
 
     "quiz_options_answers_list": {
@@ -261,7 +262,8 @@
         "close": "Close",
         "create_question": "Create a question",
         "add_option": "Add a new option"
-      }
+      },
+      "validation_error": "Question must have at least 2 options and 1 answer. Question text must not be empty"
     }
   },
 

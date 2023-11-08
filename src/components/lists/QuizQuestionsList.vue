@@ -53,7 +53,9 @@
             :current-question="currentQuestion"
             :is-able-to-edit-quiz="isAbleToEditQuiz"
           />
-          <p class="fw-bold mb-3">{{ validationError }}</p>
+          <p v-if="!isValidated" class="fw-bold mb-3">
+            {{ $t('components.quiz_questions_list.validation_error') }}
+          </p>
           <div class="d-flex gap-3">
             <button @click="saveQuestion(question)" type="button" class="btn btn-success">
               {{ $t('components.quiz_questions_list.buttons.save_question') }}
@@ -80,7 +82,7 @@ const emit = defineEmits(['onCreateQuestion', 'onDeleteQuestion'])
 
 const store = useStore()
 
-const validationError = ref('')
+const isValidated = ref(true)
 
 const questionsList = computed(() => props.questionsList)
 const isAbleToEditQuiz = computed(() => props.isAbleToEditQuiz)
@@ -94,7 +96,7 @@ const showCreateQuestionModal = (data) => {
 
 const saveQuestion = async (question) => {
   if (currentQuestion.value.options.length > 1 && currentQuestion.value.answer.length > 0) {
-    validationError.value = '' //Crear the validation error
+    isValidated.value = true
 
     const body = {
       text: currentQuestion.value.text,
@@ -112,7 +114,7 @@ const saveQuestion = async (question) => {
       store.commit('users/setErrorMessage', err.message)
     }
   } else {
-    validationError.value = 'Question must have at least two answer options and at least 1 answer.'
+    isValidated.value = false
     return
   }
 }
