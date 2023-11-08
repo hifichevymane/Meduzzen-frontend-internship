@@ -27,6 +27,7 @@
         :is-able-to-edit-company="isAbleToEditCompany"
         :data-list="dataList"
         @on-exclude-user="onExcludeUser"
+        @on-delete-admin="onDeleteAdmin"
       />
     </table>
   </div>
@@ -82,7 +83,11 @@ const pushNewInvite = (value) => {
 }
 
 const onExcludeUser = (memberId) => {
-  dataList.value = dataList.value.find((member) => member.id != memberId)
+  dataList.value = dataList.value.find((member) => member.id !== memberId)
+}
+
+const onDeleteAdmin = (adminId) => {
+  dataList.value = dataList.value.filter((admin) => admin.id !== adminId)
 }
 
 const showSendRequestToCompanyModal = () => {
@@ -162,6 +167,19 @@ const getUsersRequests = async () => {
   }
 }
 
+const getCompanyAdmins = async () => {
+  try {
+    const { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/company_members/${currentCompany.value.id}/admin_list/`,
+      config.value
+    )
+
+    dataList.value = data
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
+}
+
 onMounted(async () => {
   if (tableType.value === 'my_requests_to_companies') {
     sendRequestToCompanyModal.value = new Modal(
@@ -175,8 +193,10 @@ onMounted(async () => {
     await getCompanyInvites()
   } else if (tableType.value === 'company_members') {
     await getMembersList()
-  } else {
+  } else if (tableType.value === 'users_requests') {
     await getUsersRequests()
+  } else {
+    await getCompanyAdmins()
   }
 })
 </script>
