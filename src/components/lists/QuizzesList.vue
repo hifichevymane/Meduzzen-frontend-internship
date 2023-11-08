@@ -1,13 +1,13 @@
 <template>
   <div class="row border border-2 rounded border-primary w-75 py-5 my-4">
     <div class="col-lg-12 mb-2">
-      <h2 class="text-center">Avaliable quizzes</h2>
+      <h2 class="text-center">{{ $t('components.quiz_list.heading') }}</h2>
       <button
         v-if="isAbleToCreateQuiz"
         @click="showCreateModal"
         class="btn btn-primary m-auto d-block my-4"
       >
-        Create a quiz
+        {{ $t('components.quiz_list.buttons.create_quiz') }}
       </button>
     </div>
     <div class="col-lg-12 d-flex justify-content-center flex-wrap gap-3">
@@ -19,8 +19,8 @@
               {{ quiz.description }}
             </p>
             <router-link :to="{ name: 'QuizPage', params: { id: quiz.id } }" class="btn btn-primary"
-              >Check the quiz</router-link
-            >
+              >{{ $t('components.quiz_list.links.check_quiz') }}
+            </router-link>
           </div>
         </div>
       </div>
@@ -30,9 +30,9 @@
 </template>
 
 <script setup>
-import CreateQuizModal from '../components/modals/CreateQuizModal.vue'
+import CreateQuizModal from '../modals/quizzes/CreateQuizModal.vue'
 
-import api from '../api'
+import api from '../../api'
 import { ref, onMounted, computed } from 'vue'
 import { Modal } from 'bootstrap'
 import { RouterLink } from 'vue-router'

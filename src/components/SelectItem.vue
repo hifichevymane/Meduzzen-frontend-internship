@@ -1,5 +1,5 @@
 <template>
-  <select class="form-select" style="width: 10%" aria-label="Select" @change="changeLanguage">
+  <select class="form-select h-50" aria-label="Select" @change="changeLanguage">
     <option :selected="selectedLocale === 'en'" value="en">
       {{ $t('components.select_item.en') }}
     </option>

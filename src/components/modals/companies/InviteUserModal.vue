@@ -51,7 +51,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import api from '../../api'
+import api from '../../../api'
 
 const props = defineProps(['modalId'])
 const emit = defineEmits(['pushNewInvite'])

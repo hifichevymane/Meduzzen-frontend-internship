@@ -33,7 +33,7 @@
 <script setup>
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
-import QuizzesList from '../components/QuizzesList.vue'
+import QuizzesList from '../components/lists/QuizzesList.vue'
 import EditCompanyProfileForm from '../components/forms/EditCompanyProfileForm.vue'
 import TableItem from '../components/tables/TableItem.vue'
 
@@ -87,7 +87,7 @@ onMounted(async () => {
 
     const usersCompanyData = await api.get(
       `${import.meta.env.VITE_API_URL}/users/${loggedUser.value.id}/current_company/`,
-      config
+      config.value
     )
 
     // If current user is company member and admin

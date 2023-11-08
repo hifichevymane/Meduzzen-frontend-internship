@@ -1,14 +1,15 @@
 <template>
-  <h5 class="mt-3">Questions:</h5>
+  <h5 class="mt-3">{{ $t('components.quiz_questions_list.heading') }}:</h5>
   <div class="d-flex gap-3">
     <button type="button" @click="showCreateQuestionModal" class="btn btn-primary mb-3">
-      Add new question
+      {{ $t('components.quiz_questions_list.buttons.add_question') }}
     </button>
   </div>
   <div class="accordion">
     <div v-for="question in questionsList" :key="question.id" class="accordion-item">
       <h2 class="accordion-header">
         <button
+          @click="setCurrentQuestion(question)"
           type="button"
           class="accordion-button collapsed"
           data-bs-toggle="collapse"
@@ -26,7 +27,9 @@
       >
         <div class="accordion-body">
           <div class="input-group mb-3">
-            <span class="input-group-text">Text:</span>
+            <span class="input-group-text"
+              >{{ $t('components.quiz_questions_list.fields.text') }}:
+            </span>
             <input
               class="form-control"
               v-model="question.text"
@@ -35,29 +38,28 @@
             />
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text">Creator:</span>
+            <span class="input-group-text"
+              >{{ $t('components.quiz_questions_list.fields.creator') }}:
+            </span>
             <input class="form-control" :value="question.creator.username" type="text" disabled />
           </div>
           <quiz-options-answers-list
             type="options"
-            :current-question="question"
+            :current-question="currentQuestion"
             :is-able-to-edit-quiz="isAbleToEditQuiz"
-            @on-create-option="showCreateOptionModal(question)"
-            @on-delete-option="deleteOption"
           />
           <quiz-options-answers-list
             type="answers"
-            :current-question="question"
+            :current-question="currentQuestion"
             :is-able-to-edit-quiz="isAbleToEditQuiz"
-            @on-create-option="showCreateAnswerModal(question)"
-            @on-delete-option="deleteAnswer"
           />
+          <p class="fw-bold mb-3">{{ validationError }}</p>
           <div class="d-flex gap-3">
             <button @click="saveQuestion(question)" type="button" class="btn btn-success">
-              Save the question
+              {{ $t('components.quiz_questions_list.buttons.save_question') }}
             </button>
             <button @click="deleteQuestion(question)" type="button" class="btn btn-danger">
-              Delete question
+              {{ $t('components.quiz_questions_list.buttons.delete_question') }}
             </button>
           </div>
         </div>
@@ -67,65 +69,56 @@
 </template>
 
 <script setup>
-import QuizOptionsAnswersList from '../components/QuizOptionsAnswersList.vue'
+import QuizOptionsAnswersList from './QuizOptionsAnswersList.vue'
 
-import api from '../api'
+import api from '../../api'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
 const props = defineProps(['questionsList', 'isAbleToEditQuiz'])
-const emit = defineEmits([
-  'onCreateOption',
-  'onDeleteOption',
-  'onCreateQuestion',
-  'onDeleteQuestion',
-  'onCreateAnswer',
-  'onDeleteAnswer'
-])
+const emit = defineEmits(['onCreateQuestion', 'onDeleteQuestion'])
 
 const store = useStore()
 
-const currentQuestion = ref(null)
+const validationError = ref('')
 
 const questionsList = computed(() => props.questionsList)
 const isAbleToEditQuiz = computed(() => props.isAbleToEditQuiz)
 
 const config = computed(() => store.getters['auth/getAuthConfig'])
-
-const showCreateOptionModal = (question) => {
-  emit('onCreateOption', question)
-}
-
-const deleteOption = (option) => {
-  emit('onDeleteOption', option)
-}
-
-const showCreateAnswerModal = (option) => {
-  emit('onCreateAnswer', option)
-}
-
-const deleteAnswer = (option) => {
-  emit('onDeleteAnswer', option)
-}
+const currentQuestion = computed(() => store.getters['quizzes/getCurrentQuestion'])
 
 const showCreateQuestionModal = (data) => {
   emit('onCreateQuestion', data)
 }
 
 const saveQuestion = async (question) => {
-  currentQuestion.value = question
+  if (currentQuestion.value.options.length > 1 && currentQuestion.value.answer.length > 0) {
+    validationError.value = '' //Crear the validation error
 
-  const body = {
-    text: currentQuestion.value.text,
-    options: currentQuestion.value.options.map((option) => option.id),
-    answer: currentQuestion.value.answer.map((option) => option.id)
-  }
+    const body = {
+      text: currentQuestion.value.text,
+      options: currentQuestion.value.options.map((option) => option.id),
+      answer: currentQuestion.value.answer.map((option) => option.id)
+    }
 
-  try {
-    await api.patch(`${import.meta.env.VITE_API_URL}/questions/${question.id}/`, body, config.value)
-  } catch (err) {
-    store.commit('users/setErrorMessage', err.message)
+    try {
+      await api.patch(
+        `${import.meta.env.VITE_API_URL}/questions/${question.id}/`,
+        body,
+        config.value
+      )
+    } catch (err) {
+      store.commit('users/setErrorMessage', err.message)
+    }
+  } else {
+    validationError.value = 'Question must have at least two answer options and at least 1 answer.'
+    return
   }
+}
+
+const setCurrentQuestion = (question) => {
+  store.commit('quizzes/setCurrentQuestion', question)
 }
 
 const deleteQuestion = async (question) => {

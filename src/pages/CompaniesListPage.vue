@@ -29,7 +29,7 @@
 import CompanyCard from '../components/CompanyCard.vue'
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
-import CreateCompanyModal from '../components/modals/CreateCompanyModal.vue'
+import CreateCompanyModal from '../components/modals/companies/CreateCompanyModal.vue'
 import { Modal } from 'bootstrap'
 
 import { onMounted, ref, computed } from 'vue'

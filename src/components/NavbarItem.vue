@@ -51,24 +51,33 @@
                 $t('components.navbar.links.login')
               }}</router-link>
             </li>
-            <div v-if="isAuthenticated" class="nav-item d-flex flex-column text-light">
-              <!-- If user authenticated -->
-              <p class="mb-1">{{ userInfo.first_name }},</p>
-              <p class="m-0">{{ userInfo.email }}</p>
+            <div v-if="isAuthenticated" class="d-flex align-items-center">
+              <li class="nav-item d-flex flex-column text-light">
+                <!-- If user authenticated -->
+                <p class="mb-1">{{ userInfo.first_name }},</p>
+                <p class="m-0">{{ userInfo.email }}</p>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  class="nav-link"
+                  :to="{ name: 'UserProfile', params: { id: userInfo.id } }"
+                  >{{ $t('components.navbar.links.user_profile') }}</router-link
+                >
+              </li>
             </div>
-            <li v-if="isAuthenticated" class="nav-item">
-              <router-link
-                class="nav-link"
-                :to="{ name: 'UserProfile', params: { id: userInfo.id } }"
-                >{{ $t('components.navbar.links.user_profile') }}</router-link
-              >
-            </li>
           </ul>
-          <button v-if="isAuthenticated" @click="logout" type="button" class="btn btn-danger">
-            {{ $t('components.navbar.links.logout') }}
-          </button>
-          <!-- Select language -->
-          <select-item />
+          <div class="d-flex gap-2 align-items-center">
+            <button
+              v-if="isAuthenticated"
+              @click="logout"
+              type="button"
+              class="btn btn-danger w-75"
+            >
+              {{ $t('components.navbar.links.logout') }}
+            </button>
+            <!-- Select language -->
+            <select-item />
+          </div>
         </div>
       </div>
     </nav>
@@ -102,6 +111,6 @@ const logout = () => {
   // Set isAuthenticated state
   store.commit('auth/setIsAuthenticated', false)
   localStorage.removeItem('access')
-  router.go() // Reload page
+  router.push('/') // Reload page
 }
 </script>

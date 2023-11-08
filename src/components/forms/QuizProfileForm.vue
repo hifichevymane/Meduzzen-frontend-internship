@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="onSubmitUpdateQuiz">
     <div class="input-group mb-3">
-      <span class="input-group-text">Title: </span>
+      <span class="input-group-text">{{ $t('components.quiz_profile_form.title') }}: </span>
       <input
         v-model="quizInfo.title"
         type="text"
@@ -10,7 +10,7 @@
       />
     </div>
     <div class="input-group mb-3">
-      <span class="input-group-text">Description: </span>
+      <span class="input-group-text">{{ $t('components.quiz_profile_form.description') }}: </span>
       <textarea
         v-model="quizInfo.description"
         class="form-control"
@@ -19,32 +19,31 @@
       ></textarea>
     </div>
     <div class="input-group mb-3">
-      <span class="input-group-text">Frequency: </span>
+      <span class="input-group-text">{{ $t('components.quiz_profile_form.frequency') }}: </span>
       <input v-model="quizInfo.frequency" type="number" class="form-control" disabled />
     </div>
     <div class="input-group mb-3">
-      <span class="input-group-text">Creator: </span>
+      <span class="input-group-text">{{ $t('components.quiz_profile_form.creator') }}: </span>
       <input :value="creatorName" type="text" class="form-control" disabled />
     </div>
     <div class="input-group mb-3">
-      <span class="input-group-text">Company: </span>
+      <span class="input-group-text">{{ $t('components.quiz_profile_form.company') }}: </span>
       <input :value="currentCompany.name" type="text" class="form-control" disabled />
     </div>
     <button v-if="isAbleToEditQuiz" type="button" @click="deleteQuiz" class="btn btn-danger mt-3">
-      Delete the quiz
+      {{ $t('components.quiz_profile_form.buttons.delete_quiz') }}
     </button>
+    <!-- Questions list -->
     <quiz-questions-list
       v-if="isAbleToEditQuiz"
       :questions-list="questionsList"
       :is-able-to-edit-quiz="isAbleToEditQuiz"
-      @on-create-option="showCreateOptionModal"
-      @on-delete-option="deleteOption"
-      @on-create-answer="showCreateAnswerModal"
-      @on-delete-answer="deleteAnswer"
       @on-create-question="showCreateQuestionModal"
       @on-delete-question="deleteQuestion"
     />
-    <button v-if="isAbleToEditQuiz" type="submit" class="btn btn-success mt-3">Save changes</button>
+    <button v-if="isAbleToEditQuiz" type="submit" class="btn btn-success mt-3">
+      {{ $t('components.quiz_profile_form.buttons.save_quiz') }}
+    </button>
   </form>
   <create-question-modal
     :modal-id="createQuestionModalId"
@@ -64,12 +63,12 @@
 </template>
 
 <script setup>
-import CreateQuestionModal from '../modals/CreateQuestionModal.vue'
-import CreateOptionModal from '../modals/CreateOptionModal.vue'
-import QuizQuestionsList from '../QuizQuestionsList.vue'
+import CreateQuestionModal from '../modals/quizzes/CreateQuestionModal.vue'
+import CreateOptionModal from '../modals/quizzes/CreateOptionModal.vue'
+import QuizQuestionsList from '../lists/QuizQuestionsList.vue'
 
 import api from '../../api'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { Modal } from 'bootstrap'
@@ -83,8 +82,6 @@ const quizId = route.params.id
 const quizInfo = ref({})
 const questionsList = ref(null)
 const creatorName = ref(null)
-const currentQuestion = ref(null)
-const currentOptionsList = ref(null)
 
 // Modal windows
 const createQuestionModal = ref(null)
@@ -98,6 +95,15 @@ const config = computed(() => store.getters['auth/getAuthConfig'])
 const currentCompany = computed(() => store.getters['companies/getCurrentCompany'])
 const isCompanyOwner = computed(() => store.getters['users/getIsCompanyOwner'])
 const isCompanyAdmin = computed(() => store.getters['users/getIsCompanyAdmin'])
+const currentQuestion = computed(() => store.getters['quizzes/getCurrentQuestion'])
+const currentOptionsList = computed(() => currentQuestion.value.options)
+
+const isCreateOptionModalActive = computed(
+  () => store.getters['quizzes/getIsCreateOptionModalActive']
+)
+const isCreateAnswerModalActive = computed(() => {
+  return store.getters['quizzes/getIsCreateAnswerModalActive']
+})
 
 const isAbleToEditQuiz = computed(() => isCompanyOwner.value || isCompanyAdmin.value)
 
@@ -107,11 +113,11 @@ const onPushNewQuestion = (value) => {
 }
 
 const onPushNewOption = (value) => {
-  currentQuestion.value.options.push(value)
+  store.commit('quizzes/pushNewOption', value)
 }
 
 const onPushNewAnswer = (value) => {
-  currentQuestion.value.answer.push(value)
+  store.commit('quizzes/pushNewAnswer', value)
 }
 
 const deleteQuiz = async () => {
@@ -120,31 +126,11 @@ const deleteQuiz = async () => {
   router.go(-1)
 }
 
-const deleteOption = async (selectedOption) => {
-  await store.dispatch('quizzes/deleteOption', selectedOption.id)
-  // Delete option from options array of question object
-  currentQuestion.value.answer = currentQuestion.value.answer.filter(
-    (answer) => answer.id !== selectedOption.id
-  )
-  currentQuestion.value.options = currentQuestion.value.options.filter(
-    (option) => option.id !== selectedOption.id
-  )
-}
-
-const deleteAnswer = (selectedAnswer) => {
-  // Delete current option from answers list
-  currentQuestion.value.answer = currentQuestion.value.answer.filter(
-    (answer) => answer.id !== selectedAnswer.id
-  )
-}
-
 const deleteQuestion = (selectedQuestionId) => {
   questionsList.value = questionsList.value.filter((question) => question.id !== selectedQuestionId)
 }
 
 const onSubmitUpdateQuiz = async () => {
-  console.log(questionsList.value)
-
   const { title, description } = quizInfo.value
   const body = {
     title,
@@ -153,23 +139,11 @@ const onSubmitUpdateQuiz = async () => {
     company: currentCompany.value.id
   }
 
-  console.log(body)
   await store.dispatch('quizzes/updateQuiz', { body, quizId })
 }
 
 const showCreateQuestionModal = () => {
   createQuestionModal.value.show()
-}
-
-const showCreateOptionModal = (question) => {
-  currentQuestion.value = question
-  createOptionModal.value.show()
-}
-
-const showCreateAnswerModal = (question) => {
-  currentQuestion.value = question
-  currentOptionsList.value = question.options
-  createAnswerModal.value.show()
 }
 
 onMounted(async () => {
@@ -190,4 +164,18 @@ onMounted(async () => {
     store.commit('users/setErrorMessage', err.message)
   }
 })
+
+watch(
+  () => isCreateOptionModalActive.value,
+  () => {
+    createOptionModal.value.show()
+  }
+)
+
+watch(
+  () => isCreateAnswerModalActive.value,
+  () => {
+    createAnswerModal.value.show()
+  }
+)
 </script>

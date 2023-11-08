@@ -13,6 +13,7 @@ export default {
         .get(`${import.meta.env.VITE_API_URL}/auth/users/me/`, ctx.state.authConfig);
       // Set data
       ctx.commit('setUserData', data);
+      await ctx.dispatch('users/retrieveCurrentUser', data.id, { root: true })
     } catch (err) {
       ctx.commit('users/setErrorMessage', err.message, { root: true })
     }

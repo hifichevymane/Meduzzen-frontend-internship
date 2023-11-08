@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import api from '../../api'
+import api from '../../../api'
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 

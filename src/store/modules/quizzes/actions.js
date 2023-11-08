@@ -11,12 +11,13 @@ export default {
     }
   },
 
-  async deleteOption(ctx, optionId) {
+  async deleteOption(ctx) {
     const config = ctx.rootState.auth.authConfig;
+    const currentOption = ctx.getters['getCurrentOption']
 
     try {
       await api.delete(
-        `${import.meta.env.VITE_API_URL}/answer_options/${optionId}/`,
+        `${import.meta.env.VITE_API_URL}/answer_options/${currentOption.id}/`,
         config
       );
     } catch (err) {

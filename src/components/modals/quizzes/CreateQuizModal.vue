@@ -9,27 +9,38 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Create a quiz</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            {{ $t('components.create_quiz_modal.heading') }}
+          </h1>
           <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form @submit.prevent="onSubmitCreateQuiz">
             <div class="mb-3">
-              <label for="quizTitle" class="form-label">Title: </label>
+              <label for="quizTitle" class="form-label"
+                >{{ $t('components.create_quiz_modal.title') }}:
+              </label>
               <input v-model="titleField" type="text" class="form-control" id="quizTitle" />
             </div>
             <div class="mb-3">
-              <label for="quizDescription" class="form-label">Description: </label>
+              <label for="quizDescription" class="form-label"
+                >{{ $t('components.create_quiz_modal.description') }}:
+              </label>
               <textarea
                 v-model="descriptionField"
                 class="form-control"
-                placeholder="Write a description"
+                :placeholder="$t('components.create_quiz_modal.description_placeholder')"
                 id="quizDescription"
                 cols="20"
               ></textarea>
             </div>
             <div class="d-flex gap-2 justify-content-end">
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                {{ $t('components.create_quiz_modal.buttons.close') }}
+              </button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+                {{ $t('components.create_quiz_modal.buttons.submit') }}
+              </button>
             </div>
           </form>
         </div>
@@ -39,7 +50,7 @@
 </template>
 
 <script setup>
-import api from '../../api'
+import api from '../../../api'
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
