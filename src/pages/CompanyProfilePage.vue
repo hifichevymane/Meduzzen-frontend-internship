@@ -17,6 +17,11 @@
       />
       <table-item
         v-if="isAbleToEditCompany"
+        :cols="companyAdminsTableCols"
+        table-type="company_admins"
+      />
+      <table-item
+        v-if="isAbleToEditCompany"
         :cols="companyInvitesTableCols"
         table-type="company_invites"
       />
@@ -43,6 +48,7 @@ const store = useStore()
 
 const companyMembersTableCols = ['username', 'first_name', 'last_name', 'role']
 const companyInvitesTableCols = ['username', 'first_name', 'last_name', 'status']
+const companyAdminsTableCols = ['username', 'first_name', 'last_name']
 
 const companyMembersList = ref(null)
 const companyInvitesList = ref(null)
@@ -55,14 +61,6 @@ const currentCompany = computed(() => store.getters['companies/getCurrentCompany
 const isAbleToEditCompany = computed(() => {
   return currentCompany.value.owner.id === loggedUser.value.id
 })
-
-// const onChangeCompanyMembersList = (value) => {
-//   companyMembersList.value = value
-// }
-
-// const onPushNewInvite = (value) => {
-//   companyInvitesList.value.push(value)
-// }
 
 onMounted(async () => {
   try {

@@ -105,5 +105,18 @@ export default {
     } catch (err) {
       ctx.commit('users/setErrorMessage', err.message, { root: true });
     }
+  },
+
+  async deleteAdmin(ctx, adminId) {
+    const config = ctx.rootState.auth.authConfig;
+    const body = {
+      role: 'member'
+    }
+
+    try {
+      await api.patch(`${import.meta.env.VITE_API_URL}/company_members/${adminId}/`, body, config)
+    } catch (err) {
+      ctx.commit('users/setErrorMessage', err.message, { root: true })
+    }
   }
 };
