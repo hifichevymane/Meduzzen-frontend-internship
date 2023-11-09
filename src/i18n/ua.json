@@ -2,9 +2,7 @@
   "components": {
     "tables": {
       "my_join_requests": {
-        "heading": "Мої запити від компаній",
-
-        "buttons": {}
+        "heading": "Мої запити від компаній"
       },
 
       "my_requests_to_companies": {
@@ -33,6 +31,10 @@
         }
       },
 
+      "company_admins": {
+        "heading": "Адміни компанії"
+      },
+
       "buttons": {
         "accept": "Прийняти",
         "decline": "Відмовитися",
@@ -40,7 +42,8 @@
         "revoke": "Відкликати",
         "exclude": "Виключити з компанії",
         "assign_role": "Назначити посаду",
-        "cancel": "Скасувати"
+        "cancel": "Скасувати",
+        "delete_admin": "Видалити адміна"
       },
 
       "cols": {

@@ -15,7 +15,9 @@
           </option>
         </select>
       </td>
-      <td v-else>{{ $t(`components.tables.status.${item.status}`) }}</td>
+      <td v-else-if="tableType === 'company_invites' || tableType === 'users_requests'">
+        {{ $t(`components.tables.status.${item.status}`) }}
+      </td>
 
       <td v-if="tableType === 'company_invites'">
         <button
@@ -42,7 +44,7 @@
           </button>
         </div>
       </td>
-      <td v-else>
+      <td v-else-if="tableType === 'company_members'">
         <div v-if="isAbleToEditCompany" class="d-flex gap-2">
           <button @click="showConfirmAppointRoleModal(item)" class="btn btn-primary">
             {{ $t('components.tables.buttons.assign_role') }}
@@ -51,6 +53,11 @@
             {{ $t('components.tables.buttons.exclude') }}
           </button>
         </div>
+      </td>
+      <td v-else>
+        <button @click="showConfirmDeleteAdminModal(item)" class="btn btn-danger">
+          {{ $t('components.tables.buttons.delete_admin') }}
+        </button>
       </td>
     </tr>
   </tbody>
@@ -70,9 +77,14 @@
     @on-confirm-action="onConfirmRevokeRequestAction"
   />
   <confirm-action-modal
-    v-else
+    v-else-if="tableType === 'users_requests'"
     :modal-id="confirmAcceptRejectUserRequestModalId"
     @on-confirm-action="onConfirmAcceptRejectRequest"
+  />
+  <confirm-action-modal
+    v-else
+    :modal-id="confirmDeleteAdminModalId"
+    @on-confirm-action="onConfirmDeleteAdmin"
   />
 </template>
 
@@ -84,7 +96,7 @@ import { useStore } from 'vuex'
 import { Modal } from 'bootstrap'
 
 const props = defineProps(['tableType', 'isAbleToEditCompany', 'dataList'])
-const emit = defineEmits(['onExcludeUser'])
+const emit = defineEmits(['onExcludeUser', 'onDeleteAdmin'])
 
 const store = useStore()
 
@@ -101,6 +113,8 @@ const confirmAppointRoleModal = ref(null)
 const confirmAppointRoleModalId = 'appointRoleModal'
 const confirmExcludeMemberModal = ref(null)
 const confirmExcludeMemberModalId = 'excludeMemeberModal'
+const confirmDeleteAdminModal = ref(null)
+const confirmDeleteAdminModalId = 'deleteAdminModal'
 
 const tableType = computed(() => props.tableType)
 const isAbleToEditCompany = computed(() => props.isAbleToEditCompany)
@@ -123,6 +137,11 @@ const showConfirmAcceptRejectUserRequestModal = (item, status) => {
 
 const showConfirmExcludeModal = (item) => {
   confirmExcludeMemberModal.value.show()
+  currentItem.value = item
+}
+
+const showConfirmDeleteAdminModal = (item) => {
+  confirmDeleteAdminModal.value.show()
   currentItem.value = item
 }
 
@@ -157,6 +176,11 @@ const onConfirmAcceptRejectRequest = async () => {
   currentItem.value.status = currentRequestStatus.value
 }
 
+const onConfirmDeleteAdmin = async () => {
+  await store.dispatch('companies/deleteAdmin', currentItem.value.id)
+  emit('onDeleteAdmin', currentItem.value.id)
+}
+
 onMounted(async () => {
   if (tableType.value === 'company_members') {
     confirmAppointRoleModal.value = new Modal(document.getElementById(confirmAppointRoleModalId))
@@ -167,10 +191,12 @@ onMounted(async () => {
     confirmRevokeRequestModal.value = new Modal(
       document.getElementById(confirmRevokeRequestModalId)
     )
-  } else {
+  } else if (tableType.value === 'users_requests') {
     confirmAcceptRejectUserRequestModal.value = new Modal(
       document.getElementById(confirmAcceptRejectUserRequestModalId)
     )
+  } else {
+    confirmDeleteAdminModal.value = new Modal(document.getElementById(confirmDeleteAdminModalId))
   }
 })
 </script>
