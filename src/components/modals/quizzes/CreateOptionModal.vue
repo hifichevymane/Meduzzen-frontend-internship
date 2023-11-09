@@ -9,11 +9,13 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 v-if="type === 'options'" class="modal-title fs-5" id="exampleModalLabel">
-            {{ $t('components.create_option_modal.options.heading') }}
-          </h1>
-          <h1 v-else class="modal-title fs-5" id="exampleModalLabel">
-            {{ $t('components.create_option_modal.answer.heading') }}
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            <template v-if="type === 'options'">
+              {{ $t('components.create_option_modal.options.heading') }}
+            </template>
+            <template v-else>
+              {{ $t('components.create_option_modal.answer.heading') }}
+            </template>
           </h1>
           <button
             @click="onCloseModal"
@@ -25,24 +27,26 @@
         </div>
         <div class="modal-body">
           <form @submit.prevent="onSubmitOption">
-            <div v-if="type === 'options'" class="input-group mb-3">
-              <span class="input-group-text">
-                {{ $t('components.create_option_modal.options.text') }}:
-              </span>
-              <input v-model="optionText" type="text" class="form-control" />
-            </div>
-            <div v-else class="input-group mb-3">
-              <span class="input-group-text">
-                {{ $t('components.create_option_modal.answer.text') }}:
-              </span>
-              <select v-model="selectedAnswer" class="form-select">
-                <option value="default" selected>
-                  {{ $t('components.create_option_modal.answer.default_select') }}
-                </option>
-                <option v-for="answer in answersList" :key="answer.id" :value="answer">
-                  {{ answer.text }}
-                </option>
-              </select>
+            <div class="input-group mb-3">
+              <template v-if="type === 'options'">
+                <span class="input-group-text">
+                  {{ $t('components.create_option_modal.options.text') }}:
+                </span>
+                <input v-model="optionText" type="text" class="form-control" />
+              </template>
+              <template v-else>
+                <span class="input-group-text">
+                  {{ $t('components.create_option_modal.answer.text') }}:
+                </span>
+                <select v-model="selectedAnswer" class="form-select">
+                  <option value="default" selected>
+                    {{ $t('components.create_option_modal.answer.default_select') }}
+                  </option>
+                  <option v-for="answer in answersList" :key="answer.id" :value="answer">
+                    {{ answer.text }}
+                  </option>
+                </select>
+              </template>
             </div>
             <div class="d-flex gap-3 justify-content-end">
               <button
@@ -53,16 +57,13 @@
               >
                 {{ $t('components.create_option_modal.buttons.close') }}
               </button>
-              <button
-                v-if="type === 'options'"
-                type="submit"
-                class="btn btn-success"
-                data-bs-dismiss="modal"
-              >
-                {{ $t('components.create_option_modal.buttons.add_option') }}
-              </button>
-              <button v-else type="submit" class="btn btn-success" data-bs-dismiss="modal">
-                {{ $t('components.create_option_modal.buttons.add_answer') }}
+              <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
+                <template v-if="type === 'options'">
+                  {{ $t('components.create_option_modal.buttons.add_option') }}
+                </template>
+                <template v-else>
+                  {{ $t('components.create_option_modal.buttons.add_answer') }}
+                </template>
               </button>
             </div>
           </form>

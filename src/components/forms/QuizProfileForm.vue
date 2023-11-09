@@ -34,16 +34,17 @@
       {{ $t('components.quiz_profile_form.buttons.delete_quiz') }}
     </button>
     <!-- Questions list -->
-    <quiz-questions-list
-      v-if="isAbleToEditQuiz"
-      :questions-list="questionsList"
-      :is-able-to-edit-quiz="isAbleToEditQuiz"
-      @on-create-question="showCreateQuestionModal"
-      @on-delete-question="deleteQuestion"
-    />
-    <button v-if="isAbleToEditQuiz" type="submit" class="btn btn-success mt-3">
-      {{ $t('components.quiz_profile_form.buttons.save_quiz') }}
-    </button>
+    <template v-if="isAbleToEditQuiz">
+      <quiz-questions-list
+        :questions-list="questionsList"
+        :is-able-to-edit-quiz="isAbleToEditQuiz"
+        @on-create-question="showCreateQuestionModal"
+        @on-delete-question="deleteQuestion"
+      />
+      <button type="submit" class="btn btn-success mt-3">
+        {{ $t('components.quiz_profile_form.buttons.save_quiz') }}
+      </button>
+    </template>
   </form>
   <create-question-modal
     :modal-id="createQuestionModalId"
