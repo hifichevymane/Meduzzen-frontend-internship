@@ -23,6 +23,11 @@ const store = createStore({
     getTestString(state) {
       return state.testString;
     },
+
+    // Return page size number (doesn't work properly with returning state)
+    getPageSize() {
+      return 12;
+    },
   },
 
   actions: {
