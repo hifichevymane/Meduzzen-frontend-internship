@@ -175,6 +175,100 @@
       "ua": "Ukrainian",
       "visible": "Visible",
       "hidden": "Hidden"
+    },
+
+    "quiz_list": {
+      "heading": "Avaliable quizzes",
+      "buttons": {
+        "create_quiz": "Create a quiz"
+      },
+      "links": {
+        "check_quiz": "Check the quiz"
+      }
+    },
+
+    "create_quiz_modal": {
+      "heading": "Create a quiz",
+      "title": "Title",
+      "description": "Description",
+      "description_placeholder": "Write about your quiz",
+      "buttons": {
+        "submit": "Submit",
+        "close": "Close"
+      }
+    },
+
+    "quiz_profile_form": {
+      "title": "Title",
+      "description": "Description",
+      "frequency": "Frequency",
+      "creator": "Creator",
+      "company": "Company",
+      "buttons": {
+        "delete_quiz": "Delete the quiz",
+        "save_quiz": "Save changes"
+      }
+    },
+
+    "quiz_questions_list": {
+      "heading": "Questions",
+      "buttons": {
+        "add_question": "Add a new question",
+        "save_question": "Save the question",
+        "delete_question": "Delete the question"
+      },
+      "fields": {
+        "text": "Text",
+        "creator": "Creator"
+      },
+      "validation_error": "Question must have at least two answer options and at least 1 answer."
+    },
+
+    "quiz_options_answers_list": {
+      "options": {
+        "heading": "Options",
+        "buttons": {
+          "add_option": "Add a new option",
+          "delete_option": "Delete the option"
+        }
+      },
+      "answer": {
+        "heading": "Answers",
+        "buttons": {
+          "add_answer": "Add a new answer",
+          "delete_answer": "Delete the answer"
+        }
+      }
+    },
+
+    "create_option_modal": {
+      "options": {
+        "heading": "Create an option",
+        "text": "Text"
+      },
+      "answer": {
+        "heading": "Select the answer",
+        "text": "Answer",
+        "default_select": "Choose the answer"
+      },
+      "buttons": {
+        "add_option": "Add a new option",
+        "add_answer": "Add a new answer",
+        "close": "Close"
+      }
+    },
+
+    "create_question_modal": {
+      "heading": "Create a new question",
+      "text": "Text",
+      "options_heading": "Options",
+      "answer_heading": "Answers",
+      "buttons": {
+        "close": "Close",
+        "create_question": "Create a question",
+        "add_option": "Add a new option"
+      },
+      "validation_error": "Question must have at least 2 options and 1 answer. Question text must not be empty"
     }
   },
 
@@ -220,6 +314,10 @@
 
     "user_profile_page": {
       "heading": "User profile"
+    },
+
+    "quiz_profile_page": {
+      "heading": "Quiz profile"
     }
   }
 }

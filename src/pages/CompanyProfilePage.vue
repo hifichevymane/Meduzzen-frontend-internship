@@ -10,6 +10,7 @@
           <edit-company-profile-form :is-able-to-edit-company="isAbleToEditCompany" />
         </div>
       </div>
+      <quizzes-list v-if="isAbleToEditCompany || isCompanyMember" />
       <table-item
         :is-able-to-edit-company="isAbleToEditCompany"
         :cols="companyMembersTableCols"
@@ -37,6 +38,7 @@
 <script setup>
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
+import QuizzesList from '../components/lists/QuizzesList.vue'
 import EditCompanyProfileForm from '../components/forms/EditCompanyProfileForm.vue'
 import TableItem from '../components/tables/TableItem.vue'
 
@@ -57,6 +59,7 @@ const usersRequestsList = ref(null)
 const config = computed(() => store.getters['auth/getAuthConfig'])
 const loggedUser = computed(() => store.getters['auth/getUser'])
 const currentCompany = computed(() => store.getters['companies/getCurrentCompany'])
+const isCompanyMember = computed(() => store.getters['users/getIsCompanyMember'])
 
 const isAbleToEditCompany = computed(() => {
   return currentCompany.value.owner.id === loggedUser.value.id
@@ -87,6 +90,24 @@ onMounted(async () => {
     )
 
     usersRequestsList.value = usersRequestsData.data
+
+    const usersCompanyData = await api.get(
+      `${import.meta.env.VITE_API_URL}/users/${loggedUser.value.id}/current_company/`,
+      config.value
+    )
+
+    // If current user is company member and admin
+    if (usersCompanyData.data.company.id === currentCompany.value.id) {
+      store.commit('users/setIsCompanyMember', true)
+    } else {
+      store.commit('users/setIsCompanyMember', false)
+    }
+
+    if (usersCompanyData.data.role === 'admin') {
+      store.commit('users/setIsCompanyAdmin', true)
+    } else {
+      store.commit('users/setIsCompanyAdmin', false)
+    }
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }

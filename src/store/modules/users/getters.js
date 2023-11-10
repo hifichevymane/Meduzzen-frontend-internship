@@ -12,6 +12,18 @@ export default {
     return state.errorMessage;
   },
 
+  getIsCompanyMember(state) {
+    return state.isCompanyMember;
+  },
+
+  getIsCompanyOwner(state) {
+    return state.isCompanyOwner;
+  },
+
+  getIsCompanyAdmin(state) {
+    return state.isCompanyAdmin;
+  },
+
   getCompanyUserWorksIn(state) {
     return state.companyUserWorksIn;
   },

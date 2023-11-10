@@ -15,15 +15,19 @@
           <h6 class="fw-bold">{{ $t('components.user_card.email') }}:</h6>
           <h6>{{ user.email }}</h6>
         </div>
-        <a :href="`users/${user.id}`" class="btn btn-primary">{{
-          $t('components.user_card.button')
-        }}</a>
+        <router-link
+          :to="{ name: 'UserProfile', params: { id: user.id } }"
+          class="btn btn-primary"
+          >{{ $t('components.user_card.button') }}</router-link
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router'
+
 // All the card component props
 defineProps({
   user: Object

@@ -71,7 +71,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-import api from '../../api'
+import api from '../../../api'
 
 const emit = defineEmits(['addNewCompany'])
 

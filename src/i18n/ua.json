@@ -175,6 +175,100 @@
       "ua": "Українська",
       "visible": "Бачать усі",
       "hidden": "Бачу тільки я"
+    },
+
+    "quiz_list": {
+      "heading": "Доступні вікторини",
+      "buttons": {
+        "create_quiz": "Створити вікторину"
+      },
+      "links": {
+        "check_quiz": "Перейти до вікторини"
+      }
+    },
+
+    "create_quiz_modal": {
+      "heading": "Створити вікторину",
+      "title": "Назва",
+      "description": "Опис",
+      "description_placeholder": "Напишіть щось про вашу вікторину",
+      "buttons": {
+        "submit": "Створити",
+        "close": "Закрити"
+      }
+    },
+
+    "quiz_profile_form": {
+      "title": "Назва",
+      "description": "Опис",
+      "frequency": "Частота проходжень",
+      "creator": "Створив",
+      "company": "Компанія",
+      "buttons": {
+        "delete_quiz": "Видалити вікторину",
+        "save_quiz": "Зберігти вікторину"
+      }
+    },
+
+    "quiz_questions_list": {
+      "heading": "Питання",
+      "buttons": {
+        "add_question": "Додати нове питання",
+        "save_question": "Зберігти питання",
+        "delete_question": "Видалити питання"
+      },
+      "fields": {
+        "text": "Текст",
+        "creator": "Створив"
+      },
+      "validation_error": "Питання має містити хоча б 2 варіанта відповіді та 1 відповідь."
+    },
+
+    "quiz_options_answers_list": {
+      "options": {
+        "heading": "Варіанти відповідей",
+        "buttons": {
+          "add_option": "Додати новий варіант відповіді",
+          "delete_option": "Видалити варіант відповіді"
+        }
+      },
+      "answer": {
+        "heading": "Відповіді",
+        "buttons": {
+          "add_answer": "Додати нову відповідь",
+          "delete_answer": "Видалити відповідь"
+        }
+      }
+    },
+
+    "create_option_modal": {
+      "options": {
+        "heading": "Створити варіант відповіді",
+        "text": "Текст"
+      },
+      "answer": {
+        "heading": "Оберіть відповідь",
+        "text": "Відповідь",
+        "default_select": "Оберіть відповідь у переліку"
+      },
+      "buttons": {
+        "add_option": "Додати новий варіант відповіді",
+        "add_answer": "Додати нову відповідь",
+        "close": "Закрити"
+      }
+    },
+
+    "create_question_modal": {
+      "heading": "Створити нове питання",
+      "text": "Текст",
+      "options_heading": "Варіанти відповідей",
+      "answer_heading": "Відповіді",
+      "buttons": {
+        "close": "Закрити",
+        "create_question": "Створити питання",
+        "add_option": "Додати новий варіант відповіді"
+      },
+      "validation_error": "Питання має містити хоча б 2 варіанта відповіді та 1 відповідь. Текст питання не повинен бути порожнім."
     }
   },
 
@@ -221,6 +315,10 @@
 
     "user_profile_page": {
       "heading": "Профіль користувача"
+    },
+
+    "quiz_profile_page": {
+      "heading": "Профіль вікторини"
     }
   }
 }

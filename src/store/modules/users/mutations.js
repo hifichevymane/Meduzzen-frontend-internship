@@ -9,7 +9,19 @@ export default {
   },
 
   setErrorMessage(state, message) {
-    state.errorMessage = message;
+    state.errorMessage = message
+  },
+
+  setIsCompanyMember(state, value) {
+    state.isCompanyMember = value;
+  },
+
+  setIsCompanyOwner(state, value) {
+    state.isCompanyOwner = value;
+  },
+
+  setIsCompanyAdmin(state, value) {
+    state.isCompanyAdmin = value;
   },
 
   setCompanyUserWorksIn(state, value) {

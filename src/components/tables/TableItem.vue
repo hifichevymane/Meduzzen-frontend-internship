@@ -44,10 +44,10 @@
 </template>
 
 <script setup>
-import InviteUserModal from '../modals/InviteUserModal.vue'
+import InviteUserModal from '../modals/companies/InviteUserModal.vue'
 import UsersTbody from './tbody/UsersTbody.vue'
 import CompaniesTbody from './tbody/CompaniesTbody.vue'
-import CreateRequestToCompanyModal from '../modals/CreateRequestToCompanyModal.vue'
+import CreateRequestToCompanyModal from '../modals/companies/CreateRequestToCompanyModal.vue'
 
 import api from '../../api'
 import { computed, ref, onMounted } from 'vue'

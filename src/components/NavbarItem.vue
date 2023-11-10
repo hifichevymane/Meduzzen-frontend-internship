@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-expand-xl p-4 bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Access managment</a>
+        <router-link class="navbar-brand" to="/">Meduzzen internship</router-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -18,51 +18,70 @@
           <!-- Left part of the navbar -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/">{{ $t('components.navbar.links.home') }}</a>
+              <router-link class="nav-link" to="/">{{
+                $t('components.navbar.links.home')
+              }}</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/about">{{ $t('components.navbar.links.about') }}</a>
+              <router-link class="nav-link" to="/about">{{
+                $t('components.navbar.links.about')
+              }}</router-link>
             </li>
-            <li v-if="isAuthenticated" class="nav-item">
-              <!-- If user authenticated -->
-              <a class="nav-link" href="/companies">{{
-                $t('components.navbar.links.companies')
-              }}</a>
-            </li>
-            <li v-if="isAuthenticated" class="nav-item">
-              <a class="nav-link" href="/users">{{ $t('components.navbar.links.users') }}</a>
-            </li>
+            <template v-if="isAuthenticated">
+              <li class="nav-item">
+                <!-- If user authenticated -->
+                <router-link class="nav-link" to="/companies">{{
+                  $t('components.navbar.links.companies')
+                }}</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/users">{{
+                  $t('components.navbar.links.users')
+                }}</router-link>
+              </li>
+            </template>
           </ul>
           <!-- Right part of the navbar -->
           <ul class="navbar-nav ms-auto">
-            <li v-if="!isAuthenticated" class="nav-item">
-              <a class="nav-link" href="/sign-up">{{ $t('components.navbar.links.sign_up') }}</a>
-            </li>
-            <li v-if="!isAuthenticated" class="nav-item">
-              <a class="nav-link" href="/login">{{ $t('components.navbar.links.login') }}</a>
-            </li>
-            <div v-if="isAuthenticated" class="nav-item d-flex flex-column text-light">
-              <!-- If user authenticated -->
-              <p class="mb-1">{{ userInfo.first_name }},</p>
-              <p class="m-0">{{ userInfo.email }}</p>
+            <template v-if="!isAuthenticated">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/sign-up">{{
+                  $t('components.navbar.links.sign_up')
+                }}</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/login">{{
+                  $t('components.navbar.links.login')
+                }}</router-link>
+              </li>
+            </template>
+            <div v-else class="d-flex align-items-center">
+              <li class="nav-item d-flex flex-column text-light">
+                <!-- If user authenticated -->
+                <p class="mb-1">{{ userInfo.first_name }},</p>
+                <p class="m-0">{{ userInfo.email }}</p>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  class="nav-link"
+                  :to="{ name: 'UserProfile', params: { id: userInfo.id } }"
+                  >{{ $t('components.navbar.links.user_profile') }}</router-link
+                >
+              </li>
             </div>
-            <li v-if="isAuthenticated" class="nav-item">
-              <!-- If user authenticated -->
-              <a class="nav-link" href="/companies/1">{{
-                $t('components.navbar.links.company_profile')
-              }}</a>
-            </li>
-            <li v-if="isAuthenticated" class="nav-item">
-              <a class="nav-link" :href="`/users/${userInfo.id}`">{{
-                $t('components.navbar.links.user_profile')
-              }}</a>
-            </li>
           </ul>
-          <button v-if="isAuthenticated" @click="logout" type="button" class="btn btn-danger">
-            {{ $t('components.navbar.links.logout') }}
-          </button>
-          <!-- Select language -->
-          <select-item />
+          <div class="d-flex gap-2 align-items-center">
+            <button
+              v-if="isAuthenticated"
+              @click="logout"
+              type="button"
+              class="btn btn-danger w-75"
+            >
+              {{ $t('components.navbar.links.logout') }}
+            </button>
+            <!-- Select language -->
+            <select-item />
+          </div>
         </div>
       </div>
     </nav>
@@ -71,10 +90,14 @@
 
 <script setup>
 import SelectItem from './SelectItem.vue'
+
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 const store = useStore()
+const router = useRouter()
 
 // Get from Vuex store information if user is authenticated
 const isAuthenticated = computed(() => {
@@ -92,6 +115,6 @@ const logout = () => {
   // Set isAuthenticated state
   store.commit('auth/setIsAuthenticated', false)
   localStorage.removeItem('access')
-  location.reload() // Reload page
+  router.push('/') // Reload page
 }
 </script>

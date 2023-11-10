@@ -99,4 +99,15 @@ export default {
       ctx.commit('setErrorMessage', err.message)
     }
   },
+
+  async retrieveCurrentUser(ctx, userId) {
+    const config = ctx.rootState.auth.authConfig;
+
+    try {
+      const { data } = await api.get(`${import.meta.env.VITE_API_URL}/users/${userId}`, config)
+      ctx.commit('setCurrentUser', data)
+    } catch (err) {
+      ctx.commit('setErrorMessage', err.message)
+    }
+  }
 }

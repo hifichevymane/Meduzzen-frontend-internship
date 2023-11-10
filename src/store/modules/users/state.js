@@ -4,6 +4,9 @@ export default function state() {
     usersList: [],
     currentUser: {},
     errorMessage: null,
+    isCompanyMember: false,
+    isCompanyOwner: false,
+    isCompanyAdmin: false,
     companyUserWorksIn: null,
     isEmployed: null,
   }

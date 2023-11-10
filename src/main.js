@@ -16,11 +16,12 @@ import LoginPage from './pages/LoginPage.vue';
 import UserProfilePage from './pages/UserProfilePage.vue';
 import SignUpPage from './pages/SignUpPage.vue';
 import UsersListPage from './pages/UsersListPage.vue';
+import QuizPage from './pages/QuizPage.vue';
 
 // Get isAuthenticated value from store
-const isAuthenticated = computed(() => {
-  return store.getters['auth/getIsAuthenticated']
-})
+const isAuthenticated = computed(() => store.getters['auth/getIsAuthenticated'])
+const isCompanyMember = computed(() => store.getters['users/getIsCompanyMember'])
+const isCompanyOwner = computed(() => store.getters['users/getIsCompanyOwner'])
 
 // Url paths for pages
 const routes = [
@@ -52,6 +53,12 @@ const routes = [
     meta: { requiresAuth: true } // Requires authentication
   },
   { path: '/sign-up', component: () => SignUpPage, name: 'SignUp' },
+  {
+    path: '/quizzes/:id',
+    component: () => QuizPage,
+    name: 'QuizPage',
+    meta: { requiresCompanyMember: true, requiresCompanyOwner: true },
+  },
 ];
 
 // Creating a router
@@ -70,8 +77,19 @@ router.beforeEach((to, from, next) => {
     } else { // If authenticated -> OK
       next()
     }
+  } else if (
+    to.matched.some(
+      record => record.meta.requiresCompanyMember &&
+        record.meta.requiresCompanyOwner
+    )
+  ) {
+    if (isCompanyOwner.value || isCompanyMember.value) {
+      next()
+    } else {
+      next('/')
+    }
   } else {
-    next() // If route does not require auth -> OK
+    next()
   }
 })
 
