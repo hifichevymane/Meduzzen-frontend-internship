@@ -206,7 +206,8 @@
       "company": "Company",
       "buttons": {
         "delete_quiz": "Delete the quiz",
-        "save_quiz": "Save changes"
+        "save_quiz": "Save changes",
+        "undergo_quiz": "Undergo quiz"
       }
     },
 
@@ -318,6 +319,14 @@
 
     "quiz_profile_page": {
       "heading": "Quiz profile"
+    },
+
+    "quiz_undergo_page": {
+      "answer_options": "Answer options",
+      "buttons": {
+        "answer": "Answer",
+        "finish_quiz": "Finish the quiz"
+      }
     }
   }
 }

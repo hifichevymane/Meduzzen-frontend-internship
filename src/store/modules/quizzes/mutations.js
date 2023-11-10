@@ -3,6 +3,10 @@ export default {
     state.quizzesList = [...data];
   },
 
+  setCurrentQuiz(state, data) {
+    state.currentQuiz = { ...data };
+  },
+
   setCurrentQuestion(state, data) {
     state.currentQuestion = { ...data };
   },
@@ -38,11 +42,39 @@ export default {
     state.currentAnswer = { ...data };
   },
 
+  setCurrentQuizResult(state, data) {
+    state.currentQuizResult = { ...data };
+  },
+
+  setCurrentQuizResultStatus(state, status) {
+    state.currentQuizResult.status = status
+  },
+
+  setCurrentQuizQuestionsList(state, data) {
+    state.currentQuizQuestionsList = [...data];
+  },
+
+  setCurrentQuestionIndex(state, value) {
+    state.currentQuestionIndex = value;
+  },
+
+  incrementCurrentQuestionIndex(state) {
+    state.currentQuestionIndex = state.currentQuestionIndex + 1;
+  },
+
+  setCurrentQuestionId(state, value) {
+    state.currentQuestionId = value
+  },
+
   setIsCreateOptionModalActive(state, value) {
     state.isCreateOptionModalActive = value;
   },
 
   setIsCreateAnswerModalActive(state, value) {
     state.isCreateAnswerModalActive = value;
+  },
+
+  setIsUserTakingQuiz(state, value) {
+    state.isUserTakingQuiz = value;
   },
 };

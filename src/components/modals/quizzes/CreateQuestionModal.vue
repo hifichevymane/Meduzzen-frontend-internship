@@ -82,6 +82,7 @@ const questionText = ref('')
 
 const config = computed(() => store.getters['auth/getAuthConfig'])
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
+const currentQuiz = computed(() => store.getters['quizzes/getCurrentQuiz'])
 
 const optionListIds = computed(() => {
   return optionsList.value.map((option) => option.id)
@@ -138,9 +139,9 @@ const onCreateNewQuestion = async () => {
     const body = {
       text: questionText.value,
       options: optionListIds.value,
-      answer: answerOptionsIds.value
+      answer: answerOptionsIds.value,
+      quiz: currentQuiz.value.id
     }
-
     try {
       const { data } = await api.post(
         `${import.meta.env.VITE_API_URL}/questions/`,
@@ -157,8 +158,6 @@ const onCreateNewQuestion = async () => {
         creator: currentUser.value,
         answer: answersList.value
       }
-      console.log(currentUser.value)
-      console.log(newQuestion.creator)
       emit('onPushNewQuestion', newQuestion)
       clearForm()
     } catch (err) {

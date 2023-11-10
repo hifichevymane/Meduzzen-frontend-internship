@@ -206,7 +206,8 @@
       "company": "Компанія",
       "buttons": {
         "delete_quiz": "Видалити вікторину",
-        "save_quiz": "Зберігти вікторину"
+        "save_quiz": "Зберігти вікторину",
+        "undergo_quiz": "Пройти вікторину"
       }
     },
 
@@ -319,6 +320,14 @@
 
     "quiz_profile_page": {
       "heading": "Профіль вікторини"
+    },
+
+    "quiz_undergo_page": {
+      "answer_options": "Варіанти відповіді",
+      "buttons": {
+        "answer": "Відповісти",
+        "finish_quiz": "Відповісти та завершити вікторину"
+      }
     }
   }
 }
