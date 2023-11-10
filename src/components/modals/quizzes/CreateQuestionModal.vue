@@ -82,7 +82,6 @@ const questionText = ref('')
 
 const config = computed(() => store.getters['auth/getAuthConfig'])
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
-const currentQuiz = computed(() => store.getters['quizzes/getCurrentQuiz'])
 
 const optionListIds = computed(() => {
   return optionsList.value.map((option) => option.id)
@@ -139,8 +138,7 @@ const onCreateNewQuestion = async () => {
     const body = {
       text: questionText.value,
       options: optionListIds.value,
-      answer: answerOptionsIds.value,
-      quiz: currentQuiz.value.id
+      answer: answerOptionsIds.value
     }
     try {
       const { data } = await api.post(
