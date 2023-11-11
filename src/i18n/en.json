@@ -323,9 +323,12 @@
 
     "quiz_undergo_page": {
       "answer_options": "Answer options",
+      "passed_quiz_message": "You've passed the quiz!",
+      "quiz_result_info": "You've answered correctly {quizResultScore} out of {questionsCount} questions!",
       "buttons": {
         "answer": "Answer",
-        "finish_quiz": "Finish the quiz"
+        "finish_quiz": "Finish the quiz",
+        "return_to_company_profile_page": "Return to the company profile page"
       }
     }
   }

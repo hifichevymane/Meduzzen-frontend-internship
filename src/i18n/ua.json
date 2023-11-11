@@ -324,9 +324,12 @@
 
     "quiz_undergo_page": {
       "answer_options": "Варіанти відповіді",
+      "passed_quiz_message": "Ви пройшли вікторину!",
+      "quiz_result_info": "Ви відповили правильно на {quizResultScore} з {questionsCount} запитань!",
       "buttons": {
         "answer": "Відповісти",
-        "finish_quiz": "Відповісти та завершити вікторину"
+        "finish_quiz": "Відповісти та завершити вікторину",
+        "return_to_company_profile_page": "Повернутися на сторінку компанії"
       }
     }
   }

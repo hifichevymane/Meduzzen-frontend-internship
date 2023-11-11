@@ -4,39 +4,61 @@
   <main-container>
     <div class="container-fluid">
       <div class="row d-flex justify-content-center">
-        <!-- Questions count -->
-        <p class="text-center mt-3 fw-bold">
-          {{ currentQuestionIndex + 1 }} / {{ currentQuiz.questions.length }}
-        </p>
-        <form
-          v-if="currentQuestion"
-          class="col-lg-6"
-          method="post"
-          @submit.prevent="onSubmitAnswer"
-        >
-          <h3>{{ currentQuestion.text }}</h3>
-          <p class="fw-semibold">{{ $t('pages.quiz_undergo_page.answer_options') }}:</p>
-          <ul class="list-group">
-            <li class="list-group-item" v-for="option in currentQuestion.options" :key="option.id">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  v-model="currentAnswer"
-                  :type="currentQuestion.answer.length > 1 ? 'checkbox' : 'radio'"
-                  :id="option.id"
-                  :value="option.id"
-                />
-                <label class="form-check-label" :for="option.id">{{ option.text }}</label>
-              </div>
-            </li>
-          </ul>
-          <button v-if="isUserAnswered" type="submit" class="btn btn-primary mt-3">
-            <template v-if="!isLastQuestion">
-              {{ $t('pages.quiz_undergo_page.buttons.answer') }}
-            </template>
-            <template v-else> {{ $t('pages.quiz_undergo_page.buttons.finish_quiz') }} </template>
-          </button>
-        </form>
+        <template v-if="!showResult">
+          <!-- Questions count -->
+          <p class="text-center mt-3 fw-bold">
+            {{ currentQuestionIndex + 1 }} / {{ currentQuiz.questions.length }}
+          </p>
+          <form
+            v-if="currentQuestion"
+            class="col-lg-6"
+            method="post"
+            @submit.prevent="onSubmitAnswer"
+          >
+            <h3>{{ currentQuestion.text }}</h3>
+            <p class="fw-semibold">{{ $t('pages.quiz_undergo_page.answer_options') }}:</p>
+            <ul class="list-group">
+              <li
+                class="list-group-item"
+                v-for="option in currentQuestion.options"
+                :key="option.id"
+              >
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    v-model="currentAnswer"
+                    :type="currentQuestion.answer.length > 1 ? 'checkbox' : 'radio'"
+                    :id="option.id"
+                    :value="option.id"
+                  />
+                  <label class="form-check-label" :for="option.id">{{ option.text }}</label>
+                </div>
+              </li>
+            </ul>
+            <button v-if="isUserAnswered" type="submit" class="btn btn-primary mt-3">
+              <template v-if="!isLastQuestion">
+                {{ $t('pages.quiz_undergo_page.buttons.answer') }}
+              </template>
+              <template v-else> {{ $t('pages.quiz_undergo_page.buttons.finish_quiz') }} </template>
+            </button>
+          </form>
+        </template>
+        <div v-else class="text-center">
+          <h1>{{ $t('pages.quiz_undergo_page.passed_quiz_message') }}</h1>
+          <p class="fs-3 text-center">
+            {{
+              $t('pages.quiz_undergo_page.quiz_result_info', {
+                quizResultScore: currentQuizResult.score,
+                questionsCount: currentQuiz.questions.length
+              })
+            }}
+          </p>
+          <router-link
+            :to="{ name: 'CompanyProfile', params: { id: currentQuiz.company } }"
+            class="btn btn-success"
+            >{{ $t('pages.quiz_undergo_page.buttons.return_to_company_profile_page') }}</router-link
+          >
+        </div>
       </div>
     </div>
   </main-container>
@@ -47,15 +69,15 @@ import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
 
 import api from '../api'
-import { useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed, ref, onMounted } from 'vue'
 
 const store = useStore()
-const router = useRouter()
 
 const currentQuestion = ref(null)
 const currentAnswer = ref([])
+const showResult = ref(false)
 
 const config = computed(() => store.getters['auth/getAuthConfig'])
 const currentQuiz = computed(() => store.getters['quizzes/getCurrentQuiz'])
@@ -109,22 +131,11 @@ const onSubmitAnswer = async () => {
 
   try {
     await api.post(`${import.meta.env.VITE_API_URL}/users_answers/`, body, config.value)
-    // Increase question index number by 1
-    store.commit('quizzes/incrementCurrentQuestionIndex')
-    store.commit(
-      'quizzes/setCurrentQuestionId',
-      // Get question id by question index in questions list
-      currentQuiz.value.questions[currentQuestionIndex.value].id
-    )
-
-    // Clear current answer value
-    currentAnswer.value = []
-    await getQuestionData()
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }
 
-  if (!isLastQuestion.value) {
+  if (isLastQuestion.value) {
     const body = {
       status: 'completed'
     }
@@ -138,11 +149,22 @@ const onSubmitAnswer = async () => {
 
       store.commit('quizzes/setCurrentQuizResult', data)
       store.commit('quizzes/setIsUserTakingQuiz', false)
-      // Redirect to company page
-      router.push({ name: 'CompanyProfile', params: { id: currentQuiz.value.company } })
+      showResult.value = true
     } catch (err) {
       store.commit('users/setErrorMessage')
     }
+  } else {
+    // Increase question index number by 1
+    store.commit('quizzes/incrementCurrentQuestionIndex')
+    store.commit(
+      'quizzes/setCurrentQuestionId',
+      // Get question id by question index in questions list
+      currentQuiz.value.questions[currentQuestionIndex.value].id
+    )
+
+    // Clear current answer value
+    currentAnswer.value = []
+    await getQuestionData() // get next question data
   }
 }
 
