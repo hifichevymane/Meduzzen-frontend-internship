@@ -17,11 +17,13 @@ import UserProfilePage from './pages/UserProfilePage.vue';
 import SignUpPage from './pages/SignUpPage.vue';
 import UsersListPage from './pages/UsersListPage.vue';
 import QuizPage from './pages/QuizPage.vue';
+import QuizUndergoPage from './pages/QuizUndergoPage.vue'
 
 // Get isAuthenticated value from store
 const isAuthenticated = computed(() => store.getters['auth/getIsAuthenticated'])
 const isCompanyMember = computed(() => store.getters['users/getIsCompanyMember'])
 const isCompanyOwner = computed(() => store.getters['users/getIsCompanyOwner'])
+const isUserTakingQuiz = computed(() => store.getters['quizzes/getIsUserTakingQuiz'])
 
 // Url paths for pages
 const routes = [
@@ -59,6 +61,12 @@ const routes = [
     name: 'QuizPage',
     meta: { requiresCompanyMember: true, requiresCompanyOwner: true },
   },
+  {
+    path: '/quizzes/:id/undergo_quiz/:quizResultId',
+    component: () => QuizUndergoPage,
+    name: 'QuizUndergo',
+    meta: { requiresIsUserTakingQuiz: true },
+  },
 ];
 
 // Creating a router
@@ -88,6 +96,10 @@ router.beforeEach((to, from, next) => {
     } else {
       next('/')
     }
+    // Quiz undergo validation
+  } else if (to.matched.some(record => record.meta.requiresIsUserTakingQuiz)) {
+    if (isUserTakingQuiz.value) next()
+    else next('/')
   } else {
     next()
   }

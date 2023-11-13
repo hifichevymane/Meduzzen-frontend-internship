@@ -117,10 +117,7 @@ const showCompanyAnalyticsModal = () => {
   companyAnalyticsModal.value.show()
 }
 
-onMounted(async () => {
-  deleteCompanyModal.value = new Modal(document.getElementById(deleteCompanyModalId))
-  companyAnalyticsModal.value = new Modal(document.getElementById(companyAnalyticsModalId))
-
+const getCompanyData = async () => {
   const companyId = route.params.id
 
   // Get current company
@@ -145,5 +142,12 @@ onMounted(async () => {
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }
+}
+
+onMounted(async () => {
+  deleteCompanyModal.value = new Modal(document.getElementById(deleteCompanyModalId))
+  companyAnalyticsModal.value = new Modal(document.getElementById(companyAnalyticsModalId))
+  
+  await getCompanyData()
 })
 </script>
