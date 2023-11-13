@@ -46,6 +46,9 @@
       </button>
     </template>
   </form>
+  <button @click="undergoQuiz" class="btn btn-primary mt-3">
+    {{ $t('components.quiz_profile_form.buttons.undergo_quiz') }}
+  </button>
   <create-question-modal
     :modal-id="createQuestionModalId"
     @on-push-new-question="onPushNewQuestion"
@@ -97,6 +100,7 @@ const currentCompany = computed(() => store.getters['companies/getCurrentCompany
 const isCompanyOwner = computed(() => store.getters['users/getIsCompanyOwner'])
 const isCompanyAdmin = computed(() => store.getters['users/getIsCompanyAdmin'])
 const currentQuestion = computed(() => store.getters['quizzes/getCurrentQuestion'])
+const currentQuestionIndex = computed(() => store.getters['quizzes/getCurrentQuestionIndex'])
 const currentOptionsList = computed(() => currentQuestion.value.options)
 
 const isCreateOptionModalActive = computed(
@@ -147,6 +151,31 @@ const showCreateQuestionModal = () => {
   createQuestionModal.value.show()
 }
 
+const undergoQuiz = async () => {
+  try {
+    const body = {
+      quiz: quizId
+    }
+
+    const { data } = await api.post(
+      `${import.meta.env.VITE_API_URL}/quiz_results/`,
+      body,
+      config.value
+    )
+    store.commit('quizzes/setCurrentQuizResult', data)
+    store.commit('quizzes/setCurrentQuestionIndex', 0)
+    store.commit('quizzes/setCurrentQuestionId', questionsList.value[currentQuestionIndex.value].id)
+    store.commit('quizzes/setIsUserTakingQuiz', true)
+    // Redirect to undergo quiz
+    router.push({
+      name: 'QuizUndergo',
+      params: { quizResultId: data.id }
+    })
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
+}
+
 onMounted(async () => {
   createQuestionModal.value = new Modal(document.getElementById(createQuestionModalId))
   createOptionModal.value = new Modal(document.getElementById(createOptionModalId))
@@ -161,6 +190,7 @@ onMounted(async () => {
     quizInfo.value = data
     creatorName.value = data.creator.username
     questionsList.value = data.questions
+    store.commit('quizzes/setCurrentQuiz', quizInfo.value)
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }

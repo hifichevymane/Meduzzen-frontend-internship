@@ -140,7 +140,6 @@ const onCreateNewQuestion = async () => {
       options: optionListIds.value,
       answer: answerOptionsIds.value
     }
-
     try {
       const { data } = await api.post(
         `${import.meta.env.VITE_API_URL}/questions/`,
@@ -157,8 +156,6 @@ const onCreateNewQuestion = async () => {
         creator: currentUser.value,
         answer: answersList.value
       }
-      console.log(currentUser.value)
-      console.log(newQuestion.creator)
       emit('onPushNewQuestion', newQuestion)
       clearForm()
     } catch (err) {
