@@ -1,6 +1,11 @@
 <template>
   <div class="row border border-2 rounded border-primary w-75 my-5 p-3">
     <h2 class="text-center mb-3">{{ $t(`components.tables.${tableType}.heading`) }}</h2>
+    <last-quiz-completion-time-analytics
+      v-if="tableType === 'company_members' && (isCompanyAdmin || isAbleToEditCompany)"
+      :bar-data="lastQuizCompletionTimeBarData"
+      @on-get-analytics-data="getLastQuizCompletionTimeAnalytics"
+    />
     <div v-if="tableType === 'company_invites'" class="col-lg-12 align-items-center">
       <button @click="showInviteUserModal" class="d-flex btn btn-primary my-3">
         {{ $t(`components.tables.${tableType}.buttons.invite_user`) }}
@@ -48,19 +53,23 @@ import InviteUserModal from '../modals/companies/InviteUserModal.vue'
 import UsersTbody from './tbody/UsersTbody.vue'
 import CompaniesTbody from './tbody/CompaniesTbody.vue'
 import CreateRequestToCompanyModal from '../modals/companies/CreateRequestToCompanyModal.vue'
+import LastQuizCompletionTimeAnalytics from '../LastQuizCompletionTimeAnalytics.vue'
 
 import api from '../../api'
 import { computed, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import { Modal } from 'bootstrap'
 
 const props = defineProps(['tableType', 'cols', 'isAbleToEditCompany'])
 
 const store = useStore()
 const route = useRoute()
+const i18n = useI18n()
 
 const dataList = ref(null)
+const lastQuizCompletionTimeAnalyticsDatasetData = ref([])
 
 // Modal windows
 const sendRequestToCompanyModal = ref(null)
@@ -68,14 +77,34 @@ const sendRequestToCompanyModalId = 'sendRequestToCompanyModal'
 const inviteUserModal = ref(null)
 const inviteUserModalId = 'inviteUserModal'
 
+// Props
 const tableType = computed(() => props.tableType)
 const cols = computed(() => props.cols)
 const isAbleToEditCompany = computed(() => props.isAbleToEditCompany)
 
 const config = computed(() => store.getters['auth/getAuthConfig'])
 const currentCompany = computed(() => store.getters['companies/getCurrentCompany'])
+const isCompanyAdmin = computed(() => store.getters['users/getIsCompanyAdmin'])
 // Check if this user profile page
 const isUserProfileTable = computed(() => route.path.includes('users'))
+
+const lastQuizCompletionTimeAnalyticsDatasetDataQuizzes = computed(() => {
+  return lastQuizCompletionTimeAnalyticsDatasetData.value.map((quiz) => quiz.title)
+})
+const lastQuizCompletionTimeAnalyticsDatasetDataTime = computed(() => {
+  return lastQuizCompletionTimeAnalyticsDatasetData.value.map((quiz) => quiz.last_taken_quiz_time)
+})
+const lastQuizCompletionTimeBarData = computed(() => {
+  return {
+    labels: lastQuizCompletionTimeAnalyticsDatasetDataQuizzes.value,
+    datasets: [
+      {
+        label: i18n.t('components.analytics.last_taken_quiz_time_chart_label'),
+        data: lastQuizCompletionTimeAnalyticsDatasetDataTime.value
+      }
+    ]
+  }
+})
 
 // Emits
 const pushNewInvite = (value) => {
@@ -100,6 +129,19 @@ const showInviteUserModal = () => {
 
 const pushNewRequestToCompany = (value) => {
   dataList.value.push(value)
+}
+
+const getLastQuizCompletionTimeAnalytics = async () => {
+  try {
+    const { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/quizzes/${currentCompany.value.id}/last_completions_time/`,
+      config.value
+    )
+
+    lastQuizCompletionTimeAnalyticsDatasetData.value = data
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
 }
 
 const getMyJoinRequests = async () => {
@@ -136,6 +178,7 @@ const getMembersList = async () => {
     )
 
     dataList.value = data
+    store.commit('companies/setCompanyMembersList', data)
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }

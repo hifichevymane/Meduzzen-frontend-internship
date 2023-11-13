@@ -1,5 +1,5 @@
 # https://dev.to/ysmnikhil/how-to-build-with-react-or-vue-with-vite-and-docker-1a3l
-FROM node:18.17.1-alpine
+FROM node:20.9.0-alpine
 
 WORKDIR /app
 
