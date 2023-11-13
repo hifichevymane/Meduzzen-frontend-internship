@@ -5,12 +5,7 @@
       class="btn d-block m-auto"
       :class="isDataLoaded ? 'btn-danger' : 'btn-primary'"
     >
-      <template v-if="!isDataLoaded">{{
-        $t('components.analytics.buttons.see_last_taken_quiz_times')
-      }}</template>
-      <template v-else>{{
-        $t('components.analytics.buttons.close_last_taken_quiz_times')
-      }}</template>
+      {{ showAnalyticsButtonText }}
     </button>
     <bar
       v-if="isDataLoaded"
@@ -23,6 +18,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Bar } from 'vue-chartjs'
 import 'chartjs-adapter-date-fns'
 import {
@@ -44,10 +40,17 @@ const props = defineProps({
 
 const emit = defineEmits(['onGetAnalyticsData'])
 
+const i18n = useI18n()
+
 const isDataLoaded = ref(false)
 
 const lastQuizCompletionTimeBarId = 'lastQuizCompletionTimeBar'
 const barData = computed(() => props.barData)
+
+const showAnalyticsButtonText = computed(() => {
+  if (!isDataLoaded.value) return i18n.t('components.analytics.buttons.see_last_taken_quiz_times')
+  else return i18n.t('components.analytics.buttons.close_last_taken_quiz_times')
+})
 
 const lastQuizCompletionTimeBarOptions = {
   scales: {

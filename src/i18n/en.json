@@ -279,7 +279,8 @@
       "buttons": {
         "check_analytics": "Check analytics",
         "see_last_taken_quiz_times": "See last taken quiz times analytics",
-        "close_last_taken_quiz_times": "Close last taken quiz times analytics"
+        "close_last_taken_quiz_times": "Close last taken quiz times analytics",
+        "show_company_analytics": "Show analytics"
       },
       "date_fields": {
         "from": "From",
