@@ -62,7 +62,9 @@ const currentCompany = computed(() => store.getters['companies/getCurrentCompany
 const isCompanyMember = computed(() => store.getters['users/getIsCompanyMember'])
 
 const isAbleToEditCompany = computed(() => {
-  return currentCompany.value.owner.id === loggedUser.value.id
+  const result = currentCompany.value.owner.id === loggedUser.value.id
+  store.commit('users/setIsCompanyOwner', result)
+  return result
 })
 
 onMounted(async () => {
@@ -74,7 +76,11 @@ onMounted(async () => {
     )
 
     companyMembersList.value = data
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
 
+  try {
     // Get all company invites
     const companyInvitesData = await api.get(
       `${import.meta.env.VITE_API_URL}/company_invites/${currentCompany.value.id}/invited_users/`,
@@ -82,7 +88,11 @@ onMounted(async () => {
     )
 
     companyInvitesList.value = companyInvitesData.data
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
 
+  try {
     // Get all users' requests to companies
     const usersRequestsData = await api.get(
       `${import.meta.env.VITE_API_URL}/users_requests/${currentCompany.value.id}/join_requests/`,
@@ -90,7 +100,23 @@ onMounted(async () => {
     )
 
     usersRequestsList.value = usersRequestsData.data
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
 
+  try {
+    // Get all users' requests to companies
+    const usersRequestsData = await api.get(
+      `${import.meta.env.VITE_API_URL}/users_requests/${currentCompany.value.id}/join_requests/`,
+      config.value
+    )
+
+    usersRequestsList.value = usersRequestsData.data
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
+
+  try {
     const usersCompanyData = await api.get(
       `${import.meta.env.VITE_API_URL}/users/${loggedUser.value.id}/current_company/`,
       config.value
@@ -109,6 +135,8 @@ onMounted(async () => {
       store.commit('users/setIsCompanyAdmin', false)
     }
   } catch (err) {
+    store.commit('users/setIsCompanyMember', false)
+    store.commit('users/setIsCompanyAdmin', false)
     store.commit('users/setErrorMessage', err.message)
   }
 })

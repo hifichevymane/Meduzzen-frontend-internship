@@ -270,6 +270,14 @@
         "add_option": "Add a new option"
       },
       "validation_error": "Question must have at least 2 options and 1 answer. Question text must not be empty"
+    },
+
+    "export_data": {
+      "heading": "Export data",
+      "selected_default_value": "Export all users data",
+      "buttons": {
+        "export_quiz_results": "Export quiz results"
+      }
     }
   },
 

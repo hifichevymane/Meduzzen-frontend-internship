@@ -6,4 +6,8 @@ export default {
   setCurrentCompany(state, data) {
     state.currentCompany = { ...data };
   },
+
+  setCompanyMembers(state, data) {
+    state.companyMembers = [...data];
+  },
 };

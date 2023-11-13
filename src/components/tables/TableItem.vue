@@ -136,6 +136,7 @@ const getMembersList = async () => {
     )
 
     dataList.value = data
+    store.commit('companies/setCompanyMembers', data)
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }
