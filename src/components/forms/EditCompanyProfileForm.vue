@@ -137,7 +137,6 @@ const getCompanyData = async () => {
     }
 
     visibilityField.value = visibility
-
     store.commit('companies/setCurrentCompany', data)
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)

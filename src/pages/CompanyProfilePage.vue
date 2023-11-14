@@ -62,7 +62,9 @@ const currentCompany = computed(() => store.getters['companies/getCurrentCompany
 const isCompanyMember = computed(() => store.getters['users/getIsCompanyMember'])
 
 const isAbleToEditCompany = computed(() => {
-  return currentCompany.value.owner.id === loggedUser.value.id
+  const result = currentCompany.value.owner.id === loggedUser.value.id
+  store.commit('users/setIsCompanyOwner', result)
+  return result
 })
 
 onMounted(async () => {
@@ -121,6 +123,8 @@ onMounted(async () => {
       store.commit('users/setIsCompanyAdmin', false)
     }
   } catch (err) {
+    store.commit('users/setIsCompanyMember', false)
+    store.commit('users/setIsCompanyAdmin', false)
     store.commit('users/setErrorMessage', err.message)
   }
 })

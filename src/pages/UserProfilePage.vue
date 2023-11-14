@@ -20,6 +20,7 @@
             <button @click="showDeleteUserModal" class="btn btn-danger d-block m-auto mt-3">
               {{ $t('components.profile_item.delete') }}
             </button>
+            <export-data v-if="isAbleToEdit" @on-export-data="exportQuizResults" />
           </div>
         </div>
       </div>
@@ -56,13 +57,16 @@ import MainContainer from '../components/MainContainer.vue'
 import ModalWindow from '../components/modals/ModalWindow.vue'
 import EditProfileInfoForm from '../components/forms/EditProfileInfoForm.vue'
 import TableItem from '../components/tables/TableItem.vue'
+import ExportData from '../components/ExportData.vue'
 import UserAnalytics from '../components/UserAnalytics.vue'
+import { Modal } from 'bootstrap'
 
 import { Modal } from 'bootstrap'
 import api from '../api'
 import { onMounted, onBeforeUnmount, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import exportData from '@/utils/export_data.js'
 
 // Vuex store
 const store = useStore()
@@ -118,6 +122,21 @@ const showDeleteUserModal = () => {
 
 const hideDeleteUserModal = () => {
   deleteUserModalWindow.value.hide()
+}
+
+const exportQuizResults = async (exportFileType) => {
+  try {
+    let { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/quiz_results/export_data/?user=${
+        currentUserInfo.value.id
+      }&file_type=${exportFileType}`,
+      config.value
+    )
+
+    exportData(data, exportFileType)
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
 }
 
 const getCurrentUserData = async () => {
