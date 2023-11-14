@@ -3,5 +3,6 @@ export default function state() {
     companiesList: [],
     currentCompany: {},
     companyMembers: [],
+    companyMembersList: [],
   }
 };

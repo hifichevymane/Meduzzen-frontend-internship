@@ -24,6 +24,7 @@
           </div>
         </div>
       </div>
+      <user-analytics v-if="isAbleToEdit" />
       <table-item
         v-if="isAbleToEdit"
         :cols="myRequestsToCompaniesTableCols"
@@ -57,10 +58,11 @@ import ModalWindow from '../components/modals/ModalWindow.vue'
 import EditProfileInfoForm from '../components/forms/EditProfileInfoForm.vue'
 import TableItem from '../components/tables/TableItem.vue'
 import ExportData from '../components/ExportData.vue'
+import UserAnalytics from '../components/UserAnalytics.vue'
 import { Modal } from 'bootstrap'
 
+import { Modal } from 'bootstrap'
 import api from '../api'
-
 import { onMounted, onBeforeUnmount, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
@@ -137,9 +139,7 @@ const exportQuizResults = async (exportFileType) => {
   }
 }
 
-onMounted(async () => {
-  changeAvatarModalWindow.value = new Modal(document.getElementById(changeAvatarModalWindowId))
-  deleteUserModalWindow.value = new Modal(document.getElementById(deleteUserModalWindowId))
+const getCurrentUserData = async () => {
   // Get user id from url
   const userId = route.params.id
 
@@ -157,6 +157,12 @@ onMounted(async () => {
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }
+}
+
+onMounted(async () => {
+  changeAvatarModalWindow.value = new Modal(document.getElementById(changeAvatarModalWindowId))
+  deleteUserModalWindow.value = new Modal(document.getElementById(deleteUserModalWindowId))
+  await getCurrentUserData()
 })
 
 // Reset all data

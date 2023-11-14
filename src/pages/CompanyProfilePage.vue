@@ -105,18 +105,6 @@ onMounted(async () => {
   }
 
   try {
-    // Get all users' requests to companies
-    const usersRequestsData = await api.get(
-      `${import.meta.env.VITE_API_URL}/users_requests/${currentCompany.value.id}/join_requests/`,
-      config.value
-    )
-
-    usersRequestsList.value = usersRequestsData.data
-  } catch (err) {
-    store.commit('users/setErrorMessage', err.message)
-  }
-
-  try {
     const usersCompanyData = await api.get(
       `${import.meta.env.VITE_API_URL}/users/${loggedUser.value.id}/current_company/`,
       config.value

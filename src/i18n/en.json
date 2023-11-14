@@ -126,6 +126,7 @@
       "username": "Username",
       "first_name": "First name",
       "last_name": "Last name",
+      "rating": "Rating",
       "email": "Email",
       "name": "Company name",
       "seo": "SEO",
@@ -272,12 +273,36 @@
       "validation_error": "Question must have at least 2 options and 1 answer. Question text must not be empty"
     },
 
+
     "export_data": {
       "heading": "Export data",
       "selected_default_value": "Export all users data",
       "buttons": {
         "export_quiz_results": "Export quiz results"
       }
+     },
+
+    "analytics": {
+      "user_analytics_heading": "User Analytics",
+      "average_scores_heading": "Average Scores for each of the quizzes",
+      "last_taken_quiz_time_heading": "Last taken Quiz times analytics",
+      "buttons": {
+        "check_analytics": "Check analytics",
+        "see_last_taken_quiz_times": "See last taken quiz times analytics",
+        "close_last_taken_quiz_times": "Close last taken quiz times analytics",
+        "show_company_analytics": "Show analytics"
+      },
+      "date_fields": {
+        "from": "From",
+        "to": "To"
+      },
+      "average_score_chart_label": "The average score of the quiz",
+      "last_taken_quiz_time_chart_label": "Last taken quiz time",
+
+      "company_analytics_heading": "Company analytics",
+      "all_users_average_scores_heading": "All users' average scores",
+      "selected_user_analytics_heading": "Selected company member quizzes analytics",
+      "select_field_default": "Select company member"
     }
   },
 
