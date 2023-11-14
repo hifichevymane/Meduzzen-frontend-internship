@@ -34,15 +34,20 @@
       </div>
       <div class="col-lg-12">
         <!-- Edit actions -->
-        <div class="row justify-content-center">
-          <div class="col-lg-6 d-flex justify-content-center">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-4 d-flex justify-content-center">
             <button type="submit" class="btn btn-success">
               {{ $t('components.profile_item.save') }}
             </button>
           </div>
-          <div class="col-lg-6 d-flex justify-content-center">
+          <div class="col-lg-4 d-flex justify-content-center">
             <button @click="showDeleteCompanyModal" class="btn btn-danger">
               {{ $t('pages.company_profile_page.buttons.delete_company') }}
+            </button>
+          </div>
+          <div class="col-lg-4 d-flex justify-content-center">
+            <button @click="showCompanyAnalyticsModal" type="button" class="btn btn-primary">
+              {{ $t('components.analytics.buttons.show_company_analytics') }}
             </button>
           </div>
         </div>
@@ -55,10 +60,12 @@
     :modalId="deleteCompanyModalId"
     @hide-delete-company-modal="hideDeleteCompanyModal"
   />
+  <company-analytics-modal :modal-id="companyAnalyticsModalId" />
 </template>
 
 <script setup>
 import ModalWindow from '../modals/ModalWindow.vue'
+import CompanyAnalyticsModal from '../modals/companies/CompanyAnalyticsModal.vue'
 
 import api from '../../api'
 import { useStore } from 'vuex'
@@ -77,6 +84,8 @@ const visibilityField = ref(null)
 // Modal Windows
 const deleteCompanyModal = ref(null)
 const deleteCompanyModalId = 'deleteCompany'
+const companyAnalyticsModal = ref(null)
+const companyAnalyticsModalId = 'companyAnalyticsModal'
 
 // Company info keys to iterate in v-for
 const companyInfoKeys = computed(() => {
@@ -102,6 +111,10 @@ const showDeleteCompanyModal = () => {
 
 const hideDeleteCompanyModal = () => {
   deleteCompanyModal.value.hide()
+}
+
+const showCompanyAnalyticsModal = () => {
+  companyAnalyticsModal.value.show()
 }
 
 const getCompanyData = async () => {
@@ -133,7 +146,8 @@ const getCompanyData = async () => {
 
 onMounted(async () => {
   deleteCompanyModal.value = new Modal(document.getElementById(deleteCompanyModalId))
-
+  companyAnalyticsModal.value = new Modal(document.getElementById(companyAnalyticsModalId))
+  
   await getCompanyData()
 })
 </script>

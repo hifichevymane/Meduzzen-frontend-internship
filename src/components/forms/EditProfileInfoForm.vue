@@ -41,6 +41,25 @@
       <span class="input-group-text">{{ $t('components.auth_form.fields.works_in') }}:</span>
       <input class="form-control" type="text" :value="companyUserWorksIn" disabled />
     </div>
+    <div v-if="isAbleToEdit && isUserRatingLoaded" class="d-flex mb-3 align-items-center gap-2">
+      <span class="input-group-text">{{ $t('components.profile_item.rating') }}:</span>
+      <div class="d-flex gap-2">
+        <svg
+          v-for="star in starsCount"
+          :key="star"
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="currentColor"
+          class="bi bi-star-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+          />
+        </svg>
+      </div>
+    </div>
     <div v-if="isAbleToEdit" class="d-flex gap-3">
       <button type="submit" class="btn btn-success">
         {{ $t('components.profile_item.save') }}
@@ -72,6 +91,8 @@ const store = useStore()
 
 const oldPasswordField = ref(null)
 const newPasswordField = ref(null)
+const userRating = ref(null)
+const isUserRatingLoaded = ref(false)
 
 // Modal windows
 const confirmLeaveCompanyModal = ref(null)
@@ -82,6 +103,10 @@ const currentUserInfo = computed(() => store.getters['users/getCurrentUser'])
 const config = computed(() => store.getters['auth/getAuthConfig'])
 const isEmployed = computed(() => store.getters['users/getIsEmployed'])
 const companyUserWorksIn = computed(() => store.getters['users/getCompanyUserWorksIn'])
+
+const starsCount = computed(() => {
+  return Math.floor((userRating.value / 100) * 5)
+})
 
 // Get props
 const userInfo = computed(() => props.profileInfo.userInfo)
@@ -155,14 +180,26 @@ onMounted(async () => {
       config.value
     )
 
-    // emit('onChangeCompanyUserWorksIn', data.company.name)
-    // emit('onChangeIsEmployed', true)
     store.commit('users/setCompanyUserWorksIn', data.company.name)
     store.commit('users/setIsEmployed', true)
   } catch (err) {
     store.commit('users/setCompanyUserWorksIn', 'Unemployed')
     store.commit('users/setIsEmployed', false) // If there is not found error
     store.commit('users/setErrorMessage', err.message)
+  }
+
+  if (isAbleToEdit.value) {
+    try {
+      const userRatingData = await api.get(
+        `${import.meta.env.VITE_API_URL}/users/calculate_avarage_score/`,
+        config.value
+      )
+
+      userRating.value = userRatingData.data.rating
+      isUserRatingLoaded.value = true
+    } catch (err) {
+      store.commit('users/setErrorMessage', err.message)
+    }
   }
 })
 </script>
