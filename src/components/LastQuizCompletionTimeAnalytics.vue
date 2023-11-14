@@ -48,8 +48,11 @@ const lastQuizCompletionTimeBarId = 'lastQuizCompletionTimeBar'
 const barData = computed(() => props.barData)
 
 const showAnalyticsButtonText = computed(() => {
-  if (!isDataLoaded.value) return i18n.t('components.analytics.buttons.see_last_taken_quiz_times')
-  else return i18n.t('components.analytics.buttons.close_last_taken_quiz_times')
+  if (!isDataLoaded.value) {
+    return i18n.t('components.analytics.buttons.see_last_taken_quiz_times')
+  } else {
+    return i18n.t('components.analytics.buttons.close_last_taken_quiz_times')
+  }
 })
 
 const lastQuizCompletionTimeBarOptions = {
@@ -72,6 +75,8 @@ const showLastQuizCompletionTimeAnalytics = () => {
   if (!isDataLoaded.value) {
     emit('onGetAnalyticsData')
     isDataLoaded.value = true
-  } else isDataLoaded.value = false
+  } else {
+    isDataLoaded.value = false
+  }
 }
 </script>
