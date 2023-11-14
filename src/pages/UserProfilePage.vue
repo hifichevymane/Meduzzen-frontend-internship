@@ -20,9 +20,11 @@
             <button @click="showDeleteUserModal" class="btn btn-danger d-block m-auto mt-3">
               {{ $t('components.profile_item.delete') }}
             </button>
+            <export-data v-if="isAbleToEdit" @on-export-data="exportQuizResults" />
           </div>
         </div>
       </div>
+      <user-analytics v-if="isAbleToEdit" />
       <table-item
         v-if="isAbleToEdit"
         :cols="myRequestsToCompaniesTableCols"
@@ -57,13 +59,15 @@ import ModalWindow from '../components/modals/ModalWindow.vue'
 import EditProfileInfoForm from '../components/forms/EditProfileInfoForm.vue'
 import TableItem from '../components/tables/TableItem.vue'
 import NewNotificationToast from '../components/NewNotificationToast.vue'
+import ExportData from '../components/ExportData.vue'
+import UserAnalytics from '../components/UserAnalytics.vue'
+
 import { Modal } from 'bootstrap'
-
 import api from '../api'
-
 import { onMounted, onBeforeUnmount, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import exportData from '@/utils/export_data.js'
 
 // Vuex store
 const store = useStore()
@@ -121,9 +125,22 @@ const hideDeleteUserModal = () => {
   deleteUserModalWindow.value.hide()
 }
 
-onMounted(async () => {
-  changeAvatarModalWindow.value = new Modal(document.getElementById(changeAvatarModalWindowId))
-  deleteUserModalWindow.value = new Modal(document.getElementById(deleteUserModalWindowId))
+const exportQuizResults = async (exportFileType) => {
+  try {
+    let { data } = await api.get(
+      `${import.meta.env.VITE_API_URL}/quiz_results/export_data/?user=${
+        currentUserInfo.value.id
+      }&file_type=${exportFileType}`,
+      config.value
+    )
+
+    exportData(data, exportFileType)
+  } catch (err) {
+    store.commit('users/setErrorMessage', err.message)
+  }
+}
+
+const getCurrentUserData = async () => {
   // Get user id from url
   const userId = route.params.id
 
@@ -141,6 +158,12 @@ onMounted(async () => {
   } catch (err) {
     store.commit('users/setErrorMessage', err.message)
   }
+}
+
+onMounted(async () => {
+  changeAvatarModalWindow.value = new Modal(document.getElementById(changeAvatarModalWindowId))
+  deleteUserModalWindow.value = new Modal(document.getElementById(deleteUserModalWindowId))
+  await getCurrentUserData()
 })
 
 // Reset all data

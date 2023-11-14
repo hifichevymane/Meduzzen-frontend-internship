@@ -6,4 +6,8 @@ export default {
   getCompaniesList(state) {
     return state.companiesList;
   },
+
+  getCompanyMembersList(state) {
+    return state.companyMembersList;
+  },
 };

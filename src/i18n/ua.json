@@ -126,6 +126,7 @@
       "username": "Юзернейм",
       "first_name": "Ім'я",
       "last_name": "Прізвище",
+      "rating": "Рейтинг",
       "email": "Електрона пошта",
       "name": "Назва компанії",
       "seo": "SEO",
@@ -281,6 +282,37 @@
         "delete_notification": "Видалити",
         "show_notifications_list": "Повідомлення"
       }
+    },
+
+    "export_data": {
+      "heading": "Експорт даних",
+      "selected_default_value": "Скачати дані усіх користувачів",
+      "buttons": {
+        "export_quiz_results": "Скачати дані про результати вікторин"
+      }
+    },
+
+    "analytics": {
+      "user_analytics_heading": "Аналітика користувача",
+      "average_scores_heading": "Середнє значення по вікторинам",
+      "last_taken_quiz_time_heading": "Аналітика по останніх пройдених вікторинах(по часу)",
+      "buttons": {
+        "check_analytics": "Подивитися аналітику",
+        "see_last_taken_quiz_times": "Подивитися аналітику по по останніх пройдених вікторинах(по часу)",
+        "close_last_taken_quiz_times": "Закрити вікно",
+        "show_company_analytics": "Показати аналітику"
+      },
+      "date_fields": {
+        "from": "Від",
+        "to": "До"
+      },
+      "average_score_chart_label": "Середній бал по вікторині",
+      "last_taken_quiz_time_chart_label": "Останній час проходження вікторини",
+
+      "company_analytics_heading": "Аналітика компанії",
+      "all_users_average_scores_heading": "Середні бали усіх користувачів",
+      "selected_user_analytics_heading": "Аналітика по обраному учаснику компанії",
+      "select_field_default": "Оберіть учасника компанії з переліку"
     }
   },
 
