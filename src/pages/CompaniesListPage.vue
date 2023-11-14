@@ -31,6 +31,7 @@
       @to-previous-page="toPreviousPage"
       @to-next-page="toNextPage"
     />
+    <new-notification-toast />
   </main-container>
 </template>
 
@@ -40,6 +41,7 @@ import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
 import CreateCompanyModal from '../components/modals/companies/CreateCompanyModal.vue'
 import PaginationItem from '../components/PaginationItem.vue'
+import NewNotificationToast from '../components/NewNotificationToast.vue'
 
 import { Modal } from 'bootstrap'
 import { onMounted, ref, computed, watch } from 'vue'

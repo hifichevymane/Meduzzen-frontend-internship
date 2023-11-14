@@ -12,7 +12,7 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon" />
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <!-- Left part of the navbar -->
@@ -58,7 +58,7 @@
             <div v-else class="d-flex align-items-center gap-3">
               <li class="nav-item">
                 <button @click="showNotificationsListModal" class="btn btn-primary">
-                  Notifications
+                  {{ $t('components.notifications_modal.buttons.show_notifications_list') }}
                 </button>
               </li>
               <li class="nav-item d-flex flex-column text-light">

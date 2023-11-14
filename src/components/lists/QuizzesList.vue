@@ -67,6 +67,7 @@ onMounted(async () => {
 
     store.commit('quizzes/setQuizzesList', data)
   } catch (err) {
+    store.commit('quizzes/setQuizzesList', [])
     store.commit('users/setErrorMessage', err.message)
   }
 })

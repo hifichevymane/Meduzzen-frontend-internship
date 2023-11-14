@@ -270,6 +270,17 @@
         "add_option": "Add a new option"
       },
       "validation_error": "Question must have at least 2 options and 1 answer. Question text must not be empty"
+    },
+
+    "notifications_modal": {
+      "notifications_list_heading": "Notifications list",
+      "unread_notifications_heading": "Unread notifications",
+      "read_notifications_heading": "Read notifications",
+      "buttons": {
+        "mark_as_read": "Mark as read",
+        "delete_notification": "Delete the notification",
+        "show_notifications_list": "Notifications"
+      }
     }
   },
 

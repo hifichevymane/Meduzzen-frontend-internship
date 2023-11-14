@@ -32,6 +32,7 @@
         table-type="users_requests"
       />
     </div>
+    <new-notification-toast />
   </main-container>
 </template>
 
@@ -41,6 +42,7 @@ import NavbarItem from '../components/NavbarItem.vue'
 import QuizzesList from '../components/lists/QuizzesList.vue'
 import EditCompanyProfileForm from '../components/forms/EditCompanyProfileForm.vue'
 import TableItem from '../components/tables/TableItem.vue'
+import NewNotificationToast from '../components/NewNotificationToast.vue'
 
 import api from '../api'
 import { computed, ref, onMounted } from 'vue'

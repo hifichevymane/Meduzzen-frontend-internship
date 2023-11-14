@@ -12,6 +12,7 @@
         <user-card v-else v-for="user in users" :key="user.id" :user="user" />
       </div>
     </div>
+    <new-notification-toast />
   </main-container>
 </template>
 
@@ -19,6 +20,8 @@
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
 import UserCard from '../components/UserCard.vue'
+import NewNotificationToast from '../components/NewNotificationToast.vue'
+
 import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import api from '../api'

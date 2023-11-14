@@ -270,6 +270,17 @@
         "add_option": "Додати новий варіант відповіді"
       },
       "validation_error": "Питання має містити хоча б 2 варіанта відповіді та 1 відповідь. Текст питання не повинен бути порожнім."
+    },
+
+    "notifications_modal": {
+      "notifications_list_heading": "Повідомлення",
+      "unread_notifications_heading": "Непрочитані повідомлення",
+      "read_notifications_heading": "Прочитані повідомлення",
+      "buttons": {
+        "mark_as_read": "Позначити як прочитано",
+        "delete_notification": "Видалити",
+        "show_notifications_list": "Повідомлення"
+      }
     }
   },
 

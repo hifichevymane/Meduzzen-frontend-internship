@@ -23,12 +23,15 @@
         {{ $t('pages.home_page.vuex_testing.reset_button') }}
       </button>
     </div>
+    <new-notification-toast />
   </main-container>
 </template>
 
 <script setup>
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
+import NewNotificationToast from '../components/NewNotificationToast.vue'
+
 import { onMounted, ref, computed, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'

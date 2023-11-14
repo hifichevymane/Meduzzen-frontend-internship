@@ -10,6 +10,7 @@
         </div>
       </div>
     </div>
+    <new-notification-toast />
   </main-container>
 </template>
 
@@ -17,4 +18,5 @@
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
 import QuizProfileForm from '../components/forms/QuizProfileForm.vue'
+import NewNotificationToast from '../components/NewNotificationToast.vue'
 </script>
