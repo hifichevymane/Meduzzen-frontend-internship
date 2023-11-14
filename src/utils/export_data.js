@@ -1,5 +1,7 @@
 const exportData = (data, fileType = 'csv') => {
-  if (fileType === 'json') data = JSON.stringify(data)
+  if (fileType === 'json') {
+    data = JSON.stringify(data)
+  }
   const exportedDataBlob = new Blob([data], { type: `text/${fileType};charset=utf-8` })
   const url = URL.createObjectURL(exportedDataBlob)
   const link = document.createElement('a')

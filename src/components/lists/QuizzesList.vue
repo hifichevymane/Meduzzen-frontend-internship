@@ -54,7 +54,6 @@ import exportData from '../../utils/export_data'
 const store = useStore()
 
 const selectedUserToExportQuizResults = ref('all')
-// const exportDataFileType = ref('csv')
 
 const quizzesList = computed(() => store.getters['quizzes/getQuizzesList'])
 
