@@ -46,14 +46,11 @@ onMounted(() => {
   newNotificationToast.value = new Toast(document.getElementById(newNotificationToastId))
 })
 
-watch(
-  () => isNewNotificationToastActive.value,
-  () => {
-    if (isNewNotificationToastActive.value) {
-      newNotificationToast.value.show()
-    }
+watch(isNewNotificationToastActive, (newValue) => {
+  if (newValue) {
+    newNotificationToast.value.show()
   }
-)
+})
 
 onBeforeUnmount(() => {
   store.commit('notifications/setIsNewNotificationToastActive', false)
