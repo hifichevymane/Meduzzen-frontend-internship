@@ -91,7 +91,7 @@
       </div>
     </nav>
   </header>
-  <notifications-list-modal :modal-id="notificationsListModalId" />
+  <notifications-list-modal v-if="isAuthenticated" :modal-id="notificationsListModalId" />
 </template>
 
 <script setup>
@@ -134,6 +134,8 @@ const showNotificationsListModal = () => {
 }
 
 onMounted(() => {
-  notificationsListModal.value = new Modal(document.getElementById(notificationsListModalId))
+  if (isAuthenticated.value) {
+    notificationsListModal.value = new Modal(document.getElementById(notificationsListModalId))
+  }
 })
 </script>
