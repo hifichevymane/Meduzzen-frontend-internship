@@ -9,7 +9,7 @@
       data-bs-autohide="false"
     >
       <div class="toast-header">
-        <strong class="me-auto">New quiz avaliable!</strong>
+        <strong class="me-auto">{{ $t('components.new_notification_toast.heading') }}</strong>
         <button
           @click="hideNewNotificationToast"
           type="button"
@@ -18,7 +18,7 @@
           aria-label="Close"
         />
       </div>
-      <div class="toast-body">New quiz was created. Check it out</div>
+      <div class="toast-body">{{ $t('components.new_notification_toast.body') }}</div>
     </div>
   </div>
 </template>

@@ -284,6 +284,11 @@
       }
     },
 
+    "new_notification_toast": {
+      "heading": "Доступна нова вікторина!",
+      "body": "Доступна нова вікторина!. Пройдіть її"
+    },
+
     "export_data": {
       "heading": "Експорт даних",
       "selected_default_value": "Скачати дані усіх користувачів",

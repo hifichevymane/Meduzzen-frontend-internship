@@ -284,6 +284,11 @@
       }
     },
 
+    "new_notification_toast": {
+      "heading": "New quiz avaliable!",
+      "body": "New quiz was created. Check it out"
+    },
+
     "export_data": {
       "heading": "Export data",
       "selected_default_value": "Export all users data",
