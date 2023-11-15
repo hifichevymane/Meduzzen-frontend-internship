@@ -48,6 +48,7 @@
       :modalId="deleteUserModalWindowId"
       @hide-delete-user-modal="hideDeleteUserModal"
     />
+    <new-notification-toast />
   </main-container>
 </template>
 
@@ -57,9 +58,9 @@ import MainContainer from '../components/MainContainer.vue'
 import ModalWindow from '../components/modals/ModalWindow.vue'
 import EditProfileInfoForm from '../components/forms/EditProfileInfoForm.vue'
 import TableItem from '../components/tables/TableItem.vue'
+import NewNotificationToast from '../components/NewNotificationToast.vue'
 import ExportData from '../components/ExportData.vue'
 import UserAnalytics from '../components/UserAnalytics.vue'
-import { Modal } from 'bootstrap'
 
 import { Modal } from 'bootstrap'
 import api from '../api'

@@ -61,12 +61,14 @@
         </div>
       </div>
     </div>
+    <new-notification-toast />
   </main-container>
 </template>
 
 <script setup>
 import MainContainer from '../components/MainContainer.vue'
 import NavbarItem from '../components/NavbarItem.vue'
+import NewNotificationToast from '../components/NewNotificationToast.vue'
 
 import api from '../api'
 import { RouterLink } from 'vue-router'

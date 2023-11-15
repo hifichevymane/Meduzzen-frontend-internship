@@ -182,8 +182,8 @@ const onChangeToSelectedMemberDateValue = (value) => {
 const getAllUsersAnalyticsData = async () => {
   try {
     const body = {
-      start_date: fromDateAllUsersAnalytics.value,
-      end_date: toDateAllUsersAnalytics.value
+      start_date: fromDateAllUsersAnalytics.value + 'T01:00:00.000001Z',
+      end_date: toDateAllUsersAnalytics.value + 'T01:00:00.000001Z'
     }
 
     const { data } = await api.post(

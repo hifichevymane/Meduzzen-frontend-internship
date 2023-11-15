@@ -110,8 +110,8 @@ const lastQuizCompletionTimeAnalyticsBarData = computed(() => {
 const getUserAnalyticsDatasetsData = async () => {
   try {
     const body = {
-      start_date: fromDateUserAnalytics.value,
-      end_date: toDateUserAnalytics.value
+      start_date: fromDateUserAnalytics.value + 'T01:00:00.000001Z',
+      end_date: toDateUserAnalytics.value + 'T01:00:00.000001Z'
     }
 
     const { data } = await api.post(
@@ -123,6 +123,7 @@ const getUserAnalyticsDatasetsData = async () => {
     userAnalyticsDatasetsData.value = data
     isAnalyticsLoaded.value = true
   } catch (err) {
+    console.log(err)
     store.commit('users/setErrorMessage', err.message)
   }
 }

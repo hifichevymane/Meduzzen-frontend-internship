@@ -12,7 +12,7 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon" />
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <!-- Left part of the navbar -->
@@ -55,7 +55,12 @@
                 }}</router-link>
               </li>
             </template>
-            <div v-else class="d-flex align-items-center">
+            <div v-else class="d-flex align-items-center gap-3">
+              <li class="nav-item">
+                <button @click="showNotificationsListModal" class="btn btn-primary">
+                  {{ $t('components.notifications_modal.buttons.show_notifications_list') }}
+                </button>
+              </li>
               <li class="nav-item d-flex flex-column text-light">
                 <!-- If user authenticated -->
                 <p class="mb-1">{{ userInfo.first_name }},</p>
@@ -86,18 +91,24 @@
       </div>
     </nav>
   </header>
+  <notifications-list-modal v-if="isAuthenticated" :modal-id="notificationsListModalId" />
 </template>
 
 <script setup>
 import SelectItem from './SelectItem.vue'
+import NotificationsListModal from './modals/NotificationsListModal.vue'
 
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { Modal } from 'bootstrap'
 
 const store = useStore()
 const router = useRouter()
+
+const notificationsListModal = ref(null)
+const notificationsListModalId = 'notificationsListModal'
 
 // Get from Vuex store information if user is authenticated
 const isAuthenticated = computed(() => {
@@ -117,4 +128,14 @@ const logout = () => {
   localStorage.removeItem('access')
   router.push('/') // Reload page
 }
+
+const showNotificationsListModal = () => {
+  notificationsListModal.value.show()
+}
+
+onMounted(() => {
+  if (isAuthenticated.value) {
+    notificationsListModal.value = new Modal(document.getElementById(notificationsListModalId))
+  }
+})
 </script>

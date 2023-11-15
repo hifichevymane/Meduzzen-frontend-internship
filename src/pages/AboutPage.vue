@@ -37,10 +37,12 @@
         </p>
       </div>
     </div>
+    <new-notification-toast />
   </main-container>
 </template>
 
 <script setup>
 import NavbarItem from '../components/NavbarItem.vue'
 import MainContainer from '../components/MainContainer.vue'
+import NewNotificationToast from '../components/NewNotificationToast.vue'
 </script>
